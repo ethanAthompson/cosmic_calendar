@@ -1,12 +1,19 @@
 <!doctype html>
-<html>
+<html class="cover">
 
 <head>
   <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cosmic Calendar</title>
-  <link data-trunk rel="css" href="styles.css" />
+  <!-- <link data-trunk rel="css" href="styles.css" /> -->
+  <link data-trunk data-inline rel="tailwind-css" href="output.css" />
   <link data-trunk rel="copy-dir" href="public" />
   <link data-trunk rel="rust" data-wasm-opt="z" />
+
+  <!-- https://echarts.apache.org/en/index.html -->
+  <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts-gl@2.0.9/dist/echarts-gl.min.js"></script>
 </head>
+
 
 </html>

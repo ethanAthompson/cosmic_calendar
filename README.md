@@ -179,10 +179,11 @@ let dst = "soon";
   - [ ] ....
 
 
-## Credits
+## Credits/Inspiration
 * [Leptos](https://leptos.dev/) 
 * [Tauri](https://tauri.app/)
-* [Shuttle](https://www.shuttle.rs/)
+* [Leptos-Csr-Tailwind-Netlify-App](https://leptos-csr-tailwind.netlify.app/)
+* [Time.Is](https://time.is/)
 
 ## Summary
 *  Thank you for reading this.

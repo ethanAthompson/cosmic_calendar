@@ -1,3 +1,9 @@
+use charming::{
+    component::{Axis, Title},
+    element::AxisType,
+    series::Line,
+    Chart, WasmRenderer,
+};
 use leptos::leptos_dom::ev::SubmitEvent;
 use leptos::*;
 use serde::{Deserialize, Serialize};
@@ -17,60 +23,75 @@ struct GreetArgs<'a> {
 
 #[component]
 pub fn App() -> impl IntoView {
-    let (name, set_name) = create_signal(String::new());
-    let (greet_msg, set_greet_msg) = create_signal(String::new());
+    // let (name, set_name) = create_signal(String::new());
+    // let (greet_msg, set_greet_msg) = create_signal(String::new());
 
-    let update_name = move |ev| {
-        let v = event_target_value(&ev);
-        set_name.set(v);
+    // let update_name = move |ev| {
+    //     let v = event_target_value(&ev);
+    //     set_name.set(v);
+    // };
+
+    // let greet = move |ev: SubmitEvent| {
+    //     ev.prevent_default();
+    //     spawn_local(async move {
+    //         if name.get().is_empty() {
+    //             return;
+    //         }
+
+    //         let args = to_value(&GreetArgs { name: &name.get() }).unwrap();
+    //         // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
+    //         let new_msg = invoke("greet", args).await.as_string().unwrap();
+    //         set_greet_msg.set(new_msg);
+    //     });
+    // };
+
+    let teardown_action = || {
+        document()
+            .get_element_by_id("utc-chart")
+            .unwrap()
+            .set_class_name("hidden")
     };
 
-    let greet = move |ev: SubmitEvent| {
-        ev.prevent_default();
-        spawn_local(async move {
-            if name.get().is_empty() {
-                return;
-            }
+    let action = create_action(|input: &()| async {
+        let chart = Chart::new()
+            .title(Title::new().text("Time Differences"))
+            .x_axis(
+                Axis::new()
+                    .type_(AxisType::Category)
+                    .data(vec!["Utc +2:00", "Utc -2:00"]),
+            )
+            .y_axis(Axis::new().type_(AxisType::Value))
+            .series(Line::new().data(vec![1, 2]));
 
-            let args = to_value(&GreetArgs { name: &name.get() }).unwrap();
-            // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
-            let new_msg = invoke("greet", args).await.as_string().unwrap();
-            set_greet_msg.set(new_msg);
-        });
-    };
+        let renderer = WasmRenderer::new(800, 800);
+        renderer.render("utc-chart", &chart).unwrap();
+        document()
+            .get_element_by_id("utc-chart")
+            .unwrap()
+            .set_class_name("show")
+    });
 
     view! {
-        <main class="container">
-            <div class="row">
-                <a href="https://tauri.app" target="_blank">
-                    <img src="public/tauri.svg" class="logo tauri" alt="Tauri logo"/>
-                </a>
-                <a href="https://docs.rs/leptos/" target="_blank">
-                    <img src="public/leptos.svg" class="logo leptos" alt="Leptos logo"/>
-                </a>
-            </div>
 
-            <p>"Click on the Tauri and Leptos logos to learn more."</p>
-
-            <p>
-                "Recommended IDE setup: "
-                <a href="https://code.visualstudio.com/" target="_blank">"VS Code"</a>
-                " + "
-                <a href="https://github.com/tauri-apps/tauri-vscode" target="_blank">"Tauri"</a>
-                " + "
-                <a href="https://github.com/rust-lang/rust-analyzer" target="_blank">"rust-analyzer"</a>
-            </p>
-
-            <form class="row" on:submit=greet>
-                <input
-                    id="greet-input"
-                    placeholder="Enter a name..."
-                    on:input=update_name
-                />
-                <button type="submit">"Greet"</button>
-            </form>
-
-            <p><b>{ move || greet_msg.get() }</b></p>
+        <main class="bg-blue-300 flex p-4 dark:bg-blue-500">
+            <button on:click=move |_| {action.dispatch(());}> "Show Chart" </button>
+            <button on:click=move |_| {teardown_action();}> "Hide Chart" </button>
+            <div id="utc-chart"/>
         </main>
+        // <main class="container">
+        //     <h1>
+        //     "hi"
+        // </h1>
+        //     <form class="row" on:submit=greet>
+        //         <input
+        //             id="greet-input"
+        //             placeholder="Enter a name..."
+        //             on:input=update_name
+        //         />
+        //         <button type="submit">"Greet"</button>
+        //     </form>
+
+        //     <p><b>{ move || greet_msg.get() }</b></p>
+        // </main>
     }
 }

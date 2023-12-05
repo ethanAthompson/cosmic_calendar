@@ -33,6 +33,9 @@ restart:
 deploy:
 	cargo shuttle deploy --name zone --allow-dirty
 
+deploy2:
+	cargo shuttle deploy --name zone --allow-dirty --no-test
+
 	
 ### Installations
 

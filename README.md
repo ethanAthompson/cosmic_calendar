@@ -14,29 +14,29 @@
 
 
 
-## [^1] What is this tool?
+## What is this tool?
 * this is an application that removes the complexity of caluclating timezones and communication delays across the solar system.
 
-## [^2] What is QGA? 
-> Question:
-> Guess:
-> Answer:
+## What is QGA? 
+1. Question:
+2. Guess:
+3. Answer:
 
-## [^3] How do we calculate Daylight Savings Time (DST)?
+## How do we calculate Daylight Savings Time (DST)?
 > soon 
 ```rust 
 let dst = "soon";
 ```
-## [^4] How do we calculate solar system dates? 
+## How do we calculate solar system dates? 
 
 > Q: If I were to ask you what time will it be tomorrow on saturn, what is your response? 
 > G: idk...
 > A: soon
 
-## [^5] Can you trust us?
+## Can you trust us?
 > maybe
 
-## [^6] Supported Operations
+## Supported Operations
 
 ### Calendars
   - [ ] BC
@@ -143,7 +143,7 @@ let dst = "soon";
     - [ ] Chatham Islands Time (CHAST)
     
 
-## [^7] Cross Platform Compatibility
+## Cross Platform Compatibility
 
 - Web Browsers
   - [ ] Google Chrome

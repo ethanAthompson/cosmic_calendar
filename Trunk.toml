@@ -13,6 +13,6 @@ open = false
 [[hooks]]
 stage = "post_build"
 command = "sh"
-command_arguments = ["-c", "./tailwindcss -i ./styles.css -o ./dist/output.css"]
+command_arguments = ["-c", "./tailwindcss -i ./styles.css -o ./dist/.stage/output.css --minify"]
 
 

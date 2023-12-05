@@ -1,8 +1,12 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
+
+  .debug {
+    @apply desktop:bg-blue-800 laptop:bg-red-800 tablet:bg-black phone:bg-green-800 watch:bg-yellow-800 w-20 h-2;
+  }
 
   /* Light Mode */
   body {

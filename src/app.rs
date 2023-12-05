@@ -74,8 +74,8 @@ pub fn App() -> impl IntoView {
     view! {
 
         <main class="bg-blue-300 flex p-4 dark:bg-blue-500">
-            <button on:click=move |_| {action.dispatch(());}> "Show Chart" </button>
-            <button on:click=move |_| {teardown_action();}> "Hide Chart" </button>
+            <button class="bg-green-400 shadow-lg dark:bg-green-500 p-4" on:click=move |_| {action.dispatch(());}> "Show Chart" </button>
+            <button class="bg-red-400 shadow-lg dark:bg-red-500 p-4" on:click=move |_| {teardown_action();}> "Hide Chart" </button>
             <div id="utc-chart"/>
         </main>
         // <main class="container">

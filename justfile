@@ -6,6 +6,9 @@ up:
 
 # runs tailwindcli (HOT RELOAD)
 watch:
+	./tailwindcss -i styles.css -o ./dist/output.css --watch
+	# runs tailwindcli (HOT RELOAD)
+watch-now:
 	./tailwindcss -i styles.css -o output.css --watch
 	
 # runs trunk serve (HOT RELOAD)
@@ -16,7 +19,21 @@ serve:
 dev:
 	cargo tauri dev
 
+## Deployments
 
+# builds project, Cleans & Builds (RELEASE)
+build:
+	trunk clean && trunk build --release
+
+# restarts zone project
+restart:
+	cargo shuttle project restart --name zone
+
+# Deploys zone project
+deploy:
+	cargo shuttle deploy --name zone --allow-dirty
+
+	
 ### Installations
 
 # Installs tailwindcss cli (LINUX)

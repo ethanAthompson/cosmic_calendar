@@ -39,6 +39,12 @@ charming = { version = "0.3.1", features = ["wasm"] }
 # https://leptos-use.rs/browser/ 
 leptos-use = { version = "0.8.2", features = ["storage", "serde", "math"] }
 
+[build-dependencies]
+tokio = { version = "1", features = ["rt"] }
+cargo-leptos = "0.1"
+clap_builder = "4.4"
+camino = "1.1"
+
 [workspace]
-members = ["src-tauri"]
+members = ["src-tauri", "server"]
 

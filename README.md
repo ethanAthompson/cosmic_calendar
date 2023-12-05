@@ -53,7 +53,7 @@ let dst = "soon";
   - [ ] Earth
   - [ ] Mars
 
- - [ ] Outer
+- [ ] Outer
   - [ ] Jupiter
   - [ ] Saturn
   - [ ] Uranus
@@ -171,7 +171,7 @@ let dst = "soon";
   - [ ] Lenovo
   - [ ] ....
 
-- [] Watch Devices
+- [ ] Watch Devices
   - [ ] Apple
   - [ ] Samsung Galaxy
   - [ ] Amazfit

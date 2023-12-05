@@ -79,7 +79,7 @@ let dst = "soon";
 - [ ] Eunomia
 
 ### Timezones (Calculated from Coordinated Universal Time)
-  - [ ] Major
+  - Major
     - [ ] Coordinated Universal Time (UTC)
     - [ ] Baker Island Time (BIT)
     - [ ] Niue Time (NUT)
@@ -132,7 +132,7 @@ let dst = "soon";
     - [ ] Tonga Time (TOT)
     - [ ] Line Islands Time (LINT)
 
-  - [ ] Minor (Less commonly used)
+  - Minor (Less commonly used)
     - [ ] Newfoundland Standard Time (NST)
     - [ ] Iran Standard Time (IRST)
     - [ ] Afghanistan Time (AFT)
@@ -145,20 +145,20 @@ let dst = "soon";
 
 ## [^7] Cross Platform Compatibility
 
-- [ ] Web Browsers
+- Web Browsers
   - [ ] Google Chrome
   - [ ] Firefox
   - [ ] Vivaldi
   - [ ] ....
 
-- [ ] Desktop Devices
+- Desktop Devices
   - [ ] Windows 10/11
   - [ ] Ubuntu 20.04 LTS
   - [ ] MacOS Montery
   - [ ] Chrome OS
   - [ ] ....
 
-- [ ] Mobile Devices
+- Mobile Devices
   - [ ] Samsung Galaxy
   - [ ] Google Pixel
   - [ ] OnePlus
@@ -166,12 +166,12 @@ let dst = "soon";
   - [ ] Asus ROG
   - [ ] ....
 
-- [ ] Tablet Devices
+- Tablet Devices
   - [ ] Apple
   - [ ] Lenovo
   - [ ] ....
 
-- [ ] Watch Devices
+- Watch Devices
   - [ ] Apple
   - [ ] Samsung Galaxy
   - [ ] Amazfit

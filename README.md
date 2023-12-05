@@ -4,13 +4,13 @@
 
 ## Table of Contens
 
-  * What is this tool? [^1]
-  * What is QGA? [^2]
-  * How do we calculate Daylight Savings TIme (DST)?[^3]
-  * How do we calculate solor system dates?[^4]
-  * Can you trust us?[^5]
-  * Supported Operations[^6]
-  * Cross Platform Compatability[^7]
+  * [What is this tool?](#1-what-is-this-tool)
+  * [What is QGA?](#2-what-is-qga)
+  * [How do we calculate Daylight Savings Time (DST)?](#3-how-do-we-calculate-daylight-savings-time-dst)
+  * [How do we calculate solor system dates?](#4-how-do-we-calculate-solar-system-dates)
+  * [Can you trust us?](#5-can-you-trust-us)
+  * [Supported Operations](#6-supported-operations)
+  * [Cross Platform Compatability](#7-cross-platform-compatibility)
 
 
 

@@ -2,7 +2,7 @@
 ## The Site is hosted here: [Cosmic Calendars](https://zone.shuttleapp.rs)
 
 
-## Table of Contens
+## Table of Contents
 
   * [What is this tool?](#1-what-is-this-tool)
   * [What is QGA?](#2-what-is-qga)
@@ -11,7 +11,7 @@
   * [Can you trust us?](#5-can-you-trust-us)
   * [Supported Operations](#6-supported-operations)
   * [Cross Platform Compatability](#7-cross-platform-compatibility)
-
+  * [Summary]()
 
 
 ## What is this tool?
@@ -176,3 +176,8 @@ let dst = "soon";
   - [ ] Samsung Galaxy
   - [ ] Amazfit
   - [ ] ....
+
+
+## Summary
+*  Thank you for reading this.
+>  Built with Leptos + Tauri 

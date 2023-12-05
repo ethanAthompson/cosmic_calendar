@@ -1,5 +1,5 @@
 # Welcome to my NASA hunch web tool 
-## The Site is hosted here: [Cosmic Calendars](https://zone.shuttleapp.rs)
+> The Site is hosted here: [Cosmic Calendars](https://zone.shuttleapp.rs)
 
 
 ## Table of Contents
@@ -180,9 +180,9 @@ let dst = "soon";
 
 
 ## Credits
-* Leptos 
-* Tauri
+* [Leptos](https://leptos.dev/) 
+* [Tauri](https://tauri.app/)
+* [Shuttle](https://www.shuttle.rs/)
 
 ## Summary
 *  Thank you for reading this.
->  Built with Leptos + Tauri 

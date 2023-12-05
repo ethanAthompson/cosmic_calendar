@@ -4,8 +4,8 @@
 
 ## Table of Contens
 
-  * What is this tool?[^1]
-  * What is QGA?[^2]
+  * What is this tool? [^1]
+  * What is QGA? [^2]
   * How do we calculate Daylight Savings TIme (DST)?[^3]
   * How do we calculate solor system dates?[^4]
   * Can you trust us?[^5]
@@ -79,7 +79,7 @@ let dst = "soon";
 - [ ] Eunomia
 
 ### Timezones (Calculated from Coordinated Universal Time)
-  - Major
+  - Major (Most commonly used)
     - [ ] Coordinated Universal Time (UTC)
     - [ ] Baker Island Time (BIT)
     - [ ] Niue Time (NUT)

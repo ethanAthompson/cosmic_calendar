@@ -47,13 +47,13 @@ let dst = "soon";
   - [ ] Gregorian
 
 ### Planets
-- [ ] Inner
+- Inner
   - [ ] Mercury
   - [ ] Venus
   - [ ] Earth
   - [ ] Mars
 
-- [ ] Outer
+- Outer
   - [ ] Jupiter
   - [ ] Saturn
   - [ ] Uranus

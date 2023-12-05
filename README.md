@@ -11,11 +11,12 @@
   * [Can you trust us?](#5-can-you-trust-us)
   * [Supported Operations](#6-supported-operations)
   * [Cross Platform Compatability](#7-cross-platform-compatibility)
+  * [Credits](#credits)
   * [Summary](#summary)
 
 
 ## What is this tool?
-* this is an application that removes the complexity of caluclating timezones and communication delays across the solar system.
+* This is an application that removes the complexity of caluclating timezones and communication delays across the solar system.
 
 ## What is QGA? 
 1. Question:
@@ -177,6 +178,10 @@ let dst = "soon";
   - [ ] Amazfit
   - [ ] ....
 
+
+## Credits
+* Leptos 
+* Tauri
 
 ## Summary
 *  Thank you for reading this.

@@ -39,140 +39,140 @@ let dst = "soon";
 ## [^6] Supported Operations
 
 ### Calendars
-  - [] BC
-  - [] AD
-  - [] Fun Addition Indian Year
-  - [] China Year
-  - [] Israel's Year (EARTH)
-  - [] Gregorian
+  - [ ] BC
+  - [ ] AD
+  - [ ] Fun Addition Indian Year
+  - [ ] China Year
+  - [ ] Israel's Year (EARTH)
+  - [ ] Gregorian
 
 ### Planets
-- [] Inner
-  - [] Mercury
-  - [] Venus
-  - [] Earth
-  - [] Mars
+- [ ] Inner
+  - [ ] Mercury
+  - [ ] Venus
+  - [ ] Earth
+  - [ ] Mars
 
- - [] Outer
-  - [] Jupiter
-  - [] Saturn
-  - [] Uranus
-  - [] Neptune
+ - [ ] Outer
+  - [ ] Jupiter
+  - [ ] Saturn
+  - [ ] Uranus
+  - [ ] Neptune
 
 ### Moons
-- [] Titan
-- [] Mimas
-- [] Europa
-- [] Io
-- [] Enceladus
-- [] Charon
-- [] Thebe
+- [ ] Titan
+- [ ] Mimas
+- [ ] Europa
+- [ ] Io
+- [ ] Enceladus
+- [ ] Charon
+- [ ] Thebe
 
 ### Asteroids
-- [] Ceres
-- [] Vesta
-- [] Pallas
-- [] Eros
-- [] Hygiea
-- [] Cybele
-- [] Juno
-- [] Eunomia
+- [ ] Ceres
+- [ ] Vesta
+- [ ] Pallas
+- [ ] Eros
+- [ ] Hygiea
+- [ ] Cybele
+- [ ] Juno
+- [ ] Eunomia
 
 ### Timezones (Calculated from Coordinated Universal Time)
-  - [] Major
-    - [] Coordinated Universal Time (UTC)
-    - [] Baker Island Time (BIT)
-    - [] Niue Time (NUT)
-    - [] Samoa Standard Time (SST)
-    - [] Hawaii-Aleutian Standard Time (HST)
-    - [] Alaska Standard Time (AKST)
-    - [] Pacific Standard Time (PST)
-    - [] Mountain Standard Time (MST)
-    - [] Central Standard Time (CST)
-    - [] Eastern Standard Time (EST)
-    - [] Alantic Standard Time (AST)
-    - [] Argentina Time (ART)
-    - [] Brasília Time (BRT)
-    - [] South Georgia Time (GST)
-    - [] Azores Time (AZOT)
-    - [] Cape Verde Time (CVT)
-    - [] Greenwhich Mean Time (GMT)
-    - [] Central European Time (CET)
-    - [] West Africa Time (WAT)
-    - [] Eastern European Time (EET)
-    - [] Central Africa Time (CAT)
-    - [] Moscow Time (MSK)
-    - [] Arabia Standard Time (AST)
-    - [] Azerbaijan Time (AZT)
-    - [] Samara Time (SAMT)
-    - [] Pakistan Standard Time (PKT)
-    - [] Yekaterinburg Time (YEKT)
-    - [] Indian Standard Time (IST)
-    - [] Sri Lanka Time (SLT)
-    - [] Bangladesh Time (BST)
-    - [] Bhutan Time (BTT)
-    - [] Omsk Time (OMST)
-    - [] Cocos Islands Time (CCT)
-    - [] Mynanmar Time (MMT)
-    - [] Indochina Time (ICT)
-    - [] Novosibirsk Time (NOVT)
-    - [] China Standard Time (CST)
-    - [] Australian Western Standard Time (AWST)
-    - [] Central Western Standard Time (CWST)
-    - [] Japan Standard Time (JST)
-    - [] Korea Standard Time (KST)
-    - [] Yakutsk Time (YAKT)
-    - [] Australian Eastern Standard Time (AEST)
-    - [] Vladivostok Time (VLAT)
-    - [] Solomon Islands Time (SBT)
-    - [] Magadan Time (MAGT)
-    - [] Norfolk Island Time (NFT)
-    - [] New Zealand Standard Time (NZST)
-    - [] Fiji Time (FJT)
-    - [] Tonga Time (TOT)
-    - [] Line Islands Time (LINT)
+  - [ ] Major
+    - [ ] Coordinated Universal Time (UTC)
+    - [ ] Baker Island Time (BIT)
+    - [ ] Niue Time (NUT)
+    - [ ] Samoa Standard Time (SST)
+    - [ ] Hawaii-Aleutian Standard Time (HST)
+    - [ ] Alaska Standard Time (AKST)
+    - [ ] Pacific Standard Time (PST)
+    - [ ] Mountain Standard Time (MST)
+    - [ ] Central Standard Time (CST)
+    - [ ] Eastern Standard Time (EST)
+    - [ ] Alantic Standard Time (AST)
+    - [ ] Argentina Time (ART)
+    - [ ] Brasília Time (BRT)
+    - [ ] South Georgia Time (GST)
+    - [ ] Azores Time (AZOT)
+    - [ ] Cape Verde Time (CVT)
+    - [ ] Greenwhich Mean Time (GMT)
+    - [ ] Central European Time (CET)
+    - [ ] West Africa Time (WAT)
+    - [ ] Eastern European Time (EET)
+    - [ ] Central Africa Time (CAT)
+    - [ ] Moscow Time (MSK)
+    - [ ] Arabia Standard Time (AST)
+    - [ ] Azerbaijan Time (AZT)
+    - [ ] Samara Time (SAMT)
+    - [ ] Pakistan Standard Time (PKT)
+    - [ ] Yekaterinburg Time (YEKT)
+    - [ ] Indian Standard Time (IST)
+    - [ ] Sri Lanka Time (SLT)
+    - [ ] Bangladesh Time (BST)
+    - [ ] Bhutan Time (BTT)
+    - [ ] Omsk Time (OMST)
+    - [ ] Cocos Islands Time (CCT)
+    - [ ] Mynanmar Time (MMT)
+    - [ ] Indochina Time (ICT)
+    - [ ] Novosibirsk Time (NOVT)
+    - [ ] China Standard Time (CST)
+    - [ ] Australian Western Standard Time (AWST)
+    - [ ] Central Western Standard Time (CWST)
+    - [ ] Japan Standard Time (JST)
+    - [ ] Korea Standard Time (KST)
+    - [ ] Yakutsk Time (YAKT)
+    - [ ] Australian Eastern Standard Time (AEST)
+    - [ ] Vladivostok Time (VLAT)
+    - [ ] Solomon Islands Time (SBT)
+    - [ ] Magadan Time (MAGT)
+    - [ ] Norfolk Island Time (NFT)
+    - [ ] New Zealand Standard Time (NZST)
+    - [ ] Fiji Time (FJT)
+    - [ ] Tonga Time (TOT)
+    - [ ] Line Islands Time (LINT)
 
-  - [] Minor (Less commonly used)
-    - [] Newfoundland Standard Time (NST)
-    - [] Iran Standard Time (IRST)
-    - [] Afghanistan Time (AFT)
-    - [] Nepal Time (NPT)
-    - [] Central Western Standard Time (CWST)
-    - [] Australian Central Standard Time (ACST)
-    - [] Lord Howe Standard Time (LHST)
-    - [] Chatham Islands Time (CHAST)
+  - [ ] Minor (Less commonly used)
+    - [ ] Newfoundland Standard Time (NST)
+    - [ ] Iran Standard Time (IRST)
+    - [ ] Afghanistan Time (AFT)
+    - [ ] Nepal Time (NPT)
+    - [ ] Central Western Standard Time (CWST)
+    - [ ] Australian Central Standard Time (ACST)
+    - [ ] Lord Howe Standard Time (LHST)
+    - [ ] Chatham Islands Time (CHAST)
     
 
 ## [^7] Cross Platform Compatibility
 
-- [] Web Browsers
-  - [] Google Chrome
-  - [] Firefox
-  - [] Vivaldi
-  - [] ....
+- [ ] Web Browsers
+  - [ ] Google Chrome
+  - [ ] Firefox
+  - [ ] Vivaldi
+  - [ ] ....
 
-- [] Desktop Devices
-  - [] Windows 10/11
-  - [] Ubuntu 20.04 LTS
-  - [] MacOS Montery
-  - [] Chrome OS
-  - [] ....
+- [ ] Desktop Devices
+  - [ ] Windows 10/11
+  - [ ] Ubuntu 20.04 LTS
+  - [ ] MacOS Montery
+  - [ ] Chrome OS
+  - [ ] ....
 
-- [] Mobile Devices
-  - [] Samsung Galaxy
-  - [] Google Pixel
-  - [] OnePlus
-  - [] LG
-  - [] Asus ROG
-  - [] ....
+- [ ] Mobile Devices
+  - [ ] Samsung Galaxy
+  - [ ] Google Pixel
+  - [ ] OnePlus
+  - [ ] LG
+  - [ ] Asus ROG
+  - [ ] ....
 
-- [] Tablet Devices
-  - [] Apple
-  - [] Lenovo
-  - [] ....
+- [ ] Tablet Devices
+  - [ ] Apple
+  - [ ] Lenovo
+  - [ ] ....
 
 - [] Watch Devices
-  - [] Apple
-  - [] Samsung Galaxy
-  - [] Amazfit
-  - [] ....
+  - [ ] Apple
+  - [ ] Samsung Galaxy
+  - [ ] Amazfit
+  - [ ] ....

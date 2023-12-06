@@ -1,4 +1,9 @@
 
+## Compile Targets
+build-windows:
+	cargo tauri build --target i686-pc-windows-msvc
+
+	
 
 # runs custom script (UPDATES GIT REPO:)
 up: 

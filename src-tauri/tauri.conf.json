@@ -1,14 +1,14 @@
 {
   "build": {
     "beforeDevCommand": "trunk serve",
-    "beforeBuildCommand": "trunk build",
+    "beforeBuildCommand": "trunk build --release",
     "devPath": "http://localhost:1420",
     "distDir": "../dist",
     "withGlobalTauri": true
   },
   "package": {
     "productName": "zone",
-    "version": "0.0.0"
+    "version": "0.0.2"
   },
   "tauri": {
     "allowlist": {
@@ -19,6 +19,17 @@
       }
     },
     "bundle": {
+      "windows": {
+        "webviewInstallMode": {
+          "type": "offlineInstaller"
+        }
+      },
+      "deb": {
+        "files": {
+          "/usr/share/README.md": "../README.md",
+          "usr/share/assets": "../public"
+        }
+      },
       "active": true,
       "targets": "all",
       "identifier": "com.zone.dev",

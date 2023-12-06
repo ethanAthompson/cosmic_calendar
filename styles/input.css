@@ -12,6 +12,7 @@
 
 html,
 .light {
+  color: black;
   min-height: 100vh;
   background-color: rbg(94, 234, 212);
   background-image:
@@ -26,6 +27,7 @@ html,
 
 html,
 .dark {
+  color: white;
   min-height: 100vh;
   background-color: rgb(19, 145, 125);
   background-image:
@@ -40,6 +42,7 @@ html,
 
 @media (prefers-color-scheme:light) {
   html {
+    color: black;
     min-height: 100vh;
     background-color: rbg(94, 234, 212);
     background-image:
@@ -56,6 +59,7 @@ html,
 
 @media (prefers-color-scheme:dark) {
   html {
+    color: white;
     min-height: 100vh;
     background-color: rgb(19, 145, 125);
     background-image:

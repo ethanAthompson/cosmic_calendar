@@ -90,14 +90,17 @@ pub fn ThemeSwitch() -> impl IntoView {
 
     // each dropdown-item -> dark, light, system (adjacent to css classes)
     let light_theme = move |_| {
+        update_panel();
         ZoneTheme::set_theme(ZoneTheme::Light);
     };
 
     let dark_theme = move |_| {
+        update_panel();
         ZoneTheme::set_theme(ZoneTheme::Dark);
     };
 
     let system_theme = move |_| {
+        update_panel();
         ZoneTheme::set_theme(ZoneTheme::System);
     };
 

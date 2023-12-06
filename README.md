@@ -154,6 +154,7 @@ let dst = "soon";
 
 - Desktop Devices
   - [ ] Windows 10/11
+  <!-- You need to build on app on windows for window devices; linker, mscv, etc.. -->
   - [ ] Ubuntu 20.04 LTS
   - [ ] MacOS Montery
   - [ ] Chrome OS

@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en" class="" id="html-theme">
 
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link data-trunk data-inline rel="css" href="output.css" />
+  <link data-trunk rel="tailwind-css" href="/styles/output.css" />
   <link data-trunk rel="copy-dir" href="public" />
   <link data-trunk rel="rust" data-wasm-opt="z" />
   <link data-trunk rel="icon" href="/public/icons/dark.png" />
@@ -14,8 +14,18 @@
   <!-- https://echarts.apache.org/en/index.html -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts-gl@2.0.9/dist/echarts-gl.min.js"></script>
+  <script type="javascript">
+        var theme;
+        
+        try {
+            theme = localStorage.getItem('theme');
+            document.getElementById('html-theme').setAttribute('data-theme', theme);
+            // document.getElementById('theme_icon').setAttribute('icon-theme', theme);    
+        } catch (e) {
+            console.log('Operation: Failed', e);                    
+        }
+  </script>
 </head>
 
-<section class="debug"></section>
 
 </html>

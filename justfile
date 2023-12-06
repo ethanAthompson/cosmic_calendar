@@ -6,11 +6,8 @@ up:
 
 # runs tailwindcli (HOT RELOAD)
 watch:
-	./tailwindcss -i styles.css -o ./dist/output.css --watch
-	# runs tailwindcli (HOT RELOAD)
-watch-now:
-	./tailwindcss -i styles.css -o output.css --watch
-	
+	./tailwindcss -i ./styles/input.css -o ./styles/output.css
+
 # runs trunk serve (HOT RELOAD)
 serve: 
 	trunk serve

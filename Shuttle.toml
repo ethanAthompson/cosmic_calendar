@@ -1,5 +1,5 @@
 name = "zone"
 
 assets = [
-    "target/site/*"
+    "dist/*"
 ]

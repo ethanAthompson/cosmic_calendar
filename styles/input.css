@@ -41,6 +41,18 @@ html,
 }
 
 @media (prefers-color-scheme:light) {
+  body {
+    color: black;
+  }
+}
+
+@media (prefers-color-scheme:dark) {
+  body {
+    color: white;
+  }
+}
+
+@media (prefers-color-scheme:light) {
   html {
     color: black;
     min-height: 100vh;

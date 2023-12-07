@@ -1,10 +1,13 @@
 use leptos::{leptos_dom::logging::console_log, *};
 use leptos_icons::*;
-use web_sys::Storage;
+use leptos_meta::*;
+use web_sys::{MediaQueryList, Storage};
 
 // --st 1(violet-900) 2(stone-200) 3(orange-300) 4(rose-200) 5(slate-500) 6(neutral-700)
 #[component]
 pub fn App() -> impl IntoView {
+    provide_meta_context();
+
     view! {
         <header class="shadow-lg p-4 grid grid-cols-2 w-full">
             <nav class="flex justify-start items-center">
@@ -24,12 +27,14 @@ pub fn App() -> impl IntoView {
     }
 }
 
+/// Enum for entire Theme
 pub enum ZoneTheme {
     Light,
     Dark,
     System,
 }
 
+/// Methods for theme
 impl ZoneTheme {
     pub fn set_theme(theme: ZoneTheme) {
         match theme {
@@ -51,6 +56,13 @@ impl ZoneTheme {
 
 pub fn storage() -> Storage {
     window().local_storage().unwrap().unwrap()
+}
+
+pub fn media() -> MediaQueryList {
+    window()
+        .match_media("(prefers-color-scheme: dark)")
+        .unwrap()
+        .unwrap()
 }
 
 pub fn update_dom_el(id: &'static str, class: &'static str) {

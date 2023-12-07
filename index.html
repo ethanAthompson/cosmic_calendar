@@ -14,18 +14,10 @@
   <!-- https://echarts.apache.org/en/index.html -->
   <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.2/dist/echarts.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/echarts-gl@2.0.9/dist/echarts-gl.min.js"></script>
-  <script type="application/javascript" defer>
-    var theme;
 
-    try {
-      theme = localStorage.getItem('theme');
-      document.getElementById('html-theme').className = theme;
-      console.log(theme);
-      // document.getElementById('theme_icon').setAttribute('icon-theme', theme);    
-    } catch (e) {
-      console.log('Operation: Failed', e);
-    }
-  </script>
+
+  <!-- custom scripts -->
+  <script data-trunk src="./scripts/theme.js" />
 </head>
 
 

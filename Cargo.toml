@@ -40,6 +40,7 @@ charming = { version = "0.3.1", features = ["wasm"] }
 leptos-use = { version = "0.8.2", features = ["storage", "serde", "math"] }
 leptos_meta = { version ="0.5.4", features = ["csr"]}
 leptos_icons = {version = "0.1.0", features = ["BsSun", "BsMoonStars","FiMonitor"]}
+leptos_router = { version = "0.5.4", features = ["csr"] }
 
 [build-dependencies]
 tokio = { version = "1", features = ["rt"] }

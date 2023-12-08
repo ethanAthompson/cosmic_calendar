@@ -1,13 +1,28 @@
 use leptos::{leptos_dom::logging::console_log, *};
 use leptos_icons::*;
 use leptos_meta::*;
+use leptos_router::{A, *};
+use std::fmt;
 use web_sys::{MediaQueryList, Storage};
 
-// --st 1(violet-900) 2(stone-200) 3(orange-300) 4(rose-200) 5(slate-500) 6(neutral-700)
 #[component]
 pub fn App() -> impl IntoView {
     provide_meta_context();
 
+    view! {
+        <div id="root">
+            <Router>
+                <Navbar/>
+                <ZoneRoutes/>
+                <Footer/>
+            </Router>
+        </div>
+    }
+}
+
+// --st 1(violet-900) 2(stone-200) 3(orange-300) 4(rose-200) 5(slate-500) 6(neutral-700)
+#[component]
+pub fn Navbar() -> impl IntoView {
     view! {
         <header class="shadow-lg p-4 grid grid-cols-2 w-full">
             <nav class="flex justify-start items-center">
@@ -16,15 +31,30 @@ pub fn App() -> impl IntoView {
                 </div>
             </nav>
             <nav class="flex justify-end px-4">
-                <div class="flex-nowrap flex space-x-12 items-center justify-end text-xl ">
-                    <p class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> Tool </p>
-                    <p class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> About </p>
-                    <p class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> Install </p>
-                    <p class="py-4 rounded-md transition text-2xl focus:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> <ThemeSwitch/></p>
-                </div>
+                <NavbarLinks/>
+                <p class="px-4 py-4 rounded-md transition text-2xl focus:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> <ThemeSwitch/></p>
             </nav>
         </header>
     }
+}
+
+#[component]
+pub fn NavbarLinks() -> impl IntoView {
+    view! {
+        <div class="flex-nowrap flex space-x-12 items-center justify-end text-xl ">
+            <A href="" class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> "Home" </A>
+            <A href="tool" class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> "Tool" </A>
+            <A href="about" class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> "About" </A>
+            <A href="download" class="py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> "Download" </A>
+        </div>
+    }
+}
+
+pub enum ZoneError {
+    Light,
+    Dark,
+    System,
+    None,
 }
 
 /// Enum for entire Theme
@@ -34,13 +64,31 @@ pub enum ZoneTheme {
     System,
 }
 
+impl fmt::Display for ZoneError {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            ZoneError::Light => write!(f, "Light theme has a bug"),
+            ZoneError::Dark => write!(f, "Dark theme has a bug"),
+            ZoneError::System => write!(f, "System theme has a bug"),
+            ZoneError::None => write!(f, "There is no bug with the App Theme"),
+        }
+    }
+}
+
 /// Methods for theme
 impl ZoneTheme {
-    pub fn set_theme(theme: ZoneTheme) {
-        match theme {
+    // pub fn set_theme(theme: ZoneTheme) {
+    pub fn set_theme(&self) {
+        match self {
             ZoneTheme::Light => {
                 storage().set_item("theme", "light").unwrap();
                 update_dom_el("html-theme", "light");
+
+                if storage().get_item("light").is_ok() {
+                    console_log(format!("{}", ZoneError::None).as_str());
+                } else {
+                    console_log(format!("{}", ZoneError::Light).as_str());
+                }
             }
             ZoneTheme::Dark => {
                 storage().set_item("theme", "dark").unwrap();
@@ -103,20 +151,21 @@ pub fn ThemeSwitch() -> impl IntoView {
     // each dropdown-item -> dark, light, system (adjacent to css classes)
     let light_theme = move |_| {
         update_panel();
-        ZoneTheme::set_theme(ZoneTheme::Light);
+        ZoneTheme::set_theme(&ZoneTheme::Light);
     };
 
     let dark_theme = move |_| {
         update_panel();
-        ZoneTheme::set_theme(ZoneTheme::Dark);
+        ZoneTheme::set_theme(&ZoneTheme::Dark);
     };
 
     let system_theme = move |_| {
         update_panel();
-        ZoneTheme::set_theme(ZoneTheme::System);
+        ZoneTheme::set_theme(&ZoneTheme::System);
     };
 
     view! {
+
         <main class="relative inline-block text-left">
             <button on:click=toggle_panel type="button" class="inline-flex justify-center items-center px-2 py-2">
                 <Icon icon=sun class=""/>
@@ -140,5 +189,67 @@ pub fn ThemeSwitch() -> impl IntoView {
                 </article>
             </article>
         </main>
+    }
+}
+
+#[component]
+pub fn ZoneRoutes() -> impl IntoView {
+    view! {
+        <Routes>
+            <Route path="" view=Home/>
+            <Route path="/tool" view=Tool/>
+            <Route path="/about" view=About/>
+            <Route path="/download" view=Download/>
+        </Routes>
+    }
+}
+
+#[component]
+pub fn Footer() -> impl IntoView {
+    view! {
+        <footer class="left-0 bottom-0 w-full fixed justify-center items-center py-2 shadow-inner shadow-2xl">
+            <section class="grid grid-cols-2 items-center">
+                <nav class="order-2 flex justify-end px-2">
+                    <NavbarLinks/>
+                </nav>
+
+                <nav class="order-1 flex justify-start px-2">
+                    "© 2023 Zone™. All Rights Reserved."
+                </nav>
+            </section>
+        </footer>
+    }
+}
+
+#[component]
+pub fn Home() -> impl IntoView {
+    view! {
+        <div class="w-full p-4 ">
+            Home
+        </div>
+    }
+}
+#[component]
+pub fn Tool() -> impl IntoView {
+    view! {
+        <div class="w-full p-4 ">
+            Tool
+        </div>
+    }
+}
+#[component]
+pub fn About() -> impl IntoView {
+    view! {
+        <div class="w-full p-4 ">
+            About
+        </div>
+    }
+}
+#[component]
+pub fn Download() -> impl IntoView {
+    view! {
+        <div class="w-full p-4 ">
+            Download
+        </div>
     }
 }

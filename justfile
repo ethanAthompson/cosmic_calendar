@@ -3,6 +3,11 @@
 build-windows:
 	cargo tauri build --target i686-pc-windows-msvc
 
+## Compile Targets 2
+build-deb:
+	cargo tauri buid
+
+
 	
 
 # runs custom script (UPDATES GIT REPO:)

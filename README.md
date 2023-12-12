@@ -6,11 +6,13 @@
 
   * [Introduction](#what-is-this-tool)
   * [What is QGA?](#what-is-qga)
+  * [How do we calculate Timezones?](#timezone-chart)
   * [How do we calculate Daylight Savings Time (DST)?](#how-do-we-calculate-daylight-savings-time-dst)
   * [How do we calculate solor system dates?](#how-do-we-calculate-solar-system-dates)
   * [Can you trust us?](#can-you-trust-us)
   * [Supported Operations](#supported-operations)
   * [Cross Platform Compatability](#cross-platform-compatibility)
+  * [Story](#story)
   * [Credits](#credits-+-inspiration)
   * [Summary](#summary)
 
@@ -28,6 +30,12 @@
 ```rust 
 let dst = "soon";
 ```
+
+## Timezone Chart
+> We adjust the offsets depending if your more west or east on the globe.
+![standard-time-zone-chart-of-world-2021-03](https://github.com/ethanAthompson/cosmic_calendar/assets/140981795/f1b35bfa-a0f2-4f37-91f4-cbe4f5e547c5)
+
+
 ## How do we calculate solar system dates? 
 
 > Q: If I were to ask you what time will it be tomorrow on saturn, what is your response? 
@@ -88,6 +96,7 @@ let dst = "soon";
     - [ ] Hawaii-Aleutian Standard Time (HST)
     - [ ] Alaska Standard Time (AKST)
     - [ ] Pacific Standard Time (PST)
+    - [ ] Philippine Standard Time (PSTP)
     - [ ] Mountain Standard Time (MST)
     - [ ] Central Standard Time (CST)
     - [ ] Eastern Standard Time (EST)
@@ -179,12 +188,17 @@ let dst = "soon";
   - [ ] Amazfit
   - [ ] ....
 
+## Story
+> The server folder hosts the directory I have for production onto the web
+> The src-tarui publishes my web app as a desktop app.
+> The src is the core of the two workspaces, withoout src **server** and **src-tauri** fails.
 
 ## Credits + Inspiration
 * [Leptos](https://leptos.dev/) 
 * [Tauri](https://tauri.app/)
 * [Leptos-Csr-Tailwind-Netlify-App](https://leptos-csr-tailwind.netlify.app/)
 * [Time.Is](https://time.is/)
+* [UTC Time](https://www.utctime.net/)
 
 ## Summary
 *  Thank you for reading this.

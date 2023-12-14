@@ -40,6 +40,11 @@ html,
     radial-gradient(at 85% 58%, rgb(32, 32, 32) 0, transparent 38%);
 }
 
+body,
+.light {
+  color: black;
+}
+
 @media (prefers-color-scheme:light) {
   body {
     color: black;

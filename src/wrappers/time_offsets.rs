@@ -23,6 +23,7 @@ pub const EST: i32 = -5 * 3600;
 pub const NUT: i32 = -11 * 3600;
 
 // UTC times
+pub const UTC: i32 = 0 * 3600;
 // Western European Time
 // Greenwich Mean Time
 
@@ -32,3 +33,4 @@ pub const NUT: i32 = -11 * 3600;
 ///
 
 pub const MYT: i32 = 0;
+pub const MRS: i32 = 0;

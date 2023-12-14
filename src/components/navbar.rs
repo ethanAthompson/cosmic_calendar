@@ -22,7 +22,7 @@ pub fn Navbar() -> impl IntoView {
             </nav>
             <nav class="flex justify-end px-4">
                 <NavbarLinks/>
-                <p class="px-4 py-4 rounded-md transition text-2xl focus:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> <ThemeSwitch/></p>
+                <p class="px-4 py-4 rounded-md transition text-2xl hover:scale-125 delay-150 duration-75 ease-in-out hover:text-orange-300"> <ThemeSwitch/></p>
             </nav>
         </header>
     }

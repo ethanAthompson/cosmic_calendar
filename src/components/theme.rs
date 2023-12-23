@@ -2,7 +2,7 @@ use leptos::{leptos_dom::logging::console_log, *};
 use std::fmt;
 use web_sys::{MediaQueryList, Storage};
 
-use crate::wrappers::web::{storage, update_dom_el};
+use crate::wrappers::web::{media, storage, update_dom_el};
 
 /// The lightswitch component
 pub mod switch;
@@ -55,7 +55,31 @@ impl ZoneTheme {
             ZoneTheme::System => {
                 storage().remove_item("theme").unwrap();
                 update_dom_el("html-theme", "system");
+
+                // Text does need to know if the theme is dark or light
+                if media().matches() {
+                    storage().set_item("theme", "dark").unwrap();
+                    update_dom_el("html-theme", "dark");
+                } else {
+                    storage().set_item("theme", "light").unwrap();
+                    update_dom_el("html-theme", "light");
+                }
             }
+        }
+    }
+
+    /// Executes the closure then sets theme
+    pub fn set_theme_opt<F>(&self, f: F, mode: u8)
+    where
+        F: FnOnce(),
+    {
+        f();
+
+        match mode {
+            0 => ZoneTheme::set_theme(&ZoneTheme::Light),
+            1 => ZoneTheme::set_theme(&ZoneTheme::Dark),
+            2 => ZoneTheme::set_theme(&ZoneTheme::System),
+            _ => {}
         }
     }
 }

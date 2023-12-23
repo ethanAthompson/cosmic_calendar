@@ -7,8 +7,8 @@ pub mod header;
 /// The home page stuff
 pub mod home;
 
-/// The tool page stuff
-pub mod tool;
+/// The tools page stuff
+pub mod tools;
 
 /// The about page stuff
 pub mod about;
@@ -21,3 +21,9 @@ pub mod navbar;
 
 /// The theme that's cool
 pub mod theme;
+
+/// Common Searchbars
+pub mod search;
+
+/// the results of the searches + tags
+pub mod card;

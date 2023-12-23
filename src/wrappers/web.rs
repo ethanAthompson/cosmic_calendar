@@ -1,8 +1,13 @@
-use leptos::{leptos_dom::logging::console_log, *};
-use web_sys::{MediaQueryList, Storage};
+use leptos::*;
+use leptos_meta::HtmlContext;
+use web_sys::{Element, HtmlCollection, MediaQueryList, Storage};
 
 pub fn storage() -> Storage {
     window().local_storage().unwrap().unwrap()
+}
+
+pub fn storage_theme() -> String {
+    storage().get_item("theme").unwrap().unwrap()
 }
 
 pub fn media() -> MediaQueryList {
@@ -17,4 +22,16 @@ pub fn update_dom_el(id: &'static str, class: &'static str) {
         .get_element_by_id(id)
         .unwrap()
         .set_class_name(class);
+}
+
+pub fn dom_el_bool(id: &'static str) -> Element {
+    document().get_element_by_id(id).unwrap()
+}
+
+pub fn all_items(class: &'static str, element: &'static str) -> web_sys::NodeList {
+    document()
+        .get_element_by_id(class)
+        .unwrap()
+        .query_selector_all(element)
+        .unwrap()
 }

@@ -31,12 +31,12 @@
             offset: -4,
             dst: 0,
         ),
-        "nut": (
+        "nt": (
             name: "Niue Time",
             offset: -11,
             dst: 0,
         ),
-        "omsk": (
+        "ot": (
             name: "Omsk Time",
             offset: 6,
             dst: 0,

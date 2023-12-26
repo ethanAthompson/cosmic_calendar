@@ -1,18 +1,17 @@
 use std::sync::Arc;
 
-use leptos::{html::Input, leptos_dom::logging::console_log, *};
-use leptos_icons::*;
-use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node};
-
 use crate::{
-    components::tools::innerplanets::earth::earth_time,
+    components::{card::earth::RonEarth, tools::innerplanets::earth::earth_time},
     wrappers::{
         strings::get_initials,
         web::{all_items, update_dom_el},
     },
 };
-
+use chrono::prelude::*;
+use leptos::{html::Input, leptos_dom::logging::console_log, *};
+use leptos_icons::*;
+use wasm_bindgen::JsCast;
+use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node};
 // this will be generic after I do this first one
 #[component]
 pub fn SearchBar() -> impl IntoView {
@@ -120,9 +119,18 @@ pub fn SearchBar() -> impl IntoView {
             9 => {}
             // Enter
             13 => {
+                console_log(input.get().as_str());
+
+                // INFO!
+                // only allow filtered items when you press enter,
+                // otherwise don't send it out because of error
+                //
                 // maybe use a map to prevent dupes on both sides?
                 let spans = all_items("supported-timezones", "span");
-
+                // if true {}
+                // some long if statement that wraps and only 
+                // allows the sending of a matched item
+                //
                 // INFO! for the user if lazy
                 if spans.length() == 1 {
                     if let Some(first_span) = spans.item(0) {
@@ -135,9 +143,11 @@ pub fn SearchBar() -> impl IntoView {
                 }
 
                 if !input.get().is_empty() {
-                    if let Some(display_bar) = document().get_element_by_id("earth-zones") {
+                    if let Some(display_bar) = document().get_element_by_id("earth-zones") {                        
                         let bar_info = view! {
-                            <span> {input.get()}: live_time : calendar </span>
+                            <span class="flex space-x-2">
+                                <RonEarth name=input.get_untracked() />
+                            </span>
                         };
 
                         display_bar

@@ -27,3 +27,4 @@ pub async fn earth_time() -> TimeZoneFormat {
 
     return format;
 }
+

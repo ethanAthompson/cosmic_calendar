@@ -19,50 +19,65 @@ pub fn ChosenTimeZones() -> impl IntoView {
 
 #[component]
 pub fn RonEarth(name: String) -> impl IntoView {
-    let offset = -5;
-    let customtime = move || {
+    // BUG! PLEASE KEEP THIS FIRST
+    let tmp_name = create_rw_signal(name.clone());
+    let zone_offset = create_rw_signal(0);
+
+    // INFO! I pass down the timezone so the async data renders properly
+    let customtime = move |offset: i32| {
+        zone_offset.set(offset);
+        
         let hour = 3600;
-        let offset = FixedOffset::east_opt(offset * hour).unwrap();
+        let fixed_offset = FixedOffset::east_opt(zone_offset.get() * hour).unwrap();
 
         return Utc::now()
-            .with_timezone(&offset)
+            .with_timezone(&fixed_offset)
             .format("%d/%m/%Y %r")
             .to_string();
     };
 
-    let (time, set_time) = create_signal(customtime());
-    let (tmp_name, set_tmp_name) = create_signal(name.clone());
-    
+    let time = create_rw_signal(customtime(zone_offset.get()));
+
     set_interval(
         move || {
-            set_time.update(|t| {
-                *t = customtime();
+            time.update(|value| {
+                *value = customtime(zone_offset.get());
             })
         },
         std::time::Duration::from_secs(1),
     );
 
-
-    // a resource that displays a view from async data
-    let async_data = create_resource(
-        || (),
-        // every time `count` changes, this will run
-        move |_| async move {
-            // gets the key of the hashmap that matches the user's input,
-            // and displays its hasbrowns
-
-          match earth_time().await.map.get(tmp_name.get().clone().to_lowercase().as_str()).unwrap() {
-                TimeZone { name, offset, dst } => {
-                    let debug = format!("{:?}, {:?}, {:?}", name, offset, dst);
-                    console_log(debug.as_str());
-                    // Render a view instead of Logging it to console
-                }
-            }  
-        },
-    );
-
-    // INFO! create an x button and dynamically load offset & name
     view! {
-        <h1> {name} " Time: " {time} </h1>
+        <Await
+            // `future` provides the `Future` to be resolved
+            future=move || get_zones(tmp_name)
+            // the data is bound to whatever variable name you provide
+            let:data
+        >
+            // you receive the data by reference and can use it in your view here
+            <p> {data.clone().0} </p>
+            <p> {customtime(data.clone().1)} </p>
+
+        </Await>
+    }
+}
+
+pub async fn get_zones(tmp_name: RwSignal<String>) -> (String, i32, u8) {
+    match earth_time()
+        .await
+        .map
+        .get(tmp_name.get().clone().to_lowercase().as_str())
+        .unwrap()
+    {
+        TimeZone { name, offset, dst } => {
+            let debug = format!("{:?}, {:?}, {:?}", name, offset, dst);
+            console_log(debug.as_str());
+
+            // zone_name.set(name.to_string());
+            // zone_offset.set(*offset);
+            // zone_dst.set(*dst);
+
+            return (name.to_string(), *offset, *dst);
+        }
     }
 }

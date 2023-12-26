@@ -147,49 +147,55 @@ pub fn SearchBar() -> impl IntoView {
                 }
             }
 
-            // It's weird because i'm working with two opposites but of the same side
             // Up
             38 => {
                 let spans = all_items("supported-timezones", "span");
 
-                if let Some(current_item) = spans.item(traverse.get()) {
+                // Run 1: Hides currently Selected item
+                if let Some(current_item) = spans.item(traverse.get() - 1) {
                     if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
                         current_element.set_class_name("span-item");
-                        console_log("Up: Hide");
+                        console_log(current_element.text_content().unwrap().as_str());
                     }
                 }
 
                 traverse.update(move |item: &mut u32| {
-                    console_log(&*item.to_string().as_str());
-                    // console_log(spans.length().to_string().as_str());
-                    if *item == 0 {
-                        // allows top & down panning with up button
-                        *item = spans.length() - 1;
+                    // console_log(&item.to_string().as_str());
+
+                    // Run 1: Adjusts to 0-index
+                    if *item - 1 == 0 {
+                        *item = spans.length();
                     } else {
-                        *item -= 1;
+                        *item -= 1
                     }
-
-                    // gracefully moves up
-                    if let Some(next_item) = spans.item(*item) {
-                        if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
-                            next_element.set_class_name("span-trav");
-                            console_log("Up: Show");
-
-                            input.set(
-                                next_element
-                                    .text_content()
-                                    .unwrap_or_else(|| String::from(" ")),
-                            );
-                        }
-                    };
                 });
+
+                let spans = all_items("supported-timezones", "span");
+
+                // Run 2: Selects Previous item which is the above the curently selected
+                if let Some(next_item) = spans.item(traverse.get() - 1) {
+                    if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
+                        next_element.set_class_name("span-trav");
+
+                        console_log(next_element.text_content().unwrap().as_str());
+                        input.set(
+                            next_element
+                                .text_content()
+                                .unwrap_or_else(|| String::from(" ")),
+                        );
+                    }
+                };
             }
 
-            // Down
+            // Down: Works!
             40 => {
                 let spans = all_items("supported-timezones", "span");
 
                 traverse.update(move |item: &mut u32| {
+                    // Run 1: Re adjusts the item tracker
+                    if *item > spans.length() {
+                        *item = 0;
+                    }
                     // Run 1: If item is last, remember to clear it before Run 2!
                     if *item == spans.length() {
                         *item = 0;
@@ -200,17 +206,16 @@ pub fn SearchBar() -> impl IntoView {
                                 current_element.set_class_name("span-item");
                             }
                         }
-
                     }
 
                     // logs item before Run 2
-                    console_log(&*item.to_string().as_str());
+                    // console_log(&*item.to_string().as_str());
 
                     // Gracefully moves down
                     if let Some(next_item) = spans.item(*item) {
                         if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
                             next_element.set_class_name("span-trav");
-                            console_log("Down: Show");
+                            // console_log("Down: Show");
 
                             input.set(
                                 next_element
@@ -227,7 +232,7 @@ pub fn SearchBar() -> impl IntoView {
                         *item += 1;
                     }
                 });
-                    
+
                 let spans = all_items("supported-timezones", "span");
 
                 // Run 2: gets the previous item and clears it for Run 1!
@@ -235,9 +240,9 @@ pub fn SearchBar() -> impl IntoView {
                     if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
                         current_element.set_class_name("span-item");
                         // Runs: 0 -> none, 1 -> hides 0, 2 -> hides 1, ...
-                        let travel = format!("Travel -> {:?}", traverse.get() - 2 );
-                        console_log("Down: Hide");
-                        console_log(travel.as_str());
+                        // let travel = format!("Travel -> {:?}", traverse.get() - 2 );
+                        // console_log("Down: Hide");
+                        // console_log(travel.as_str());
                     }
                 }
             }

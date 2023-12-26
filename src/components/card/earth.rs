@@ -57,7 +57,7 @@ pub fn RonEarth(name: String) -> impl IntoView {
             // you receive the data by reference and can use it in your view here
             <p> {data.clone().0} </p>
             <p> {customtime(data.clone().1)} </p>
-
+            //INFO! X button goes here, just pops it out of the element list
         </Await>
     }
 }

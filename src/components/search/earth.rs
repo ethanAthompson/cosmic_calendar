@@ -125,6 +125,8 @@ pub fn SearchBar() -> impl IntoView {
                 // only allow filtered items when you press enter,
                 // otherwise don't send it out because of error
                 //
+                //INFO! Prevent duplicates when you press enter, probably with searchbar stuff
+                //
                 // maybe use a map to prevent dupes on both sides?
                 let spans = all_items("supported-timezones", "span");
                 // if true {}

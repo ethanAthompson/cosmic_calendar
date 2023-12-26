@@ -3,7 +3,7 @@ use std::sync::Arc;
 use leptos::{html::Input, leptos_dom::logging::console_log, *};
 use leptos_icons::*;
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent};
+use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node};
 
 use crate::{
     components::tools::innerplanets::earth::earth_time,
@@ -20,6 +20,7 @@ pub fn SearchBar() -> impl IntoView {
     let close_icon = Icon::from(BiIcon::BiXRegular);
 
     let input = create_rw_signal("".to_string());
+    let traverse = create_rw_signal(0);
     let items = create_rw_signal(Vec::new());
     let filtered_items = create_rw_signal(Vec::new());
 
@@ -29,6 +30,8 @@ pub fn SearchBar() -> impl IntoView {
         move || items,
         move |_| async move {
             for item in earth_time().await.map.into_values() {
+                // console_log(item.name.as_str());
+
                 items.update(move |time| {
                     time.push(get_initials(item.name));
                 });
@@ -82,6 +85,7 @@ pub fn SearchBar() -> impl IntoView {
     };
 
     let on_focus_out = move |_| {
+        traverse.set(0);
         // hides on delay
         set_timeout(
             move || {
@@ -99,6 +103,7 @@ pub fn SearchBar() -> impl IntoView {
         ev.prevent_default();
         // WARNING! use "" over " " becuase " " adds whitespace
         input.set("".to_string());
+        traverse.set(0);
 
         update_dom_el("supported-timezones-container", "hidden");
     };
@@ -120,35 +125,121 @@ pub fn SearchBar() -> impl IntoView {
 
                 // INFO! for the user if lazy
                 if spans.length() == 1 {
-                    let first_span = spans
-                        .item(0)
-                        .unwrap()
-                        .dyn_into::<HtmlElement>()
-                        .unwrap()
-                        .text_content()
-                        .unwrap();
-
-                    // console_log(first_span.to_string().as_str());
-                    input.set(first_span.to_string());
+                    if let Some(first_span) = spans.item(0) {
+                        if let Ok(first_item) = first_span.dyn_into::<HtmlElement>() {
+                            if let Some(first_item_text) = first_item.text_content() {
+                                input.set(first_item_text);
+                            }
+                        }
+                    }
                 }
 
-                // pushes this input its parent list
-                document()
-                    .get_element_by_id("earth-zones")
-                    .unwrap()
-                    .append_child(
-                        view! {
-                            <span> {input.get()}: Etc : Etc </span>
-                        }
-                        .as_ref(),
-                    )
-                    .unwrap();
+                if !input.get().is_empty() {
+                    if let Some(display_bar) = document().get_element_by_id("earth-zones") {
+                        let bar_info = view! {
+                            <span> {input.get()}: live_time : calendar </span>
+                        };
+
+                        display_bar
+                            .append_child(bar_info.as_ref())
+                            .expect("Bar failed to be appended");
+                    }
+                }
             }
+
+            // It's weird because i'm working with two opposites but of the same side
             // Up
-            38 => {}
+            38 => {
+                let spans = all_items("supported-timezones", "span");
+
+                if let Some(current_item) = spans.item(traverse.get()) {
+                    if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
+                        current_element.set_class_name("span-item");
+                        console_log("Up: Hide");
+                    }
+                }
+
+                traverse.update(move |item: &mut u32| {
+                    console_log(&*item.to_string().as_str());
+                    // console_log(spans.length().to_string().as_str());
+                    if *item == 0 {
+                        // allows top & down panning with up button
+                        *item = spans.length() - 1;
+                    } else {
+                        *item -= 1;
+                    }
+
+                    // gracefully moves up
+                    if let Some(next_item) = spans.item(*item) {
+                        if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
+                            next_element.set_class_name("span-trav");
+                            console_log("Up: Show");
+
+                            input.set(
+                                next_element
+                                    .text_content()
+                                    .unwrap_or_else(|| String::from(" ")),
+                            );
+                        }
+                    };
+                });
+            }
+
             // Down
             40 => {
                 let spans = all_items("supported-timezones", "span");
+
+                traverse.update(move |item: &mut u32| {
+                    // Run 1: If item is last, remember to clear it before Run 2!
+                    if *item == spans.length() {
+                        *item = 0;
+
+                        // clears last item: subtracts by 1 because to adjust to 0-index
+                        if let Some(current_item) = spans.item(spans.length() - 1) {
+                            if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
+                                current_element.set_class_name("span-item");
+                            }
+                        }
+
+                    }
+
+                    // logs item before Run 2
+                    console_log(&*item.to_string().as_str());
+
+                    // Gracefully moves down
+                    if let Some(next_item) = spans.item(*item) {
+                        if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
+                            next_element.set_class_name("span-trav");
+                            console_log("Down: Show");
+
+                            input.set(
+                                next_element
+                                    .text_content()
+                                    .unwrap_or_else(|| String::from(" ")),
+                            );
+                        }
+                    };
+
+                    // increments to Run 2
+                    if *item == spans.length() {
+                        *item = 0;
+                    } else {
+                        *item += 1;
+                    }
+                });
+                    
+                let spans = all_items("supported-timezones", "span");
+
+                // Run 2: gets the previous item and clears it for Run 1!
+                if let Some(current_item) = spans.item(traverse.get() - 2) {
+                    if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
+                        current_element.set_class_name("span-item");
+                        // Runs: 0 -> none, 1 -> hides 0, 2 -> hides 1, ...
+                        let travel = format!("Travel -> {:?}", traverse.get() - 2 );
+                        console_log("Down: Hide");
+                        console_log(travel.as_str());
+                    }
+                }
             }
             _ => {
                 ev.prevent_default();
@@ -190,22 +281,20 @@ pub fn SearchBar() -> impl IntoView {
 
 #[component]
 pub fn SearchItems(
+    // represents the list of timezones you can search
     #[prop(into)] vector: RwSignal<Vec<String>>,
+    // represents the id of the timezones which is dynamically used
     #[prop(into)] input: RwSignal<String>,
 ) -> impl IntoView {
     // adds the chosen option to the search input
     let on_add = move |ev: MouseEvent| {
         // gets the id and performs js casting to properly direct it
-        let id = ev
-            .target()
-            .unwrap()
-            .dyn_into::<HtmlElement>()
-            .expect("Html Element id search not found")
-            .id();
 
-        // console_log(id.as_str());
-
-        input.set(id);
+        if let Some(event) = ev.target() {
+            if let Ok(target) = event.dyn_into::<HtmlElement>() {
+                input.set(target.id());
+            }
+        }
 
         // hides the options after you set it.
         update_dom_el("supported-timezones-container", "hidden");

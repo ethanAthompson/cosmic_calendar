@@ -1,7 +1,6 @@
 # Welcome to my NASA hunch web tool 
 > The Site is hosted here: [Cosmic Calendars](https://zone.shuttleapp.rs)
 
-
 ## Table of Contents
 
   * [Introduction](#what-is-this-tool)

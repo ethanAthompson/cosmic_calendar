@@ -650,13 +650,19 @@ video {
 .span-item {
   width: 100%;
   cursor: grab;
+  --tw-bg-opacity: 1;
+  background-color: rgb(15 23 42 / var(--tw-bg-opacity));
   padding: 0.5rem;
   padding-inline-start: 2.75rem;
 }
 
-.span-item:hover {
+.span-trav {
+  width: 100%;
+  cursor: grab;
   --tw-bg-opacity: 1;
   background-color: rgb(30 41 59 / var(--tw-bg-opacity));
+  padding: 0.5rem;
+  padding-inline-start: 2.75rem;
 }
 
 .static {
@@ -893,6 +899,10 @@ video {
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+.ps-4 {
+  padding-inline-start: 1rem;
 }
 
 .text-left {

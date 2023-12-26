@@ -27,7 +27,15 @@
   }
 
   .span-item {
-    @apply ps-11 p-2 cursor-grab hover:bg-slate-800 w-full
+    @apply ps-11 p-2 cursor-grab w-full bg-slate-900
+  }
+
+  .span-trav {
+    @apply ps-11 p-2 cursor-grab w-full bg-slate-800
+  }
+
+  .expose {
+    @apply span-item bg-rose-400
   }
 }
 

@@ -23,7 +23,7 @@ pub struct TimeZoneFormat {
 
 /// Returns the earth time .ron file data via serde + ron help
 pub async fn earth_time() -> TimeZoneFormat {
-    let format: TimeZoneFormat = RonData::new("earth_timezones.ron").await;
+    let format: TimeZoneFormat = RonData::new("/data/earth_timezones.ron").await;
 
     return format;
 }

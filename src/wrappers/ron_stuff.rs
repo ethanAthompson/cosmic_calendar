@@ -16,7 +16,7 @@ pub struct RonData<T>(T);
 
 impl<T: DeserializeOwned + Debug> RonData<T> {
     pub async fn new(file: &'static str) -> T {
-        let pretty = format!("/data/{}", file);
+        let pretty = format!("{}", file);
 
         let req = Request::get(pretty.as_str())
             .send()

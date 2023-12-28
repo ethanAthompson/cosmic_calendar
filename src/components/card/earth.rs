@@ -75,7 +75,9 @@ pub fn LoadedRonEarth(fullname: String, offset: i32) -> impl IntoView {
                     parent.remove();
 
                     // INFO! id must delete the certain neighbor
-                    data.earth.remove(0);
+                    for i in 0..data.earth.len() {                    
+                        data.earth.remove(i);
+                    }
                 }
             };
         });

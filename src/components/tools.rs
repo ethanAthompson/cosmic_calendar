@@ -37,8 +37,9 @@ pub fn Tools() -> impl IntoView {
             </section>
 
             // Where the astronaut can see the live dates synced and stuff.
+            // INFO! each of the Chosen has its own tmp_name so its easier
             <section class="p-4 border border-slate-800 ">
-                <ChosenTimeZones/>
+                 <ChosenTimeZones/>       
                 // <ChosenCelestials/>
                 // <ChosenCalendars/>
             </section>

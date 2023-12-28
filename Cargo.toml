@@ -34,7 +34,6 @@ chrono = "0.4.31"
 charming = { version = "0.3.1", features = ["wasm"] }
 
 # https://leptos-use.rs/browser/ 
-leptos-use = { version = "0.8.2", features = ["storage", "serde", "math"] }
 leptos_meta = { version = "0.5.4", features = ["csr"] }
 leptos_icons = { version = "0.1.0", features = [
   "BsSun",
@@ -55,6 +54,7 @@ tracing = "0.1.40"
 ron = "0.8.1"
 gloo-net = "0.5.0"
 web-sys = "0.3.66"
+leptos-use = { version = "0.9.0", features = ["serde", "serde_json"] }
 
 [build-dependencies]
 tokio = { version = "1", features = ["rt"] }

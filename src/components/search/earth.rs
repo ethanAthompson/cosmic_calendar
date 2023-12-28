@@ -1,10 +1,13 @@
 use std::sync::Arc;
 
 use crate::{
-    components::{card::earth::RonEarth, tools::innerplanets::earth::earth_time},
+    components::{
+        card::earth::{get_zones, RonEarth},
+        tools::innerplanets::earth::earth_time,
+    },
     wrappers::{
         strings::get_initials,
-        web::{all_items, update_dom_el},
+        web::{all_items, save_data, update_dom_el},
     },
 };
 use chrono::prelude::*;
@@ -21,18 +24,26 @@ pub fn SearchBar() -> impl IntoView {
     let input = create_rw_signal("".to_string());
     let traverse = create_rw_signal(0);
     let items = create_rw_signal(Vec::new());
+    let loaded_items = create_rw_signal(Vec::new());
     let filtered_items = create_rw_signal(Vec::new());
-
     let input_el: NodeRef<Input> = create_node_ref();
 
     let async_data = create_resource(
         move || items,
         move |_| async move {
+            // for user's non-loaded data
             for item in earth_time().await.map.into_values() {
                 // console_log(item.name.as_str());
 
                 items.update(move |time| {
                     time.push(get_initials(item.name));
+                });
+            }
+
+            // for user's loaded data
+            for loaded_item in earth_time().await.map.into_values() {
+                loaded_items.update(move |time| {
+                    time.push((loaded_item.name, loaded_item.offset));
                 });
             }
         },
@@ -119,7 +130,7 @@ pub fn SearchBar() -> impl IntoView {
             9 => {}
             // Enter
             13 => {
-                console_log(input.get().as_str());
+                // console_log(input.get().as_str());
 
                 // INFO!
                 // only allow filtered items when you press enter,
@@ -130,7 +141,7 @@ pub fn SearchBar() -> impl IntoView {
                 // maybe use a map to prevent dupes on both sides?
                 let spans = all_items("supported-timezones", "span");
                 // if true {}
-                // some long if statement that wraps and only 
+                // some long if statement that wraps and only
                 // allows the sending of a matched item
                 //
                 // INFO! for the user if lazy
@@ -145,12 +156,30 @@ pub fn SearchBar() -> impl IntoView {
                 }
 
                 if !input.get().is_empty() {
-                    if let Some(display_bar) = document().get_element_by_id("earth-zones") {                        
+                    if let Some(display_bar) = document().get_element_by_id("earth-zones") {
+                        // get it to display full name
+                        save_data().1.update(move |data| {
+                            // let dbgitems = format!("{:?}", loaded_items.get());
+                            // console_log(dbgitems.as_str());
+
+                            for i in 0..loaded_items.get().len() {
+                                // BUG: the input is hard-coded to initials: EST, GMT so I have to match it from that
+                                if input.get() == get_initials(loaded_items.get()[i].0.clone()) {
+                                    // loads proper data into storage
+                                    let name = get_initials(loaded_items.get()[i].0.clone());
+                                    let offset = loaded_items.get()[i].1;
+                                    let fullname = loaded_items.get()[i].0.clone();
+                                    data.earth.push((name, offset, fullname));
+                                }
+                            }
+                        });
+
                         let bar_info = view! {
-                            <span class="flex space-x-2">
+                            <span class="flex space-x-2" id=input.get()>
                                 <RonEarth name=input.get_untracked() />
                             </span>
                         };
+
 
                         display_bar
                             .append_child(bar_info.as_ref())
@@ -305,11 +334,11 @@ pub fn SearchItems(
 ) -> impl IntoView {
     // adds the chosen option to the search input
     let on_add = move |ev: MouseEvent| {
-        // gets the id and performs js casting to properly direct it
+        // gets the text content: increases security and performs js casting to properly direct it
 
         if let Some(event) = ev.target() {
             if let Ok(target) = event.dyn_into::<HtmlElement>() {
-                input.set(target.id());
+                input.set(target.text_content().unwrap());
             }
         }
 
@@ -323,7 +352,7 @@ pub fn SearchItems(
             key=|item| item.clone()
             let:data
         >
-            <span id=format!("{data}") class="span-item" on:click=on_add > {data} </span>
+            <span class="span-item" on:click=on_add > {data} </span>
         </For>
     }
 }

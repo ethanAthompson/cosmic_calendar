@@ -1,6 +1,11 @@
 use leptos::*;
 use leptos_meta::HtmlContext;
+
+use leptos_use::storage::use_local_storage;
+use leptos_use::storage::JsonCodec;
 use web_sys::{Element, HtmlCollection, MediaQueryList, Storage};
+use crate::components::tools::innerplanets::earth::SavedData;
+
 
 pub fn storage() -> Storage {
     window().local_storage().unwrap().unwrap()
@@ -35,3 +40,13 @@ pub fn all_items(class: &'static str, element: &'static str) -> web_sys::NodeLis
         .query_selector_all(element)
         .unwrap()
 }
+
+pub fn save_data() -> (
+    Signal<SavedData>,
+    WriteSignal<SavedData>,
+    impl (Fn()) + Clone,
+) {
+    // let (state, set_state, del_state) =use_local_storage::<SavedData, JsonCodec>("user_data");
+    return use_local_storage::<SavedData, JsonCodec>("user_data")
+}
+

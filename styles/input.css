@@ -5,10 +5,10 @@
 @layer base {}
 
 @layer components {
-
   .text-query {
-    @apply  desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl
+    @apply desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl
   }
+
   .default-item-select {
     @apply transition hover:scale-125 delay-150 duration-75 ease-in-out
   }
@@ -47,22 +47,45 @@
   }
 
   .unique-wrap {
-    @apply 
-       bg-transparent -skew-y-3 scale-75 hover:-translate-y-4 hover:scale-100
-      /* */
-       ease-in-out duration-300 rounded-md p-2
+    @apply
+    /* bg-transparent */
+    -skew-y-3 scale-50
+    /* */
+    hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75
+    /* */
+    ease-in-out duration-300 p-2 glitch
+  }
+
+  .wing-item-select {
+    @apply
+    /* bg-transparent */
+    skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75
+    /* */
+    ease-in-out duration-300 glitch
+  }
+
+  .sm-unique-wrap {
+    @apply
+    /* bg-transparent */
+    dark:hover:text-white hover:text-black
+    /* */
+    -skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75
+    /* */
+    ease-in-out duration-300 glitch
   }
 
   .unique-theme {
-    @apply 
-       bg-transparent -skew-y-3 scale-75 hover:-skew-y-12 hover:scale-100
-      /* */
-       ease-in-out duration-300 rounded-md p-2
-    
+    @apply
+    /* bg-transparent */
+    -skew-y-3 hover:-skew-y-6 scale-50
+    /* */
+    hover:scale-75 focus:-skew-y-6 focus:scale-75
+    /* */
+    ease-in-out duration-300 px-2
   }
 
   .modew {
-    @apply w-12 h-12
+    @apply w-7 h-7 desktop:w-12 desktop:h-12
   }
 }
 
@@ -72,6 +95,68 @@
 
 ::-webkit-scrollbar-thumb {
   @apply bg-gradient-to-b from-slate-800 to-slate-700;
+}
+
+:root {
+  --blur: 0px
+}
+
+.glitch:hover {
+  box-shadow:
+    -4px -4px var(--blur) 0px #f00,
+    4px 4px var(--blur) 0px #fff,
+    0px 0px var(--blur) 0px #00f;
+  animation-duration: 2s;
+  animation-timing-function: cubic-bezier(0.755, 0.05, 0.855, 0.06);
+  animation-iteration-count: infinite;
+  animation-name: glitchy;
+}
+
+
+/* 
+f00 : red
+fff : white
+00f : blue
+*/
+@keyframes glitchy {
+  0% {
+    box-shadow:
+      -4px -4px var(--blur) 0px #f00,
+      4px 4px var(--blur) 0px #fff,
+      0px 0px var(--blur) 0px #00f;
+  }
+
+  /* Changeable START */
+  25% {
+    box-shadow:
+      4px 4px var(--blur) 0px #fff,
+      -4px -4px var(--blur) 0px #f00,
+      0px 0px var(--blur) 0px #00f;
+  }
+
+  50% {
+    box-shadow:
+      -8px -8px var(--blur) 0px #fff,
+      4px 4px var(--blur) 0px #00f,
+      0px 0px var(--blur) 0px #f00;
+
+  }
+
+  75% {
+    box-shadow:
+      8px 8px var(--blur) 0px #00f,
+      -4px -4px var(--blur) 0px #fff,
+      0px 0px var(--blur) 0px #f00;
+  }
+
+  /* Changeable END*/
+
+  100% {
+    box-shadow:
+      -4px -4px var(--blur) 0px #f00,
+      4px 4px var(--blur) 0px #fff,
+      0px 0px var(--blur) 0px #00f;
+  }
 }
 
 

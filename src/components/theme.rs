@@ -1,11 +1,10 @@
+pub mod largescreen;
+pub mod smallscreen;
+
 use leptos::{leptos_dom::logging::console_log, *};
 use std::fmt;
 use web_sys::{MediaQueryList, Storage};
-
 use crate::wrappers::web::{media, storage, update_dom_el};
-
-/// The lightswitch component
-pub mod switch;
 
 /// Error handlers for the theme
 pub enum ZoneError {

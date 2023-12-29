@@ -27,3 +27,6 @@ pub mod search;
 
 /// the results of the searches + tags
 pub mod card;
+
+/// links for any use
+pub mod links;

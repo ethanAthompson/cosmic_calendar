@@ -12,7 +12,9 @@ use crate::components::tools::Tools;
 
 /// component for holding routes
 #[component]
-pub fn ZoneRoutes() -> impl IntoView {    
+pub fn ZoneRoutes() -> impl IntoView {
+
+
     view! {
         <Routes>
             <Route path="" view=Home/>
@@ -22,3 +24,5 @@ pub fn ZoneRoutes() -> impl IntoView {
         </Routes>
     }
 }
+
+

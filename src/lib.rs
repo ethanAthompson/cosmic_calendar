@@ -9,7 +9,6 @@ pub mod wrappers;
 
 use crate::components::footer::Footer;
 use crate::components::navbar::Navbar;
-use crate::components::navbar::{PaneLeft, PaneRight};
 use crate::wrappers::routes::ZoneRoutes;
 
 use leptos::{leptos_dom::logging::console_log, *};
@@ -25,9 +24,7 @@ pub fn App() -> impl IntoView {
         <div id="root">
             <Router>
                 <Navbar/>
-                <PaneLeft/>
                 <ZoneRoutes/>
-                <PaneRight/>
                 <Footer/>
             </Router>
         </div>

@@ -1,27 +1,18 @@
-/// Links specifically for footer; may be long
-pub mod links;
+pub mod largescreen;
+pub mod smallscreen;
 
-use crate::components::footer::links::FooterLinks;
-use leptos::{leptos_dom::logging::console_log, *};
-use leptos_icons::*;
-use leptos_meta::*;
-use leptos_router::{A, *};
-use std::fmt;
-use web_sys::{MediaQueryList, Storage};
+// use crate::LagLinks as NormalLink
+
+use leptos::*;
+use crate::components::footer::largescreen::LargeScreenLinks;
+use crate::components::footer::smallscreen::SmallScreenLinks;
 
 #[component]
 pub fn Footer() -> impl IntoView {
     view! {
-        <footer class="left-0 bottom-0 w-full fixed justify-center items-center py-0">
-            <section class="hidden laptop:grid desktop:grid tablet:grid grid-cols-2 items-center shadow-inner shadow-2xl">
-                <nav class="order-2 flex justify-end px-2">
-                    <FooterLinks/>
-                </nav>
-
-                <nav class="order-1 flex justify-start px-2 text-black dark:text-white ">
-                    "© 2023 Zone™. All Rights Reserved."
-                </nav>
-            </section>
+        <footer class="dark:bg-slate-800 bg-slate-200 left-0 bottom-0 w-full fixed justify-center items-center py-0">
+            <LargeScreenLinks/>
+            // <SmallScreenLinks/>
         </footer>
     }
 }

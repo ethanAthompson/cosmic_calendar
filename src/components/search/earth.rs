@@ -3,7 +3,7 @@ use std::sync::Arc;
 use crate::{
     components::{
         card::earth::{get_zones, RonEarth},
-        tools::innerplanets::earth::earth_time,
+        tools::innerplanets::earth::{earth_time, EarthTimeZone},
     },
     wrappers::{
         strings::get_initials,
@@ -130,20 +130,9 @@ pub fn SearchBar() -> impl IntoView {
             9 => {}
             // Enter
             13 => {
-                // console_log(input.get().as_str());
-
-                // INFO!
-                // only allow filtered items when you press enter,
-                // otherwise don't send it out because of error
-                //
-                //INFO! Prevent duplicates when you press enter, probably with searchbar stuff
-                //
-                // maybe use a map to prevent dupes on both sides?
                 let spans = all_items("supported-timezones", "span");
-                // if true {}
-                // some long if statement that wraps and only
-                // allows the sending of a matched item
-                //
+                let zones = all_items("earth-zones", "span");
+
                 // INFO! for the user if lazy
                 if spans.length() == 1 {
                     if let Some(first_span) = spans.item(0) {
@@ -153,8 +142,34 @@ pub fn SearchBar() -> impl IntoView {
                             }
                         }
                     }
+                } else {
+                    // INFO! keep here so it doesn't triumph the neighboring if clauses
+                    // WARNING! base case: you enter something and it nots from the list with span showing
+                    if !filtered_items.get().contains(&input.get()) {
+                        input.set("".to_string());
+                    }
                 }
 
+                // WARNING! base case: if you have the same timezone in the results
+                for zone in 0..zones.length() {
+                    let item = zones.item(zone).unwrap().dyn_into::<HtmlElement>().unwrap();
+                    // console_log(&zones.length().to_string());
+                    // console_log(&zones.length().to_string());
+                    // console_log(&item.id().to_string());
+
+                    // if a timezone is already added
+                    // then don't add that same timezone
+                    if item.id() == input.get() {
+                        input.set("".to_string());
+                    }
+                }
+
+                // WARNING! base case: if you enter something thats not from the list, it doesn't send it empty
+                if spans.length() == 0 {
+                    input.set("".to_string());
+                }
+
+                // if your input isn't empty then it must match on of the timezones
                 if !input.get().is_empty() {
                     if let Some(display_bar) = document().get_element_by_id("earth-zones") {
                         // get it to display full name
@@ -166,10 +181,14 @@ pub fn SearchBar() -> impl IntoView {
                                 // BUG: the input is hard-coded to initials: EST, GMT so I have to match it from that
                                 if input.get() == get_initials(loaded_items.get()[i].0.clone()) {
                                     // loads proper data into storage
-                                    let name = get_initials(loaded_items.get()[i].0.clone());
-                                    let offset = loaded_items.get()[i].1;
-                                    let fullname = loaded_items.get()[i].0.clone();
-                                    data.earth.push((name, offset, fullname));
+                                    let earth_example: EarthTimeZone = EarthTimeZone {
+                                        abbr: get_initials(loaded_items.get()[i].0.clone()),
+                                        offset: loaded_items.get()[i].1,
+                                        fullname: loaded_items.get()[i].0.clone(),
+                                    };
+
+                                    // for hashmap
+                                    data.earth.insert(earth_example.abbr.clone(), earth_example);
                                 }
                             }
                         });
@@ -179,7 +198,6 @@ pub fn SearchBar() -> impl IntoView {
                                 <RonEarth name=input.get_untracked() />
                             </span>
                         };
-
 
                         display_bar
                             .append_child(bar_info.as_ref())

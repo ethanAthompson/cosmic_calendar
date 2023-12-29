@@ -7,7 +7,7 @@ use leptos_router::{A, *};
 use std::fmt;
 use web_sys::{MediaQueryList, Storage};
 
-use crate::components::navbar::links::{BigLinks, SmallLinks};
+use crate::components::navbar::links::*;
 use crate::wrappers::web::update_dom_el;
 
 #[component]
@@ -37,10 +37,10 @@ pub fn Navbar() -> impl IntoView {
     view! {
         <header class="p-4 grid grid-cols-2 w-full shadow-md">
             <nav class="flex justify-start items-center">
-                <A href="" class="desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl"> Zone </A>
+                <A href="" class="unique-wrap desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl"> Zone </A>
             </nav>
             <nav class="justify-end hidden desktop:flex laptop:flex tablet:flex">
-                <BigLinks />
+                <SuperBigLinks />
             </nav>
             <nav class="flex justify-end px-2 desktop:hidden laptop:hidden tablet:hidden">
                 <button class="" on:click=toggle_menu>

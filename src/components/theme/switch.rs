@@ -79,7 +79,7 @@ pub fn ThemeSwitch() -> impl IntoView {
         <main class="relative inline-block text-left">
             <button id="theme-icon-button" on:click=toggle_panel type="button" class="inline-flex justify-center items-center px-2 py-2 dark:text-zinc-400 text-zinc-800">
                 <span id="theme-icon" class=icon_class.get_untracked() >
-                    <Icon icon=icon_theme.to_owned()  />
+                    <Icon icon=icon_theme.to_owned() class="modew" />
                 </span>
             </button>
             <article id="themes" class="hidden">
@@ -141,7 +141,7 @@ where
 
             let new_icon = view! {
                  <span id="theme-icon" class=icon_class >
-                    <Icon icon=theme_icon  />
+                    <Icon icon=theme_icon  class="modew" />
                 </span>
             };
 

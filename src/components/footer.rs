@@ -12,7 +12,7 @@ use web_sys::{MediaQueryList, Storage};
 #[component]
 pub fn Footer() -> impl IntoView {
     view! {
-        <footer class="left-0 bottom-0 w-full fixed justify-center items-center py-2">
+        <footer class="left-0 bottom-0 w-full fixed justify-center items-center py-0">
             <section class="hidden laptop:grid desktop:grid tablet:grid grid-cols-2 items-center shadow-inner shadow-2xl">
                 <nav class="order-2 flex justify-end px-2">
                     <FooterLinks/>

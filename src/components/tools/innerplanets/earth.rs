@@ -23,24 +23,29 @@ pub struct TimeZoneFormat {
     pub map: HashMap<String, TimeZone>,
 }
 
+#[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
+pub struct EarthTimeZone {
+    pub abbr: String,
+    pub offset: i32,
+    pub fullname: String
+}
+
 #[derive(Serialize, Deserialize, Clone, PartialEq)]
 pub struct SavedData {
     // name, offset, fullname
-    pub earth: Vec<(String, i32, String)>,
+    // pub earth: HashMap<String, EarthTimeZone>,
+    pub earth: HashMap<String, EarthTimeZone>,
     // celestial needs earth so it can do proper calculation on save point
-    pub celestial: Vec<String>,
-    pub calendar: Vec<String>,
+    // pub celestial: HashMap<String>,
+    // pub calendar: HashMap<String>,
 }
 
 impl Default for SavedData {
     fn default() -> Self {
         Self {
-            earth: Vec::new(),
-            celestial: Vec::new(),
-            calendar: Vec::new(),
-            // earth: vec![("Eastern Standard Time".to_owned(), -5), ("Omsk Time".to_owned(), 6)],
-            // celestial: vec!["MARS".to_owned(), "TITAN".to_owned()],
-            // calendar: vec!["Gregorian".to_owned(), "Solar".to_owned()],
+            earth: HashMap::new(),
+            // celestial: Vec::new(),
+            // calendar: Vec::new(),
         }
     }
 }

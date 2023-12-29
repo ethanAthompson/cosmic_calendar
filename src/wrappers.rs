@@ -9,3 +9,5 @@ pub mod ron_stuff;
 pub mod date;
 
 pub mod strings;
+
+pub mod canva;

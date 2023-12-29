@@ -5,6 +5,10 @@
 @layer base {}
 
 @layer components {
+
+  .text-query {
+    @apply  desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl
+  }
   .default-item-select {
     @apply transition hover:scale-125 delay-150 duration-75 ease-in-out
   }

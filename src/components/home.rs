@@ -6,7 +6,6 @@ use std::{f64::consts::PI, fmt};
 use wasm_bindgen::{JsCast, JsValue};
 use web_sys::{CanvasRenderingContext2d, HtmlCanvasElement, MediaQueryList, MouseEvent, Storage};
 
-
 #[component]
 pub fn Home() -> impl IntoView {
     view! {
@@ -24,5 +23,3 @@ pub fn Promotion() -> impl IntoView {
         </div>
     }
 }
-
-

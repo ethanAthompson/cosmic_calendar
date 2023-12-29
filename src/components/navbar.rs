@@ -37,7 +37,7 @@ pub fn Navbar() -> impl IntoView {
     view! {
         <header class="p-4 grid grid-cols-2 w-full shadow-md">
             <nav class="flex justify-start items-center">
-                <A href="" class="unique-wrap desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl"> Zone </A>
+                <A href="" id="zone-highlight" class="unique-wrap desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl"> Zone </A>
             </nav>
             <nav class="justify-end hidden desktop:flex laptop:flex tablet:flex">
                 <SuperBigLinks />
@@ -54,5 +54,42 @@ pub fn Navbar() -> impl IntoView {
                 <SmallLinks on_click=toggle_menu />
             </nav>
         </div>
+    }
+}
+
+
+#[component] 
+pub fn PaneRight() -> impl IntoView {
+
+    // all of the different elements are stored in a vector
+    // each item in the vector is looped and a highlight is deleted
+    // or maybe use a boolean selector idk.
+    // set_timeout(
+    //     move || {
+    //         document()
+    //             .get_element_by_id("zone-highlight")
+    //             .unwrap()
+    //             .set_class_name("unique-wrap text-query text-green-400");
+    //     },
+    //     std::time::Duration::from_millis(500),
+    // );
+    // a div that shows when you click the right side of the page
+    view!{
+        <div>
+
+        </div>
+    }
+}
+
+#[component] 
+pub fn PaneLeft() -> impl IntoView {
+    view!{
+
+    // a div that shows when you click the right side of the page
+    // it just goes to the previous page as its highlited on top
+        <div>
+
+        </div>
+        
     }
 }

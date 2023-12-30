@@ -32,7 +32,7 @@
 * G: idk...
 * A: soon
 * So I created a library to solve this issue
-* (Rust Solar)[https://github.com/ethanAthompson/rust_solar]
+* [Rust Solar](https://github.com/ethanAthompson/rust_solar)
 
 ## Supported Operations
 

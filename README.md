@@ -7,7 +7,7 @@
   * [How do we calculate Timezones?](#timezone-chart)
   * [How do we calculate solor system dates?](#how-do-we-calculate-solar-system-dates)
   * [Can you trust us?](#can-you-trust-us)
-  * [Supported Operations](#supported-operations)
+  * [Supported Timezones](#supported-timezones)
   * [Cross Platform Compatability](#cross-platform-compatibility)
   * [Story](#story)
   * [Credits](#credits-+-inspiration)
@@ -26,69 +26,29 @@
 * Guess: idk...
 * Answer: [Rust Solar](https://github.com/ethanAthompson/rust_solar)
 
-## Supported Operations
-
-### Calendars
-  - [ ] BC
-  - [ ] AD
-  - [ ] Fun Addition Indian Year
-  - [ ] China Year
-  - [ ] Israel's Year (EARTH)
-  - [ ] Gregorian
-
-### Planets
-- Inner
-  - [ ] Mercury
-  - [ ] Venus
-  - [ ] Earth
-  - [ ] Mars
-
-- Outer
-  - [ ] Jupiter
-  - [ ] Saturn
-  - [ ] Uranus
-  - [ ] Neptune
-
-### Moons
-- [ ] Titan
-- [ ] Mimas
-- [ ] Europa
-- [ ] Io
-- [ ] Enceladus
-- [ ] Charon
-- [ ] Thebe
-
-### Asteroids
-- [ ] Ceres
-- [ ] Vesta
-- [ ] Pallas
-- [ ] Eros
-- [ ] Hygiea
-- [ ] Cybele
-- [ ] Juno
-- [ ] Eunomia
+## Supported Timezones
 
 ### Timezones (Calculated from Coordinated Universal Time)
   - Major (Most commonly used)
     - [ ] Coordinated Universal Time (UTC)
     - [ ] Baker Island Time (BIT)
-    - [ ] Niue Time (NUT)
+    - [x] Niue Time (NUT)
     - [ ] Samoa Standard Time (SST)
     - [ ] Hawaii-Aleutian Standard Time (HST)
     - [ ] Alaska Standard Time (AKST)
-    - [ ] Pacific Standard Time (PST)
+    - [x] Pacific Standard Time (PST)
     - [ ] Philippine Standard Time (PSTP)
     - [ ] Mountain Standard Time (MST)
     - [ ] Central Standard Time (CST)
-    - [ ] Eastern Standard Time (EST)
-    - [ ] Alantic Standard Time (AST)
+    - [x] Eastern Standard Time (EST)
+    - [x] Alantic Standard Time (AST)
     - [ ] Argentina Time (ART)
     - [ ] Brasília Time (BRT)
     - [ ] South Georgia Time (GST)
     - [ ] Azores Time (AZOT)
     - [ ] Cape Verde Time (CVT)
-    - [ ] Greenwhich Mean Time (GMT)
-    - [ ] Central European Time (CET)
+    - [x] Greenwhich Mean Time (GMT)
+    - [x] Central European Time (CET)
     - [ ] West Africa Time (WAT)
     - [ ] Eastern European Time (EET)
     - [ ] Central Africa Time (CAT)
@@ -102,7 +62,7 @@
     - [ ] Sri Lanka Time (SLT)
     - [ ] Bangladesh Time (BST)
     - [ ] Bhutan Time (BTT)
-    - [ ] Omsk Time (OMST)
+    - [x] Omsk Time (OMST)
     - [ ] Cocos Islands Time (CCT)
     - [ ] Mynanmar Time (MMT)
     - [ ] Indochina Time (ICT)
@@ -110,7 +70,7 @@
     - [ ] China Standard Time (CST)
     - [ ] Australian Western Standard Time (AWST)
     - [ ] Central Western Standard Time (CWST)
-    - [ ] Japan Standard Time (JST)
+    - [x] Japan Standard Time (JST)
     - [ ] Korea Standard Time (KST)
     - [ ] Yakutsk Time (YAKT)
     - [ ] Australian Eastern Standard Time (AEST)

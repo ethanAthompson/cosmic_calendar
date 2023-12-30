@@ -6,7 +6,6 @@
   * [Introduction](#what-is-this-tool)
   * [What is QGA?](#what-is-qga)
   * [How do we calculate Timezones?](#timezone-chart)
-  * [How do we calculate Daylight Savings Time (DST)?](#how-do-we-calculate-daylight-savings-time-dst)
   * [How do we calculate solor system dates?](#how-do-we-calculate-solar-system-dates)
   * [Can you trust us?](#can-you-trust-us)
   * [Supported Operations](#supported-operations)
@@ -24,22 +23,17 @@
 2. Guess:
 3. Answer:
 
-## How do we calculate Daylight Savings Time (DST)?
-> soon 
-```rust 
-let dst = "soon";
-```
-
 ## Timezone Chart
 > We adjust the offsets depending if your more west or east on the globe.
 ![standard-time-zone-chart-of-world-2021-03](https://github.com/ethanAthompson/cosmic_calendar/assets/140981795/f1b35bfa-a0f2-4f37-91f4-cbe4f5e547c5)
 
 
 ## How do we calculate solar system dates? 
-
 > Q: If I were to ask you what time will it be tomorrow on saturn, what is your response? 
 > G: idk...
 > A: soon
+> I created a library to solve this issue
+// link to library soon
 
 ## Can you trust us?
 > maybe

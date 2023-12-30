@@ -16,8 +16,9 @@ module.exports = {
     },
     extend: {
       boxShadow : {
-        'pink': '0 1px 2px 0 rgba(255, 164, 211, 0.8)',
-        'amber': '0 35px 60px 15px rgba(255, 164, 65, 0.8)',
+        'pink': '0 5px 60px 15px rgba(255, 164, 211, 0.8)',
+        'amber': '0 5px 60px 15px rgba(255, 164, 65, 0.8)',
+        'earth': '0 5px 5px 10px rgba(96, 114, 116, 0.2)'
       },
     },
   },

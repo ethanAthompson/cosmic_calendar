@@ -17,6 +17,7 @@ use crate::components::search::calendar::CheckBox as CalendarCheckBox;
 use crate::components::search::calendar::SearchBar as CalendarSearchBar;
 use crate::components::search::celestial::SearchBar as CelestialSearchBar;
 use crate::components::search::earth::SearchBar as EarthTimeZoneSearchBar;
+use crate::components::tools::innerplanets::TestingApp;
 
 use leptos::{html::Input, leptos_dom::logging::console_log, *};
 use leptos_icons::*;
@@ -27,9 +28,10 @@ pub fn Tools() -> impl IntoView {
         <main class="grid grid-cols-2">
 
             // Where the astronaut searches for their stuff
-            <section class="p-4 border border-slate-800 ">
+            <section class="p-4">
                 <form>
-                    <EarthTimeZoneSearchBar/>
+                    <TestingApp/>
+                    // <EarthTimeZoneSearchBar/>
                     // <CelestialSearchBar/>
                     // <CalendarSearchBar/>
                     // <CalendarCheckBox/>
@@ -38,11 +40,13 @@ pub fn Tools() -> impl IntoView {
 
             // Where the astronaut can see the live dates synced and stuff.
             // INFO! each of the Chosen has its own tmp_name so its easier
-            <section class="p-4 border border-slate-800 ">
-                 <ChosenTimeZones/>       
+            <section class="p-4 ">
+                 // <ChosenTimeZones/>       
                 // <ChosenCelestials/>
                 // <ChosenCalendars/>
             </section>
         </main>
     }
 }
+
+

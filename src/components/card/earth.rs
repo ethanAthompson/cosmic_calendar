@@ -6,11 +6,13 @@ use web_sys::{HtmlButtonElement, HtmlElement, HtmlSpanElement, MouseEvent};
 
 use crate::{
     components::tools::innerplanets::earth::{earth_time, EarthTimeZone, SavedData, TimeZone},
-    wrappers::{strings::get_initials, web::save_data},
+    wrappers::{strings::get_initials, web::save_data, date::DATEFORMAT},
 };
 
 #[component]
 pub fn ChosenTimeZones() -> impl IntoView {
+
+    // INFO! use a transition instead
     // INFO! needs short delay to find id="earth-zones"
     set_timeout(
         move || {
@@ -45,7 +47,7 @@ pub fn LoadedRonEarth(fullname: String, offset: i32) -> impl IntoView {
 
         return Utc::now()
             .with_timezone(&fixed_offset)
-            .format("%d/%m/%Y %r")
+            .format(DATEFORMAT)
             .to_string();
     };
 

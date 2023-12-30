@@ -1,6 +1,10 @@
 [package]
 name = "zone-ui"
-version = "0.0.2"
+version = "0.0.4"
+description = "The user interface for cosmic calendar"
+authors = ["Ethan", "ethan.a.thompson@outlook.com"]
+license = "MIT"
+repository = ""
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -64,4 +68,4 @@ camino = "1.1"
 
 [workspace]
 resolver = "2"
-members = ["src-tauri", "server"]
+members = ["src-tauri", "server", "rust_solar"]

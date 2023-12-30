@@ -314,7 +314,7 @@ pub fn SearchBar() -> impl IntoView {
     view! {
         <div class="py-2 font-light">
             // manage a list of selected timezones, adds on enter, an X appears when you want to remove it.
-            <label> Search for Earth + Mars Timezones </label>
+            <label> Search for Earth Timezones </label>
             <div class="relative">
                 <input
                     on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input

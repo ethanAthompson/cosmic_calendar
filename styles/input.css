@@ -5,6 +5,11 @@
 @layer base {}
 
 @layer components {
+  .hard-bg {
+    @apply bg-transparent
+    /* dark:bg-slate-800 bg-slate-400 */
+  }
+
   .text-query {
     @apply desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl
   }
@@ -27,7 +32,7 @@
 
     @apply focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600
     /* */
-    py-0 px-0 ps-0 block w-full border-gray-200 shadow-sm text-sm focus:z-10
+    py-0 px-0 ps-0 block w-full bg-slate-200 border-gray-200 shadow-sm text-sm focus:z-10
   }
 
   .regular-text {
@@ -35,11 +40,11 @@
   }
 
   .span-item {
-    @apply ps-11 p-2 cursor-grab w-full bg-slate-900
+    @apply ps-11 p-2 cursor-grab w-full dark:bg-slate-900 bg-slate-400
   }
 
   .span-trav {
-    @apply ps-11 p-2 cursor-grab w-full bg-slate-800
+    @apply ps-11 p-2 cursor-grab w-full dark:bg-slate-800 bg-slate-300
   }
 
   .expose {
@@ -164,6 +169,12 @@ html,
 .light {
   color: black;
   min-height: 100vh;
+
+  background-color: rgb(236, 252, 203);
+  background-image: radial-gradient(at 73% 89%, rgb(75, 85, 99) 0, transparent 98%), radial-gradient(at 11% 33%, rgb(252, 231, 243) 0, transparent 68%), radial-gradient(at 57% 75%, rgb(165, 243, 252) 0, transparent 65%), radial-gradient(at 52% 57%, rgb(163, 163, 163) 0, transparent 91%), radial-gradient(at 43% 75%, rgb(254, 202, 202) 0, transparent 15%), radial-gradient(at 75% 3%, rgb(251, 207, 232) 0, transparent 40%);
+
+
+  /* 
   background-color: rbg(94, 234, 212);
   background-image:
     radial-gradient(at 2% 5%, rgb(76, 29, 149) 0, transparent 68%),
@@ -172,12 +183,19 @@ html,
     radial-gradient(at 73% 92%, rgb(254, 205, 211) 0, transparent 99%),
     radial-gradient(at 86% 13%, rgb(100, 116, 139) 0, transparent 59%),
     radial-gradient(at 85% 58%, rgb(64, 64, 64) 0, transparent 38%);
+
+  */
 }
 
 html,
 .dark {
   color: white;
   min-height: 100vh;
+
+  background-color: rgb(236, 252, 203);
+  background-image: radial-gradient(at 73% 89%, rgb(31, 41, 55) 0, transparent 98%), radial-gradient(at 11% 33%, rgb(6, 95, 70) 0, transparent 68%), radial-gradient(at 57% 75%, rgb(63, 98, 18) 0, transparent 65%), radial-gradient(at 52% 57%, rgb(38, 38, 38) 0, transparent 91%), radial-gradient(at 43% 75%, rgb(239, 68, 68) 0, transparent 15%), radial-gradient(at 75% 3%, rgb(15, 23, 42) 0, transparent 40%);
+
+  /*
   background-color: rgb(19, 145, 125);
   background-image:
     radial-gradient(at 2% 5%, rgb(38, 15, 74) 0, transparent 68%),
@@ -186,4 +204,6 @@ html,
     radial-gradient(at 73% 92%, rgb(184, 1, 32) 0, transparent 99%),
     radial-gradient(at 86% 13%, rgb(50, 58, 69) 0, transparent 59%),
     radial-gradient(at 85% 58%, rgb(32, 32, 32) 0, transparent 38%);
+
+  */
 }

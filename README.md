@@ -4,7 +4,6 @@
 ## Table of Contents
 
   * [Introduction](#what-is-this-tool)
-  * [What is QGA?](#what-is-qga)
   * [How do we calculate Timezones?](#timezone-chart)
   * [How do we calculate solor system dates?](#how-do-we-calculate-solar-system-dates)
   * [Can you trust us?](#can-you-trust-us)
@@ -18,20 +17,14 @@
 ## What is this tool?
 * This is an application that removes the complexity of caluclating timezones and communication delays across the solar system.
 
-## What is QGA? 
-1. Question:
-2. Guess:
-3. Answer:
-
 ## Timezone Chart
 > We adjust the offsets depending if your more west or east on the globe.
 ![standard-time-zone-chart-of-world-2021-03](https://github.com/ethanAthompson/cosmic_calendar/assets/140981795/f1b35bfa-a0f2-4f37-91f4-cbe4f5e547c5)
 
 ## How do we calculate solar system dates? 
-* Q: If I were to ask you what time will it be tomorrow on saturn, what is your response? 
-* G: idk...
-* A: soon
-* So I created a library to solve this issue => [Rust Solar](https://github.com/ethanAthompson/rust_solar)
+* Question: If I were to ask you what time will it be tomorrow on saturn, what is your response? 
+* Guess: idk...
+* Answer: [Rust Solar](https://github.com/ethanAthompson/rust_solar)
 
 ## Supported Operations
 

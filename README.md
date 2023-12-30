@@ -33,7 +33,8 @@
 > G: idk...
 > A: soon
 > I created a library to solve this issue
-[https://github.com/ethanAthompson/rust_solar](Rust Solar)
+(Rust Solar)[https://github.com/ethanAthompson/rust_solar]
+
 
 ## Can you trust us?
 > maybe

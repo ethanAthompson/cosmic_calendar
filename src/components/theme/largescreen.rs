@@ -79,11 +79,11 @@ pub fn Switch() -> impl IntoView {
         <main class="relative inline-block text-left">
             <button id="theme-icon-button" on:click=toggle_panel type="button" class="px-2 inline-flex justify-center items-center dark:text-zinc-400 text-zinc-800">
                 <span id="theme-icon" class=icon_class.get_untracked() >
-                    <Icon icon=icon_theme.to_owned() class="modew" />
+                    <Icon icon=icon_theme.to_owned() class="w-7 h-7 desktop:w-12 desktop:h-12" />
                 </span>
             </button>
             <article id="themes" class="hidden">
-                <article class="absolute right-0 z-25 mt-8 p-2 w-fit rounded-lg shadow-lg flex flex-col flex-nowrap origin-top-left bg-slate-800 ">
+                <article class="absolute right-0 z-25 mt-8 p-2 w-fit rounded-lg shadow-lg flex flex-col flex-nowrap origin-top-left dark:bg-slate-900 bg-slate-200">
                     <span class="flex gap-4 py-2 items-center text-2xl hover:text-amber-400 cursor-pointer" on:click=light_theme>
                          <Icon icon=sun class="cursor-pointer"/>
                         Light

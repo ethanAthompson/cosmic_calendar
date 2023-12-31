@@ -32,7 +32,7 @@ where
         // Shows on small screens
         <nav class="flex justify-end px-2 desktop:hidden laptop:hidden tablet:hidden">
             <button class="" on:click=on_click>
-                <Icon icon=menu class="cursor-pointer w-7 h-7  default-item-select" />
+                <Icon icon=menu class="cursor-pointer w-7 h-7 transition hover:scale-125 delay-150 duration-75 ease-in-out " />
             </button>
         </nav>
     }

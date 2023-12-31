@@ -74,21 +74,36 @@ where
     view! {
         <main class="flex flex-col items-center w-full">
             <section class="w-full">
-                <span on:mousedown=light_theme  class="flex gap-2 p-1 items-center wing-item-select hover:text-amber-400 cursor-pointer" on:click=on_click>
+                <span on:mousedown=light_theme  
+                    class="
+                        flex gap-2 p-1 items-center wing-item-select hover:text-amber-400 cursor-pointer
+                        skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75 ease-in-out duration-300 glitch        
+                        " 
+                    on:click=on_click>
                      <Icon icon=sun class="cursor-pointer"/>
                     Light
                 </span>
             </section>
 
             <section class="w-full">
-                <span on:mousedown=dark_theme class="flex gap-2 p-1 items-center wing-item-select hover:text-violet-400 cursor-pointer" on:click=on_click>
+                <span on:mousedown=dark_theme 
+                     class="
+                        flex gap-2 p-1 items-center wing-item-select hover:text-violet-400 cursor-pointer
+                        skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75 ease-in-out duration-300 glitch        
+                        " 
+                    on:click=on_click>
                      <Icon icon=moon class="cursor-pointer"/>
                     Dark
                 </span>
             </section>
 
             <section class="w-full">
-                <span on:mousedown=system_theme class="flex gap-2 p-1 items-center wing-item-select hover:text-gray-400 cursor-pointer" on:click=on_click>
+                <span on:mousedown=system_theme 
+                    class="flex gap-2 p-1 items-center  skew-y-3 scale-50 hover:-translate-y-2 
+                        hover:scale-75 focus:-translate-y-2 focus:scale-75 ease-in-out duration-300 glitch        
+                        hover:text-gray-400 cursor-pointer
+                        " 
+                    on:click=on_click>
                      <Icon icon=sys class="cursor-pointer"/>
                     System
                 </span>

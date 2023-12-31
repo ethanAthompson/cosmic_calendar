@@ -9,7 +9,7 @@ use web_sys::{MediaQueryList, Storage};
 pub fn Download() -> impl IntoView {
     view! {
         <div class="w-full p-4 ">
-            Download
+            Will be Introduced Soon
         </div>
     }
 }

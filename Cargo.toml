@@ -59,6 +59,7 @@ ron = "0.8.1"
 gloo-net = "0.5.0"
 web-sys = { version = "0.3.66", features = ["CanvasRenderingContext2d"] }
 leptos-use = { version = "0.9.0", features = ["serde", "serde_json"] }
+chrono-tz = { version = "0.8.5", features = ["serde"] }
 
 [build-dependencies]
 tokio = { version = "1", features = ["rt"] }

@@ -2,10 +2,11 @@ use std::sync::Arc;
 
 use crate::{
     components::{
-        tools::innerplanets::earth::{earth_time, EarthTimeZone}, card::earth::EarthDisplay,
+        card::earth::{get_zones, RonEarth},
+        tools::innerplanets::earth::{earth_time, EarthTimeZone},
     },
     wrappers::{
-        strings::{filtered_vec, get_initials, matching_left},
+        strings::get_initials,
         web::{all_items, save_data, update_dom_el},
     },
 };
@@ -14,65 +15,107 @@ use leptos::{html::Input, leptos_dom::logging::console_log, *};
 use leptos_icons::*;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node};
-
+// this will be generic after I do this first one
 #[component]
 pub fn SearchBar() -> impl IntoView {
     let search_icon = Icon::from(FiIcon::FiSearch);
     let close_icon = Icon::from(BiIcon::BiXRegular);
     let input = create_rw_signal("".to_string());
     let traverse = create_rw_signal(0);
+    let items = create_rw_signal(Vec::new());
+    let loaded_items = create_rw_signal(Vec::new());
     let filtered_items = create_rw_signal(Vec::new());
     let input_el: NodeRef<Input> = create_node_ref();
-    let timezones = create_rw_signal(Vec::new());
-    let hide = move || update_dom_el("supported-timezones-container", "hidden");
-    let show = move || update_dom_el("supported-timezones-container", " ");
 
-    for variant in chrono_tz::TZ_VARIANTS {
-        // console_log(&format!("{:?}", variant));
-        timezones.update(move |timezone| {
-            timezone.push(format!("{:?}", variant));
-        });
-    }
+    let async_data = create_resource(
+        move || items,
+        move |_| async move {
+            // for user's non-loaded data
+            for item in earth_time().await.map.into_values() {
+                // console_log(item.name.as_str());
+
+                items.update(move |time| {
+                    time.push(get_initials(item.name));
+                });
+            }
+
+            // for user's loaded data
+            for loaded_item in earth_time().await.map.into_values() {
+                loaded_items.update(move |time| {
+                    time.push((loaded_item.name, loaded_item.offset));
+                });
+            }
+        },
+    );
+
+    filtered_items.update(|item| {
+        let matched: Vec<String> = items
+            .get_untracked()
+            .into_iter()
+            .filter(|item| item.contains(input.get().clone().as_str()).to_owned())
+            .collect();
+
+        *item = matched;
+    });
 
     let on_input = move |_| {
         let value = input_el.get().expect("<input> to exist").value();
 
-        let matched = matching_left(&timezones, value.clone());
+        // value is set to uppercase here
+        let evalue = value.to_uppercase().clone();
 
-        input.set(value.clone());
+        input.set(evalue.clone());
 
-        // filters items based on input
-        filtered_vec(&filtered_items, &timezones, &input);
+        filtered_items.update(|item| {
+            let matched: Vec<String> = items
+                .get_untracked()
+                .into_iter()
+                .filter(|item| item.contains(input.get().clone().as_str()).to_owned())
+                .collect();
+
+            *item = matched;
+        });
+
+        let matched: Vec<String> = items
+            .get()
+            .into_iter()
+            .filter(|item| item.contains(evalue.clone().as_str()).to_owned())
+            .collect();
 
         // you have nothing?
-        if matched.is_empty() || value.is_empty() {
-            hide();
+        if matched.is_empty() || evalue.is_empty() {
+            update_dom_el("supported-timezones-container", "hidden");
         }
 
         // you have something?
         if !matched.is_empty() {
-            show();
+            update_dom_el("supported-timezones-container", " ");
         }
     };
 
     let on_focus_out = move |_| {
         traverse.set(0);
-        set_timeout(hide, std::time::Duration::from_millis(500));
+        // hides on delay
+        set_timeout(
+            move || {
+                update_dom_el("supported-timezones-container", "hidden");
+            },
+            std::time::Duration::from_millis(300),
+        );
     };
 
     let on_focus_in = move |_| {
-        hide();
-        // show();
+        update_dom_el("supported-timezones-container", "hidden");
     };
 
     let on_remove = move |ev: MouseEvent| {
-        // WARNING! use "" over " " becuase " " adds whitespace
         ev.prevent_default();
+        // WARNING! use "" over " " becuase " " adds whitespace
         input.set("".to_string());
         traverse.set(0);
-        hide();
-    };
 
+        update_dom_el("supported-timezones-container", "hidden");
+    };
 
     let on_keydown = move |ev: KeyboardEvent| {
         let key = ev.key_code();
@@ -87,7 +130,7 @@ pub fn SearchBar() -> impl IntoView {
             // Enter
             13 => {
                 let spans = all_items("supported-timezones", "span");
-                let zones = all_items("earth-tz-card", "span");
+                let zones = all_items("earth-zones", "span");
 
                 // INFO! for the user if lazy
                 if spans.length() == 1 {
@@ -127,12 +170,31 @@ pub fn SearchBar() -> impl IntoView {
 
                 // if your input isn't empty then it must match on of the timezones
                 if !input.get().is_empty() {
-                    if let Some(display_bar) = document().get_element_by_id("earth-tz-card") {
-                        // save_data().1.update(move |data| {});
+                    if let Some(display_bar) = document().get_element_by_id("earth-zones") {
+                        // get it to display full name
+                        save_data().1.update(move |data| {
+                            // let dbgitems = format!("{:?}", loaded_items.get());
+                            // console_log(dbgitems.as_str());
+
+                            for i in 0..loaded_items.get().len() {
+                                // BUG: the input is hard-coded to initials: EST, GMT so I have to match it from that
+                                if input.get() == get_initials(loaded_items.get()[i].0.clone()) {
+                                    // loads proper data into storage
+                                    let earth_example: EarthTimeZone = EarthTimeZone {
+                                        abbr: get_initials(loaded_items.get()[i].0.clone()),
+                                        offset: loaded_items.get()[i].1,
+                                        fullname: loaded_items.get()[i].0.clone(),
+                                    };
+
+                                    // for hashmap
+                                    data.earth.insert(earth_example.abbr.clone(), earth_example);
+                                }
+                            }
+                        });
 
                         let bar_info = view! {
                             <span class="flex space-x-2" id=input.get()>
-                                <EarthDisplay input=input.get_untracked() />
+                                <RonEarth name=input.get_untracked() />
                             </span>
                         };
 
@@ -150,8 +212,8 @@ pub fn SearchBar() -> impl IntoView {
                 // Run 1: Hides currently Selected item
                 if let Some(current_item) = spans.item(traverse.get() - 1) {
                     if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
-                        current_element.set_class_name("p-2 dark:bg-slate-900 bg-slate-200");
-                        // console_log(current_element.text_content().unwrap().as_str());
+                        current_element.set_class_name("span-item");
+                        console_log(current_element.text_content().unwrap().as_str());
                     }
                 }
 
@@ -171,9 +233,9 @@ pub fn SearchBar() -> impl IntoView {
                 // Run 2: Selects Previous item which is the above the curently selected
                 if let Some(next_item) = spans.item(traverse.get() - 1) {
                     if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
-                        next_element.set_class_name("p-2 dark:bg-slate-800 bg-slate-100");
+                        next_element.set_class_name("span-trav");
 
-                        // console_log(next_element.text_content().unwrap().as_str());
+                        console_log(next_element.text_content().unwrap().as_str());
                         input.set(
                             next_element
                                 .text_content()
@@ -199,7 +261,7 @@ pub fn SearchBar() -> impl IntoView {
                         // clears last item: subtracts by 1 because to adjust to 0-index
                         if let Some(current_item) = spans.item(spans.length() - 1) {
                             if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
-                                current_element.set_class_name("p-2 dark:bg-slate-900 bg-slate-200");
+                                current_element.set_class_name("span-item");
                             }
                         }
                     }
@@ -210,7 +272,7 @@ pub fn SearchBar() -> impl IntoView {
                     // Gracefully moves down
                     if let Some(next_item) = spans.item(*item) {
                         if let Ok(next_element) = next_item.dyn_into::<HtmlElement>() {
-                            next_element.set_class_name("p-2 dark:bg-slate-800 bg-slate-100");
+                            next_element.set_class_name("span-trav");
                             // console_log("Down: Show");
 
                             input.set(
@@ -234,7 +296,7 @@ pub fn SearchBar() -> impl IntoView {
                 // Run 2: gets the previous item and clears it for Run 1!
                 if let Some(current_item) = spans.item(traverse.get() - 2) {
                     if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
-                        current_element.set_class_name("p-2 dark:bg-slate-900 bg-slate-200");
+                        current_element.set_class_name("span-item");
                         // Runs: 0 -> none, 1 -> hides 0, 2 -> hides 1, ...
                         // let travel = format!("Travel -> {:?}", traverse.get() - 2 );
                         // console_log("Down: Hide");
@@ -248,56 +310,48 @@ pub fn SearchBar() -> impl IntoView {
         }
     };
 
-
     view! {
-        <main class="flex flex-col py-2">
-            <section name="Container" class="flex flex-grow flex-col col-auto z-20 p-0">
-                <div name="SearchBar" class="relative">
-                    <input
-                        on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input
-                        on:keydown=on_keydown
-                        node_ref=input_el id="timezone-input" type="text" name="timezone"
-                        placeholder="Timezone Search" prop:value=input maxlength="20" autocomplete="off"
-                        class="py-3 px-4 ps-11 block w-full rounded-lg
-                             text-base text-gray-900 border border-gray-300
-                             bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 
-                            dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-                        "
-                    />
-                    <div class="absolute inset-y-0 start-0 flex items-center pointer-events-none z-20 ps-4">
-                        <Icon icon=search_icon class="dark:text-white text-black"/>
-                    </div>
-                    <button class="absolute inset-y-0 z-20 end-0 cursor-grab hover:text-red-400 dark:text-white text-black" on:click=on_remove>
-                     <Icon icon=close_icon class="w-9 h-9"/>
-                    </button>
+        <div class="py-2 font-light">
+            // manage a list of selected timezones, adds on enter, an X appears when you want to remove it.
+            <label> Search for Earth Timezones </label>
+            <div class="relative">
+                <input
+                    on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input
+                    on:keydown=on_keydown
+                    node_ref=input_el id="timezone-input" type="text" name="timezone"
+                    class="input-box" placeholder="Timezone Search" prop:value=input
+                    maxlength="4" autocomplete="off"
+                />
+                <div class="input-box--search">
+                    <Icon icon=search_icon class=""/>
                 </div>
-            </section>
-            <section name="Container">
-                <div id="supported-timezones-container" class="hidden">
-                    <div class="
-                            flex flex-col focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 
-                            dark:text-gray-400 dark:focus:ring-gray-600 py-0 px-0 ps-0 w-full bg-slate-200 border-gray-200 shadow-sm 
-                            text-sm focus:z-10 rounded-lg max-h-32
-                        ">
-                        <section id="supported-timezones" class="flex flex-col overflow-y-auto h-min font-bold overflow-scroll">
-                            <Tz_Items vector=filtered_items input=input/>
-                        </section>
-                    </div>
+                <button class="absolute inset-y-0 z-20 end-0 cursor-grab hover:text-red-400" on:click=on_remove>
+                    <Icon icon=close_icon class="w-10 h-10"/>
+                </button>
+            </div>
+
+            <div id="supported-timezones-container" class="hidden">
+                <div class="flex flex-col result-bgk rounded-b-lg max-h-32">
+                    <section id="supported-timezones" class="flex flex-col overflow-y-auto h-min font-bold">
+                        <SearchItems vector=filtered_items input=input/>
+                    </section>
                 </div>
-            </section>
-        </main>
+            </div>
+        </div>
     }
 }
 
 #[component]
-pub fn Tz_Items(
+pub fn SearchItems(
     // represents the list of timezones you can search
     #[prop(into)] vector: RwSignal<Vec<String>>,
     // represents the id of the timezones which is dynamically used
     #[prop(into)] input: RwSignal<String>,
 ) -> impl IntoView {
-    let append_input = move |ev: MouseEvent| {
+    // adds the chosen option to the search input
+    let on_add = move |ev: MouseEvent| {
         // gets the text content: increases security and performs js casting to properly direct it
+
         if let Some(event) = ev.target() {
             if let Ok(target) = event.dyn_into::<HtmlElement>() {
                 input.set(target.text_content().unwrap());
@@ -314,7 +368,7 @@ pub fn Tz_Items(
             key=|item| item.clone()
             let:data
         >
-            <span on:click=append_input class="cursor-pointer p-2 dark:bg-slate-900 bg-slate-200">{data}</span>
+            <span class="span-item" on:click=on_add > {data} </span>
         </For>
     }
 }

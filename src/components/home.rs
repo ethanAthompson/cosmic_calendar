@@ -19,7 +19,7 @@ pub fn Home() -> impl IntoView {
 pub fn Promotion() -> impl IntoView {
     view! {
         <div>
-            <p class="regular-text p-2"> Welcome to the Zone! </p>
+            <p class="desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl p-2"> Welcome to the Zone! </p>
         </div>
     }
 }

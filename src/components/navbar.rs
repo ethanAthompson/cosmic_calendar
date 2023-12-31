@@ -26,7 +26,7 @@ pub fn Navbar() -> impl IntoView {
     };
 
     view! {
-        <header class="hard-bg shadow-lg py-0 grid grid-cols-2 w-full">
+        <header class="bg-inherit shadow-lg py-0 grid grid-cols-2 w-full">
             <LargeScreenLinks />
             <SmallScreenMenu on_click=toggle_menu />
         </header>

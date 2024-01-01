@@ -8,7 +8,8 @@ build-deb:
 	cargo tauri buid
 
 
-	
+build-git:
+	trunk build --release --public-url cosmic_calendar/	
 
 # runs custom script (UPDATES GIT REPO:)
 up: 

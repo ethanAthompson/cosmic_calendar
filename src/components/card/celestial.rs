@@ -1,9 +1,7 @@
 use std::sync::Arc;
 
 use crate::{
-    components::{
-        tools::innerplanets::earth::{earth_time, EarthTimeZone},
-    },
+    components::tools::innerplanets::earth::EarthTimeZone,
     wrappers::{
         strings::{filtered_vec, get_initials, matching_left},
         web::{all_items, save_data, update_dom_el},
@@ -18,7 +16,7 @@ use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, 
 #[component]
 pub fn Card() -> impl IntoView {
     view! {
-        <section id="celestial-tz-card" class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl 
+        <section id="celestial-tz-card" class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl
         hover:shadow-amber cursor-pointer
         
         ">
@@ -29,7 +27,6 @@ pub fn Card() -> impl IntoView {
     }
 }
 
-
 #[component]
 pub fn CelestialDisplay(#[prop(into)] input: RwSignal<String>) -> impl IntoView {
     let close_icon = Icon::from(BiIcon::BiXCircleRegular);
@@ -38,10 +35,8 @@ pub fn CelestialDisplay(#[prop(into)] input: RwSignal<String>) -> impl IntoView 
         let zones = all_items("celestial-tz-card", "span");
 
         if let Some(parent) = document().get_element_by_id(&input.get()) {
-            if let Some(button) =
-                document().get_element_by_id(&format!("button-{}", &input.get()))
+            if let Some(button) = document().get_element_by_id(&format!("button-{}", &input.get()))
             {
-
                 parent.remove();
             }
         }
@@ -52,8 +47,8 @@ pub fn CelestialDisplay(#[prop(into)] input: RwSignal<String>) -> impl IntoView 
         <div class="flex space-x-2 items-center">
             <p class="leading-4"> {input} </p>
             <button
-                id={button_id} 
-                class="hover:text-red-400 text-black"
+                id={button_id}
+                class="hover:text-red-400 dark:text-white text-black"
                 on:click=remove_item
             ><Icon icon=close_icon class="w-6 h-6"/></button>
         </div>

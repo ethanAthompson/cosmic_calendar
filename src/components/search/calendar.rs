@@ -62,13 +62,13 @@ pub fn EnterDateBar() -> impl IntoView {
         }
     };
 
-    let query = move || use_query_map();
-    let year = move || query().get().get("year").cloned().unwrap_or_default();
-    let month = move || query().get().get("month").cloned().unwrap_or_default();
-    let day = move || query().get().get("day").cloned().unwrap_or_default();
+    let (year, set_year) = create_query_signal::<String>("year");
+    let (month, set_month) = create_query_signal::<String>("month");
+    let (day, set_day) = create_query_signal::<String>("day");
+    let (calendar, set_calendar) = create_query_signal::<String>("calendar");
 
     view! {
-         <Form class="space-y-2" method="GET" action="">
+         <div class="space-y-2">
             <div class="dark:bg-slate-900 bg-slate-200 rounded-xl py-2 ">
                 <section class="relative py-2">
                     <input on:keydown=only_num node_ref=year_input_el on:change=update_year
@@ -103,7 +103,7 @@ pub fn EnterDateBar() -> impl IntoView {
                 <section class="relative py-2">
                     <input on:keydown=only_num node_ref=day_input_el on:change=update_day
                             placeholder="Day" type="text" class="p-2 italic w-full dark:bg-slate-900 bg-slate-200
-                desktop:text-2xl laptop:text-4xl tablet:text-2xl text-xl
+                desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl
         "
                             maxlength="2" required="true" name="day" value=day
                             oninput="this.form.requestSubmit()"
@@ -124,46 +124,47 @@ pub fn EnterDateBar() -> impl IntoView {
             ease-in-out duration-300 glitch desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl
                 "/>
             </section>
-       </Form>
+       </div>
     }
 }
 
 #[component]
 pub fn SelectBar() -> impl IntoView {
-    let query = move || use_query_map();
-    let year = move || query().get().get("year").cloned().unwrap_or_default();
-    let month = move || query().get().get("month").cloned().unwrap_or_default();
-    let day = move || query().get().get("day").cloned().unwrap_or_default();
-
-    // Shows calendar option if query params aren't empty
-    let swap_calendar = create_rw_signal(!year().is_empty());
-
     view! {
         <div class="flex items-center space-x-2 p-4 dark:bg-slate-900 bg-slate-200 rounded-xl
             hover:shadow-amber cursor-pointer
         ">
-            <DateDisplay show=swap_calendar/>
+            <DateDisplay />
         </div>
     }
 }
 
 #[component]
-// pub fn DateDisplay(year: String, month: String, day: String) -> impl IntoView {
-pub fn DateDisplay(show: RwSignal<bool>) -> impl IntoView {
-    let query = move || use_query_map();
-    let year = move || query().get().get("year").cloned().unwrap_or_default();
-    let month = move || query().get().get("month").cloned().unwrap_or_default();
-    let day = move || query().get().get("day").cloned().unwrap_or_default();
-
+pub fn DateDisplay() -> impl IntoView {
+    let (year, set_year) = create_query_signal::<String>("year");
+    let (month, set_month) = create_query_signal::<String>("month");
+    let (day, set_day) = create_query_signal::<String>("day");
+    let (calendar, set_calendar) = create_query_signal::<String>("calendar");
+    
     view! {
-        <section>
-            <p class="font-bold
-             desktop:text-4xl laptop:text-4xl tablet:text-2xl text-xl">{year}/{month}/{day}</p>
-        </section>
         <Show
-            when=move || show.get() == true
+            when=move || 
+                // Shows when its a real month, year, day
+                // INFO! default calendar is gregorian
+                year.get().unwrap_or("".to_owned()).is_empty() == false &&
+                ((year.get().unwrap_or("".to_owned()).len() > 2)) &&
+                month.get().unwrap_or("".to_owned()).is_empty() == false &&
+                ((month.get().unwrap_or("".to_owned()).parse::<usize>().unwrap() < 13)) && 
+                day.get().unwrap_or("".to_owned()).is_empty() == false &&
+                ((day.get().unwrap_or("".to_owned()).parse::<usize>().unwrap() < 32))
+
             fallback=move || view! {<span>"waiting for date..."</span>}
         >
+        <section>
+            <p class="font-bold desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl">
+                {year}/{month}/{day}
+            </p>
+        </section>
            <select id="calendars" class="px-2 dark:bg-slate-900 bg-slate-200 cursor-pointer
             hover:bg-blend-lighten mix-blend-screen w-full text-start
             -skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75 
@@ -171,7 +172,7 @@ pub fn DateDisplay(show: RwSignal<bool>) -> impl IntoView {
         desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl
         
         "
-            oninput="this.form.requestSubmit()"
+            oninput="this.form.requestSubmit()" required="true" name="calendar"
         >
                  <option class="" value="gregorian">Gregorian</option>
                  <option class="" value="indian">Indian</option>

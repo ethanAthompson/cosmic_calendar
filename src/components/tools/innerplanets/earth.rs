@@ -10,19 +10,6 @@ use ron::{
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
 use std::{collections::HashMap, fmt::Debug};
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct TimeZone {
-    pub name: String,
-    pub offset: i32,
-    pub dst: u8,
-}
-
-#[derive(Debug, Deserialize, Serialize)]
-pub struct TimeZoneFormat {
-    pub title: String,
-    pub map: HashMap<String, TimeZone>,
-}
-
 #[derive(Serialize, Deserialize, Clone, PartialEq, Debug)]
 pub struct EarthTimeZone {
     pub abbr: String,
@@ -32,12 +19,7 @@ pub struct EarthTimeZone {
 
 #[derive(Serialize, Deserialize, Clone, PartialEq)]
 pub struct SavedData {
-    // name, offset, fullname
-    // pub earth: HashMap<String, EarthTimeZone>,
-    pub earth: HashMap<String, EarthTimeZone>,
-    // celestial needs earth so it can do proper calculation on save point
-    // pub celestial: HashMap<String>,
-    // pub calendar: HashMap<String>,
+    pub earth: HashMap<String, chrono_tz::Tz>,
 }
 
 impl Default for SavedData {
@@ -45,14 +27,8 @@ impl Default for SavedData {
         Self {
             earth: HashMap::new(),
             // celestial: Vec::new(),
-            // calendar: Vec::new(),
         }
     }
 }
 
-/// Returns the earth time .ron file data via serde + ron help
-pub async fn earth_time() -> TimeZoneFormat {
-    let format: TimeZoneFormat = RonData::new("/data/earth_timezones.ron").await;
-    return format;
-}
 

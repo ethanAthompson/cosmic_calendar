@@ -1,8 +1,8 @@
-use std::sync::Arc;
+use std::{str::FromStr, sync::Arc};
 
 use crate::{
     components::{
-        tools::innerplanets::earth::{earth_time, EarthTimeZone}, card::earth::EarthDisplay,
+        card::earth::EarthDisplay,
     },
     wrappers::{
         strings::{filtered_vec, get_initials, matching_left},
@@ -128,7 +128,12 @@ pub fn SearchBar() -> impl IntoView {
                 // if your input isn't empty then it must match on of the timezones
                 if !input.get().is_empty() {
                     if let Some(display_bar) = document().get_element_by_id("earth-tz-card") {
-                        // save_data().1.update(move |data| {});
+                        save_data().1.update(move |data| {
+
+                            let timezone = chrono_tz::Tz::from_str(&input.get()).expect("Timezone appears");
+
+                            data.earth.insert(input.get(), timezone);
+                        });
 
                         let bar_info = view! {
                             <span class="flex space-x-2" id=input.get()>
@@ -256,7 +261,7 @@ pub fn SearchBar() -> impl IntoView {
                     <input
                         on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input
                         on:keydown=on_keydown
-                        node_ref=input_el id="timezone-input" type="text" name="timezone"
+                        node_ref=input_el id="timezone-input" type="text" 
                         placeholder="Timezone Search" prop:value=input maxlength="20" autocomplete="off"
                         class="py-3 px-4 ps-11 block w-full rounded-lg
                              text-base text-gray-900 border border-gray-300

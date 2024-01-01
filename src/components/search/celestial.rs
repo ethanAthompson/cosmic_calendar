@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use crate::{
-    components::{tools::innerplanets::earth::{earth_time, EarthTimeZone}, card::celestial::CelestialDisplay},
+    components::{card::celestial::CelestialDisplay, tools::innerplanets::earth::EarthTimeZone},
     wrappers::{
         strings::{filtered_vec, get_initials, matching_left},
         web::{all_items, save_data, update_dom_el},
@@ -253,7 +253,7 @@ pub fn SearchBar() -> impl IntoView {
                     <input
                         on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input
                         on:keydown=on_keydown
-                        node_ref=input_el id="celestial-input" type="text" name="timezone"
+                        node_ref=input_el id="celestial-input" type="text"
                         placeholder="Celestial Body Search" prop:value=input maxlength="40" autocomplete="off"
                         class="py-3 px-4 ps-11 block w-full rounded-lg
                              text-base text-gray-900 border border-gray-300

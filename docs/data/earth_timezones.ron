@@ -1,0 +1,45 @@
+(
+    title: "Earth Timezones",
+    map: {
+        "gmt": (
+            name: "Greenwich Mean Time",
+            offset: 0,
+            dst: 0,
+        ),
+        "pst": (
+            name: "Pacific Standard Time",
+            offset: -8,
+            dst: 0,
+        ),
+        "est": (
+            name: "Eastern Standard Time",
+            offset: -5,
+            dst: 0,
+        ),
+        "cet": (
+            name: "Central European Time",
+            offset: 1,
+            dst: 0,
+        ),
+        "jst": (
+            name: "Japan Standard Time",
+            offset: 9,
+            dst: 0,
+        ),
+        "ast": (
+            name: "Atlantic Standard Time",
+            offset: -4,
+            dst: 0,
+        ),
+        "nt": (
+            name: "Niue Time",
+            offset: -11,
+            dst: 0,
+        ),
+        "ot": (
+            name: "Omsk Time",
+            offset: 6,
+            dst: 0,
+        ),
+    },
+)

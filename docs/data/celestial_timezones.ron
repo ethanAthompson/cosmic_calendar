@@ -1,0 +1,38 @@
+// does have to be in 1 big file, can be split by folders  inner_planets/venus.ron
+(
+    title: "Celestial Timezones",
+    map: {
+        inner_planets: {
+            // mars is ahead this amount
+            "mars": (
+                year: 1965
+                minutes: 24,
+                seconds: 22
+            ),
+            "venus": (),
+            "mercury": ()                
+        },
+
+        outer_planets: {
+            "jupiter": (),
+            "neptune": (),
+            "saturn": (),                
+            "uranus": ()                
+        },
+
+        asteroids: {
+            "ceres": (),
+            "eros": (),
+            "pallas": (),                
+            "vesta": ()             
+        },
+
+        moons: {
+            "enceladus": (),
+            "ganymede": (),
+            "luna": (),                
+            "titan": ()              
+        }
+    
+    }
+)

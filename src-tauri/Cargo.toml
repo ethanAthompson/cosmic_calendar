@@ -1,6 +1,6 @@
 [package]
 name = "zone"
-version = "0.0.2"
+version = "0.0.8"
 description = "A cosmic calendar app made for astronauts"
 authors = ["Ethan", "ethan.a.thompson@outlook.com"]
 license = "MIT"

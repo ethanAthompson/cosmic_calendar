@@ -46,7 +46,12 @@ pub fn Tools() -> impl IntoView {
                                 <div class="p-2 flex flex-col gap-y-2">
                                     <EnterDateBar/>
                                 </div>
-                                <figcaption class="font-light">Default Calendar is Gregorian</figcaption>
+                                <figcaption class="font-light
+                     p-2 hover:bg-blend-lighten mix-blend-screen w-full text-start cursor-pointer
+                    -skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75 
+                    ease-in-out duration-300 glitch desktop:text-6xl laptop:text-4xl tablet:text-4xl text-xl               
+        
+        ">Default Calendar is Gregorian</figcaption>
                             </section>
                         </div>
                     </div>

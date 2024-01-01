@@ -69,12 +69,16 @@ pub fn EnterDateBar() -> impl IntoView {
 
     view! {
          <div class="space-y-2">
-            <div class="dark:bg-slate-900 bg-slate-200 rounded-xl py-2 ">
-                <section class="relative py-2">
+            <div class="rounded-xl py-2 mix-blend-screen hover:bg-blend-lighten">
+                <section class="relative py-2
+        
+            hover:bg-blend-lighten mix-blend-screen w-full text-start
+            -skew-y-3 scale-75 hover:-translate-y-2 hover:scale-100 focus:-translate-y-2 focus:scale-100 
+            ease-in-out duration-300 glitch 
+                ">
                     <input on:keydown=only_num node_ref=year_input_el on:change=update_year
                             placeholder="Year" type="text" class="p-2 italic w-full dark:bg-slate-900 bg-slate-200
-                                desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl
-        "
+                                desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl"
                             maxlength="4" required="true" name="year" value=year
                             oninput="this.form.requestSubmit()"
                     />
@@ -85,7 +89,12 @@ pub fn EnterDateBar() -> impl IntoView {
                          <Icon icon=close_icon class="w-9 h-9"/>
                     </button>
                 </section>
-                <section class="relative py-2">
+                <section class="relative py-2
+        
+            hover:bg-blend-lighten mix-blend-screen w-full text-start
+            -skew-y-3 scale-75 hover:-translate-y-2 hover:scale-100 focus:-translate-y-2 focus:scale-100 
+            ease-in-out duration-300 glitch 
+        ">
                     <input on:keydown=only_num node_ref=month_input_el on:change=update_month
                             placeholder="Month" type="text" class="p-2 italic w-full dark:bg-slate-900 bg-slate-200
         desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl
@@ -100,7 +109,12 @@ pub fn EnterDateBar() -> impl IntoView {
                          <Icon icon=close_icon class="w-9 h-9"/>
                     </button>
                 </section>
-                <section class="relative py-2">
+                <section class="relative py-2
+        
+            hover:bg-blend-lighten mix-blend-screen w-full text-start
+            -skew-y-3 scale-75 hover:-translate-y-2 hover:scale-100 focus:-translate-y-2 focus:scale-100 
+            ease-in-out duration-300 glitch 
+        ">
                     <input on:keydown=only_num node_ref=day_input_el on:change=update_day
                             placeholder="Day" type="text" class="p-2 italic w-full dark:bg-slate-900 bg-slate-200
                 desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl
@@ -117,13 +131,6 @@ pub fn EnterDateBar() -> impl IntoView {
                     </button>
                 </section>
             </div>
-            <section>
-                <input type="submit" required="true" class="
-            p-2 hover:bg-blend-lighten mix-blend-screen w-full text-start cursor-pointer
-            -skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75 
-            ease-in-out duration-300 glitch desktop:text-6xl laptop:text-4xl tablet:text-2xl text-xl
-                "/>
-            </section>
        </div>
     }
 }
@@ -145,16 +152,16 @@ pub fn DateDisplay() -> impl IntoView {
     let (month, set_month) = create_query_signal::<String>("month");
     let (day, set_day) = create_query_signal::<String>("day");
     let (calendar, set_calendar) = create_query_signal::<String>("calendar");
-    
+
     view! {
         <Show
-            when=move || 
+            when=move ||
                 // Shows when its a real month, year, day
                 // INFO! default calendar is gregorian
                 year.get().unwrap_or("".to_owned()).is_empty() == false &&
                 ((year.get().unwrap_or("".to_owned()).len() > 2)) &&
                 month.get().unwrap_or("".to_owned()).is_empty() == false &&
-                ((month.get().unwrap_or("".to_owned()).parse::<usize>().unwrap() < 13)) && 
+                ((month.get().unwrap_or("".to_owned()).parse::<usize>().unwrap() < 13)) &&
                 day.get().unwrap_or("".to_owned()).is_empty() == false &&
                 ((day.get().unwrap_or("".to_owned()).parse::<usize>().unwrap() < 32))
 
@@ -167,8 +174,8 @@ pub fn DateDisplay() -> impl IntoView {
         </section>
            <select id="calendars" class="px-2 dark:bg-slate-900 bg-slate-200 cursor-pointer
             hover:bg-blend-lighten mix-blend-screen w-full text-start
-            -skew-y-3 scale-50 hover:-translate-y-2 hover:scale-75 focus:-translate-y-2 focus:scale-75 
-            ease-in-out duration-300 glitch 
+            -skew-y-3 scale-75 hover:-translate-y-2 hover:scale-100 focus:-translate-y-2 focus:scale-100 
+            ease-in-out duration-300 glitch rounded-none
         desktop:text-2xl laptop:text-2xl tablet:text-2xl text-xl
         
         "

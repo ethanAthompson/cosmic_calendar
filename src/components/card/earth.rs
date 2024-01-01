@@ -21,9 +21,10 @@ pub fn Card() -> impl IntoView {
     set_timeout(spawnloaded, std::time::Duration::from_millis(500));
 
     view! {
-        <section id="earth-tz-card" class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl
-            flex flex-col space-y-4 hover:shadow-amber cursor-pointer
-        ">
+        // <section id="earth-tz-card" class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl
+            // flex flex-col space-y-4 hover:shadow-amber cursor-pointer
+        // ">
+        <section id="earth-tz-card" class="p-4 flex flex-col space-y-4 cursor-pointer">
             // <p> {"New York 12/3/2023"} </p>
             // <p> {"London 4/30/2023"} </p>
             // <p> {"Africa 2/23/2023"} </p>
@@ -73,14 +74,19 @@ pub fn EarthDisplay(#[prop(into)] input: RwSignal<String>) -> impl IntoView {
 
     let button_id = format!("button-{}", input.get());
     view! {
-        <div class="flex space-x-2 items-center">
-            <p class="leading-4"> {input}/{time}</p>
+        <span class="flex space-x-2 items-center
+        
+                    p-2 hover:bg-blend-lighten mix-blend-screen w-full text-start cursor-pointer
+                    -skew-y-3 scale-100 hover:-translate-y-2 hover:scale-12 focus:-translate-y-2 focus:scale-125 
+                    ease-in-out duration-300 glitch text-xl                
+        ">
+            <p class="text-base">{input} <em class="px-1">{time}</em></p>
             <button
                 id={button_id}
                 class="hover:text-red-400 dark:text-white text-black"
                 on:click=remove_timezone
             ><Icon icon=close_icon class="w-6 h-6"/></button>
-        </div>
+        </span>
     }
 }
 
@@ -129,14 +135,18 @@ pub fn LocalEarthDisplay(
 
     let button_id = format!("button-{}", input.get());
     view! {
-        <div class="flex space-x-2 items-center">
-            <p class="leading-4"> {input}/{time}</p>
+        <span class="flex space-x-2 items-center
+                    p-2 hover:bg-blend-lighten mix-blend-screen w-full text-start cursor-pointer
+                    -skew-y-3 scale-100 hover:-translate-y-2 hover:scale-12 focus:-translate-y-2 focus:scale-125 
+                    ease-in-out duration-300 glitch desktop:text-6xl laptop:text-4xl tablet:text-4xl text-xl                
+                ">
+            <p class="text-base">{input} <em class="px-1">{time}</em></p>
             <button
                 id={button_id}
                 class="hover:text-red-400 dark:text-white text-black"
                 on:click=remove_timezone
             ><Icon icon=close_icon class="w-6 h-6"/></button>
-        </div>
+        </span>
     }
 }
 

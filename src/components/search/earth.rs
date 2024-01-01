@@ -282,7 +282,7 @@ pub fn SearchBar() -> impl IntoView {
                     <div class="
                             flex flex-col focus:border-blue-500 focus:ring-blue-500 dark:bg-slate-900 dark:border-gray-700 
                             dark:text-gray-400 dark:focus:ring-gray-600 py-0 px-0 ps-0 w-full bg-slate-200 border-gray-200 shadow-sm 
-                            text-sm focus:z-10 rounded-lg max-h-32
+                            text-sm focus:z-10 rounded-lg max-h-72
                         ">
                         <section id="supported-timezones" class="flex flex-col overflow-y-auto h-min font-bold overflow-scroll">
                             <Tz_Items vector=filtered_items input=input/>

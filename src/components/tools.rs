@@ -1,4 +1,6 @@
 pub mod ctz;
+pub mod ctz_traits;
+
 
 use leptos::*;
 use leptos_router::*;
@@ -17,7 +19,7 @@ pub struct SavedData {
     pub earth: HashMap<String, chrono_tz::Tz>,
     // celestial timezones a somewhat comprehensive list of them
     // pub celestial: HashMap<String, rust_solar::Ctz>,
-    pub celestial: HashMap<String, chrono_tz::Tz>,
+    pub celestial: HashMap<String, String>,
 }
 
 impl Default for SavedData {

@@ -1,7 +1,7 @@
-use std::sync::Arc;
+use std::{str::FromStr, sync::Arc};
 
 use crate::{
-    components::card::celestial::CelestialDisplay,
+    components::{card::celestial::CelestialDisplay, tools::ctz::Ctz},
     wrappers::{
         strings::{filtered_vec, get_initials, matching_left},
         web::{all_items, save_data, update_dom_el},
@@ -10,6 +10,8 @@ use crate::{
 use chrono::prelude::*;
 use leptos::{html::Input, leptos_dom::logging::console_log, *};
 use leptos_icons::*;
+use strum::IntoEnumIterator;
+use strum::*;
 use wasm_bindgen::JsCast;
 use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node};
 
@@ -25,10 +27,16 @@ pub fn SearchBar() -> impl IntoView {
     let hide = move || update_dom_el("supported-celestial-container", "hidden");
     let show = move || update_dom_el("supported-celestial-container", " ");
 
-    for variant in chrono_tz::TZ_VARIANTS {
-        // console_log(&format!("{:?}", variant));
+    for variant in Ctz::iter() {
         celestials.update(move |item| {
-            item.push(format!("{:?}", variant));
+            item.push(
+                variant
+                    .get_str("Name")
+                    .expect("Name to be on enum")
+                    .to_string(),
+            );
+
+            // item.push(variant.to_string());
         });
     }
 
@@ -85,7 +93,7 @@ pub fn SearchBar() -> impl IntoView {
             13 => {
                 let spans = all_items("supported-celestials", "span");
                 let zones = all_items("celestial-tz-card", "span");
-
+                console_log(&input.get());
                 // INFO! for the user if lazy
                 if spans.length() == 1 {
                     if let Some(first_span) = spans.item(0) {
@@ -125,13 +133,18 @@ pub fn SearchBar() -> impl IntoView {
                 // if your input isn't empty then it must match on of the timezones
                 if !input.get().is_empty() {
                     if let Some(display_bar) = document().get_element_by_id("celestial-tz-card") {
-                        // save_data().1.update(move |data| {});
+                        save_data().1.update(move |data| {
+                            // let timezone = Ctz::from_str(&input.get()).expect("Celestial Body appears");
+
+                            data.celestial.insert(input.get(), input.get());
+                        });
 
                         let bar_info = view! {
                             <span class="flex space-x-2" id=input.get()>
                                 <CelestialDisplay input=input.get_untracked() />
                             </span>
                         };
+                        console_log("Made it");
 
                         display_bar
                             .append_child(bar_info.as_ref())

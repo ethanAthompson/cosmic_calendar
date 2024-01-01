@@ -11,6 +11,28 @@ use crate::components::search::calendar::SelectBar as CalendarBar;
 use crate::components::search::calendar::EnterDateBar;
 use crate::components::card::earth::Card as EarthCard;
 use crate::components::card::celestial::Card as CelestialCard;
+use serde::{Deserialize, Serialize};
+use std::{collections::HashMap};
+
+
+#[derive(Serialize, Deserialize, Clone, PartialEq)]
+pub struct SavedData {
+    pub earth: HashMap<String, chrono_tz::Tz>,
+    // celestial timezones a somewhat comprehensive list of them
+    // pub celestial: HashMap<String, rust_solar::Ctz>,
+    pub celestial: HashMap<String, chrono_tz::Tz>,
+}
+
+impl Default for SavedData {
+    fn default() -> Self {
+        Self {
+            earth: HashMap::new(),
+            celestial: HashMap::new(),
+        }
+    }
+}
+
+
 
 #[component]
 pub fn Tools() -> impl IntoView {

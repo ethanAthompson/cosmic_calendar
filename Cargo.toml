@@ -70,4 +70,4 @@ camino = "1.1"
 
 [workspace]
 resolver = "2"
-members = ["src-tauri", "server", "rust_solar"]
+members = ["src-tauri", "server"]

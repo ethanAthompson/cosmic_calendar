@@ -1,7 +1,4 @@
-pub mod asteroids;
-pub mod innerplanets;
-pub mod moons;
-pub mod outerplanets;
+pub mod ctz;
 
 use leptos::*;
 use leptos_router::*;

@@ -1,6 +1,21 @@
 #[allow(non_camel_case_types)]
+use serde::{Deserialize, Serialize};
 
 // https://terraforming.fandom.com/wiki/Time,_Day_And_Year_On_Other_Planets#Martian_moons
+// https://terraforming.fandom.com/wiki/Time,_Day_And_Year_On_Other_Planets#Martian_moons
+///
+/// Celestial Time Zones
+///
+///
+/// Contains all the Celestial Bodies used for this project
+/// This format makes it easy to track what celestial body is being used.
+/// This enum took inspiration from the chrono_tz's Tz enum
+///
+///
+/// This is a Comphrehensive List of celestial bodies
+///
+///
+#[derive(Debug, Deserialize, Serialize, PartialEq, Eq)]
 pub enum Ctz {
     // 1st Inner Planet: Mercury
     // https://en.wikipedia.org/wiki/List_of_geological_features_on_Mercury

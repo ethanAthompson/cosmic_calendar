@@ -17,6 +17,7 @@ use leptos::{
     *,
 };
 use leptos_icons::*;
+use leptos_router::create_query_signal;
 use strum::IntoEnumIterator;
 use strum::*;
 use wasm_bindgen::JsCast;
@@ -137,7 +138,10 @@ pub fn DateSessionBox() -> impl IntoView {
     let date_el: NodeRef<Input> = create_node_ref();
     let cal_el: NodeRef<Select> = create_node_ref();
     let output = create_rw_signal("Drop a Celestial Body Here!".to_string());
-    let date_input = create_rw_signal("".to_string());    
+    let date_input = create_rw_signal("".to_string());
+    let (form_date, set_form_date) = create_query_signal::<String>("earth_date");
+
+    // This middle man is how everything will be properly calculated
     let middleman_input = create_rw_signal("".to_string());
     let calendar_input = create_rw_signal("gregorian".to_string());
     let celestial_input = create_rw_signal("".to_string());
@@ -178,24 +182,26 @@ pub fn DateSessionBox() -> impl IntoView {
     let read_date = move |ev: web_sys::Event| {
         let value = event_target_value(&ev);
 
-        // Reads date and puts it into chrono
-        let parse_from_str = NaiveDate::parse_from_str;
-        let chrono_str = parse_from_str(&value, "%Y-%m-%d").unwrap();
-        let year = chrono_str.year();
-        let month = chrono_str.month();
-        let day = chrono_str.day();
-        let has_leapyear = chrono_str.leap_year();
-        let chrono_value = chrono_str.format("%A, %-d %B, %C%y").to_string();
+        if calendar_input.get() == "gregorian" {
+            // Reads date and puts it into chrono
+            let parse_from_str = NaiveDate::parse_from_str;
+            let chrono_str = parse_from_str(&value, "%Y-%m-%d").unwrap();
+            let year = chrono_str.year();
+            let month = chrono_str.month();
+            let day = chrono_str.day();
+            let has_leapyear = chrono_str.leap_year();
+            let chrono_value = chrono_str.format("%A, %-d %B, %C%y").to_string();
 
-        // sets & some tests
-        date_input.set(chrono_value.clone());
-        // This middleman allows Back & Forth Conversion with the calendar
-        middleman_input.set(chrono_value.clone());
-        console_log(&format!(
-            "Calendar Reading: {:?} | Leap Year: {:?} | ",
-            chrono_value.clone(),
-            has_leapyear
-        ));
+            // sets & some tests
+            date_input.set(chrono_value.clone());
+            // This middleman allows Back & Forth Conversion with the calendar
+            middleman_input.set(chrono_value.clone());
+            console_log(&format!(
+                "Calendar Reading: {:?} | Leap Year: {:?} | ",
+                chrono_value.clone(),
+                has_leapyear
+            ));
+        }
     };
 
     let read_calendar = move |ev: web_sys::Event| {
@@ -244,6 +250,14 @@ pub fn DateSessionBox() -> impl IntoView {
             "indian" => {
                 console_log("indian");
             }
+            "buddhist" => {}
+            "coptic" => {}
+            "dangi" => {}
+            "ethiopian" => {}
+            "hebrew" => {}
+            "japanese" => {}
+            "julian" => {}
+            "persian" => {}
             _ => {
                 console_log("not implemented");
             }
@@ -278,13 +292,29 @@ pub fn DateSessionBox() -> impl IntoView {
                         <select
                         node_ref=cal_el on:input=read_calendar
                         id="earth-cal" class="px-2 dark:bg-slate-900 bg-slate-200 cursor-pointer"
-                        oninput="this.form.requestSubmit()">
-                             <option class="" value="gregorian">Gregorian</option>
-                             <option class="" value="indian">Indian</option>
-                             <option class="" value="islamic">Islamic</option>
-                             <option class="" value="chinese">Chinese</option>
+                        >
+                            // Calendars from: https://docs.rs/icu_calendar/1.4.0/icu_calendar/index.html
+                             <Show 
+                                when=move || form_date.get().unwrap_or("".to_owned()).is_empty() == false 
+                                fallback=move || view!{<option>Gregorian by Default</option>}
+                             >
+                                <optgroup label="Supported Calendars">
+                                     <option class="" value="gregorian">Gregorian</option>
+                                     <option class="" value="indian">Indian</option>
+                                     <option class="" value="islamic">Islamic</option>
+                                     <option class="" value="chinese">Chinese</option>
+                                     <option class="" value="buddhist">Buddhist</option>
+                                     <option class="" value="coptic">Coptic</option>
+                                     <option class="" value="dangi">Dangi</option>
+                                     <option class="" value="ethiopian">Ethiopian</option>
+                                     <option class="" value="hebrew">Hebrew</option>
+                                     <option class="" value="japanese">Japanese</option>
+                                     <option class="" value="julian">Julian</option>
+                                     <option class="" value="persian">Persian</option>
+                                </optgroup>
+                            </Show>
                         </select>
-                        <input node_ref=date_el on:input=read_date on:change=scan_date
+                        <input node_ref=date_el on:input=read_date on:change=scan_date name="earth_date" oninput="this.form.requestSubmit()"         
                             type="date" class="p-2 hover:bg-amber-200 dark:text-white text-black dark:bg-slate-900 bg-slate-200 rounded-xl" />
                     </div>
                 </article>

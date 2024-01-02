@@ -1,7 +1,6 @@
 [build]
 target = "./index.html"
-# dist = "./dist"
-dist = "./docs"
+dist = "./dist"
 
 [watch]
 ignore = ["./src-tauri"]

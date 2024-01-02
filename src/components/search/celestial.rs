@@ -280,7 +280,7 @@ pub fn SearchBar() -> impl IntoView {
                     <button class="
         
                     absolute inset-y-0 z-20 end-0 cursor-grab hover:text-red-400 dark:text-white text-black
-                        p-2 hover:bg-blend-lighten mix-blend-screen text-start glitch
+                        p-2 dark:hover:bg-blend-lighten dark:mix-blend-screen text-start glitch
         
                     " on:click=on_remove>
                          <Icon icon=close_icon class="w-9 h-9"/>

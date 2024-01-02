@@ -16,6 +16,9 @@ pub mod about;
 /// The download page stuff
 pub mod download;
 
+/// the nice 404 page you see
+pub mod notfound;
+
 /// The navbar you see
 pub mod navbar;
 
@@ -30,3 +33,6 @@ pub mod card;
 
 /// links for any use
 pub mod links;
+
+/// The spooler which controls your stuff you see at configuration and display
+pub mod controller;

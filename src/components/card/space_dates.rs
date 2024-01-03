@@ -26,7 +26,7 @@ pub fn DateDisplay() -> impl IntoView {
     let choices = create_rw_signal(Vec::new());
 
     choices.update(|choice| {
-       for item in save_data().0.get_untracked().celestial.into_values() {
+        for item in save_data().0.get_untracked().celestial.into_values() {
             choice.push(item);
         }
     });

@@ -25,7 +25,7 @@ pub fn App() -> impl IntoView {
             <Router>
                 <Navbar/>
                 <ZoneRoutes/>
-                <Footer/>
+                // <Footer/>
             </Router>
         </div>
     }

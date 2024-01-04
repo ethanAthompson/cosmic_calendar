@@ -13,12 +13,14 @@ pub fn MultiCalendarDatePicker(
     #[prop(into)] year_el: NodeRef<Input>,
     #[prop(into)] month_el: NodeRef<Input>,
     #[prop(into)] day_el: NodeRef<Input>,
-    /// The calendar reactivity: did I update? A -> Node Ref
+    // represents a select box
     #[prop(into)]
     spectator: NodeRef<Select>,
-    /// Connects middle man
+    // represents a signal that will contain the display
     #[prop(into)]
     bridge: RwSignal<String>,
+        #[prop(into)]
+    observer: RwSignal<String>,
 ) -> impl IntoView {
     // actually use tailwind properly.
     let common = "rounded-none dark:text-white text-black dark:bg-slate-700 bg-slate-200";
@@ -27,16 +29,12 @@ pub fn MultiCalendarDatePicker(
         let value = _ref.get().expect("Value").value();
         let name = _ref.get().unwrap().placeholder();
 
-        console_log(&format!("{:?}: {:?}", name, &value.as_str()));
-        console_log(&format!("Watching: {:?}", spectator.get().unwrap().value()));
+        // console_log(&format!("{:?}: {:?}", name, &value.as_str()));
+        // console_log(&format!("Watching: {:?}", spectator.get().unwrap().value()));
     };
 
     let date_symphony = move |guard: NodeRef<Select>| {
-        let vy = year_el.get().expect("<select> to exist").value();
-        let vm = month_el.get().expect("<select> to exist").value();
-        let vd = day_el.get().expect("<select> to exist").value();
-
-        date_symphony_v2(spectator, bridge, year_el, month_el, day_el);
+        date_symphony_v2(guard, bridge, observer, year_el, month_el, day_el);
     };
 
     let recv_year = move |ev: web_sys::Event| {
@@ -55,11 +53,7 @@ pub fn MultiCalendarDatePicker(
     };
 
     view! {
-        <div class="p-2 grid items-center justify-center
-                desktop:grid-cols-3 laptop:grid-cols-3 
-                tablet:grid-cols-3 grid-rows-3 phone:space-y-2 watch:space-y-2 space-y-2
-                desktop:space-x-2 laptop:space-x-2 tablet:space-x-2" desktop:space-y-0 laptop:space-y-0 tablet:space-y-0
-        >
+        <div class="p-2 grid items-center justify-center space-x-2 space-y-2">
             <input type="text" placeholder="Month" id="Month" on:input=recv_month node_ref=month_el class=common maxlength="2"/>
             <input type="text" placeholder="Day" id="Day" on:input=recv_day node_ref=day_el  class=common maxlength="2"/>
             <input type="text" placeholder="Year" id="Year" on:input=recv_year node_ref=year_el class=common maxlength="4"/>

@@ -19,10 +19,14 @@ pub fn Card() -> impl IntoView {
     view! {
          <Form action="" method="">
             // Main Content
-            <main class="grid justify-center items-center desktop:grid-cols-3 laptop:grid-cols-3 grid-rows-1">
-                // <Configuration/>
-                <MainBoard/>
-                // <Display/>
+            <main class="">
+                <section class="flex space-x-2">
+                    <Configuration/>
+                    <Display/>
+                </section>
+                <section class="flex space-y-2 pb-2">
+                    <MainBoard/>
+                </section>
             </main>
 
             // Sub Content

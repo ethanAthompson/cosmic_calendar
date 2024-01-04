@@ -5,6 +5,7 @@
 
 use std::{str::FromStr, sync::Arc, time::Duration};
 
+use crate::components::search::calendar::SelectBar as CalendarSelection;
 use crate::components::tools::mainboard::custom_calendar::MultiCalendarDatePicker;
 use crate::wrappers::date::date_symphony_v2;
 use crate::{
@@ -17,23 +18,6 @@ use crate::{
 };
 use chrono::prelude::*;
 use chrono::{DateTime, FixedOffset, Local, NaiveDateTime, NaiveTime, TimeZone, Utc};
-use chrono_tz::{OffsetName, Tz, TZ_VARIANTS};
-use icu_calendar::{
-    any_calendar::AnyDateInner,
-    buddhist::Buddhist,
-    chinese::Chinese,
-    coptic::Coptic,
-    dangi::Dangi,
-    ethiopian::Ethiopian,
-    hebrew::Hebrew,
-    indian::Indian,
-    islamic::*,
-    japanese::{Japanese, JapaneseExtended},
-    julian::Julian,
-    persian::Persian,
-    roc::Roc,
-    *,
-};
 use leptos::{html::Input, leptos_dom::logging::console_log, *};
 use leptos::{html::Select, *};
 use leptos_icons::*;
@@ -47,30 +31,22 @@ use web_sys::{
 };
 
 #[component]
-pub fn Card(session_id: String) -> impl IntoView {
-    let close_icon = Icon::from(BiIcon::BiXCircleRegular);
-    let input_el: NodeRef<Input> = create_node_ref();
+pub fn Card() -> impl IntoView {
     let select_el: NodeRef<Select> = create_node_ref();
     let output = create_rw_signal("Drop a Celestial Body Here!".to_string());
     let middleman = create_rw_signal("".to_string());
     let calendar_input = create_rw_signal("IslamicCivil".to_string());
     let celestial_input = create_rw_signal("".to_string());
-    let final_date = create_rw_signal("".to_string());
+    let static_date = create_rw_signal("".to_string());
 
     // MM/DD/YY
     let mel: NodeRef<Input> = create_node_ref();
     let del: NodeRef<Input> = create_node_ref();
     let yel: NodeRef<Input> = create_node_ref();
 
-    let remove_sesion = move |ev: MouseEvent| {
-        console_log(
-            ev.target()
-                .unwrap()
-                .dyn_into::<HtmlElement>()
-                .unwrap()
-                .id()
-                .as_str(),
-        );
+    let remove_session = move |ev: MouseEvent| {
+        let x = document().get_element_by_id("remover").unwrap();
+        x.parent_element().unwrap().remove();
     };
 
     let absorb_item = move |ev: web_sys::DragEvent| {
@@ -103,84 +79,59 @@ pub fn Card(session_id: String) -> impl IntoView {
     };
 
     let register_calendar = move |ev: web_sys::Event| {
-        // reset middleman every calendar change to avoid innacuraccy
+        // reset middleman + static_date every calendar change to avoid innacuraccy
         middleman.set("".to_string());
-        let value = select_el.get().expect("<select> to exist").value();
-        let vy = yel.get().expect("<select> to exist").value();
-        let vm = mel.get().expect("<select> to exist").value();
-        let vd = del.get().expect("<select> to exist").value();
-        date_symphony_v2(select_el, calendar_input, yel, mel, del);
-        calendar_input.set(value.clone());
+        static_date.set("".to_string());
 
-        console_log(&format!("Registered Calendar: {:?}", value.clone()));
+        // Updates the calender before middle man gets updated
+        calendar_input.update(move |calendar| {
+            let value = select_el.get().expect("<select> to exist").value();
+
+            *calendar = value.clone();
+
+            console_log(&format!("Registered Calendar: {:?}", *calendar));
+        });
+
+        // updates everything along with the middle man's value, and with static's date
+        date_symphony_v2(select_el, middleman, static_date, yel, mel, del);
     };
 
-    // takes on the id of the timezone dropped, if duplicates then append increment a number adjancently
     view! {
-        <div id=session_id class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl relative">
-            <div class="">
-                <p class="text-base">Earth Date to Space Date</p>
-            </div>
-            <div id="remove-session" class="">
-                <button class="
-                    absolute inset-y-0 z-20 end-0 cursor-pointer dark:bg-red-800 bg-red-200 rounded-xl
-                    hover:bg-rose-800 focus:bg-red-600
-                    " on:click=remove_sesion>
-                    <p class="h-px w-4">" "</p>
-                </button>
-            </div>
-            <section class="p-4 grid grid-rows-3 items-center gap-2">
-                <article class="flex space-x-2 w-full">
-                    <div class="p-2">
-                        <figcaption class="text-base text-start font-light">Choose a Calendar</figcaption>
-                        <section class="p-4">
-                            <select node_ref=select_el on:input=register_calendar id="earth-cal" class="p-2 dark:bg-slate-900 bg-slate-200 cursor-pointer roudned-xl dark:text-white text-black">
-                                 <optgroup label="Islamic">
-                                    <option class="" value="IslamicCivil">Islamic Civil</option>
-                                    <option class="" value="IslamicTabular">Islamic Tabular</option>
-                                    <option class="" value="IslamicObservational">Islamic Observational</option>
-                                    <option class="" value="IslamicUmmAlQura">Islamic Umm AlQura</option>
-                                 </optgroup>
-                                 <optgroup label="Chinese">
-                                     <option class="" value="Chinese">Chinese</option>
-                                     <option class="" value="RepublicOfChina">Republic of China</option>
-                                </optgroup>
-                                 <optgroup label="Japanese">
-                                     <option class="" value="Japanese">Japanese</option>
-                                     <option class="" value="JapaneseExtended">Japanese Extended</option>
-                                </optgroup>
-                                <optgroup label="Others">
-                                     <option class="" value="Gregorian">Gregorian</option>
-                                     <option class="" value="Iso">Iso</option>
-                                     <option class="" value="Indian">Indian</option>
-                                     <option class="" value="Iuddhist">Buddhist</option>
-                                     <option class="" value="Coptic">Coptic</option>
-                                     <option class="" value="Dangi">Dangi</option>
-                                     <option class="" value="Ethiopian">Ethiopian</option>
-                                     <option class="" value="Hebrew">Hebrew</option>
-                                     <option class="" value="Julian">Julian</option>
-                                     <option class="" value="Persian">Persian</option>
-                                </optgroup>
-                            </select>
-                        </section>
-                    </div>
-                    <div class="p-2">
-                        <figcaption class="text-base text-start font-light">Enter a Date</figcaption>
-                        <section class="p-2">
-                            <MultiCalendarDatePicker spectator=select_el year_el=yel month_el=mel day_el=del bridge=middleman/>
-                        </section>
-                    </div>
-                </article>
-                <div class="hover:bg-amber-200 dark:bg-slate-800 bg-slate-100 rounded-xl w-full text-center items-center p-4">
-                    <span on:drop=absorb_item on:dragover=allow_absorbtion class="p-4">{output}</span>
-                </div>
-                <div class="dark:bg-slate-800 bg-slate-100 rounded-xl leading-relaxed w-full text-center items-center p-4">
-                    <span id="earth-date-output" class="p-2 flex space-x-2">
-                        <p>{middleman}</p>
-                        <p>{celestial_input}</p>
-                    </span>
-                </div>
-            </section>
+        <div class="">
+            <p class="text-base">Earth Date to Space Date</p>
         </div>
+        <button id="remover" class="absolute inset-y-0 z-20 end-0 cursor-pointer rounded-xl dark:bg-red-800 bg-red-200 hover:animate-pulse focus:animate-pulse"
+                on:click=remove_session
+        >
+            <p class="h-px w-12">" "</p>
+        </button>
+        <section class="px-12 py-4 grid grid-rows-3 items-center gap-2">
+            <article class="flex space-x-2 w-full">
+                <div class="p-2">
+                    <figcaption class="text-base text-start font-light">Choose a Calendar</figcaption>
+                    <section class="p-4">
+                        <CalendarSelection reactive_node=select_el on_input=register_calendar />
+                    </section>
+                </div>
+                <div class="p-2">
+                    <figcaption class="text-base text-start font-light">Enter a Date</figcaption>
+                    <section class="p-2">
+                        <MultiCalendarDatePicker spectator=select_el year_el=yel month_el=mel day_el=del bridge=middleman observer=static_date/>
+                        <section class="p-2">
+                            <p> In Gregorian: {static_date} </p>
+                        </section>
+                    </section>
+                </div>
+            </article>
+            <div class="hover:bg-amber-200 dark:bg-slate-800 bg-slate-100 rounded-xl w-full text-center items-center p-4">
+                <span on:drop=absorb_item on:dragover=allow_absorbtion class="p-4">{output}</span>
+            </div>
+            <div class="dark:bg-slate-800 bg-slate-100 rounded-xl leading-relaxed w-full text-center items-center p-4">
+                <span id="earth-date-output" class="p-2 flex space-x-2">
+                    <p>{middleman}</p>
+                    <p>{celestial_input}</p>
+                </span>
+            </div>
+        </section>
     }
 }

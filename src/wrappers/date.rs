@@ -1,10 +1,14 @@
+// This file does not need to be this long for 4-5 calendars,
+// there must be a way to get generics working?
+// this is not the focus at the moment
+//
 use icu_calendar::{
     chinese::Chinese, indian::Indian, islamic::IslamicCivil, AsCalendar, Date, Gregorian, Iso,
 };
 use leptos::{
     html::{Input, Select},
     leptos_dom::logging::console_log,
-    NodeRef, RwSignal,SignalSet,
+    NodeRef, RwSignal, SignalSet,
 };
 use tracing::Instrument;
 
@@ -74,8 +78,12 @@ impl ZoneCalendar {
 /// Only 5 Calendars are supported as of now
 /// Chinese + IslamicCivil + ISO + Gregorian + Indian
 pub fn date_symphony_v2(
+    // The select tag which contains calendars
     spectator: NodeRef<Select>,
+    // The string that will be shown to user
     bridge: RwSignal<String>,
+    statics_date: RwSignal<String>,
+    // The date entering ability
     vy: NodeRef<Input>,
     vm: NodeRef<Input>,
     vd: NodeRef<Input>,
@@ -102,6 +110,21 @@ pub fn date_symphony_v2(
                 icu.month().ordinal,
                 icu.day_of_month().0
             ));
+
+            let icu = icu_calendar::Date::try_new_gregorian_date(
+                vy.parse::<i32>().unwrap(),
+                vm.parse::<u8>().unwrap(),
+                vd.parse::<u8>().unwrap(),
+            )
+            .unwrap()
+            .to_calendar(Gregorian::default());
+
+            statics_date.set(format!(
+                "{:?}/{:?}/{:?}",
+                icu.year().number,
+                icu.month().ordinal,
+                icu.day_of_month().0
+            ));
         }
         "Chinese" => {
             let icu = icu_calendar::Date::try_new_chinese_date_with_calendar(
@@ -116,6 +139,22 @@ pub fn date_symphony_v2(
                 "{:?}, {:?}: {:?}/{:?}/{:?}",
                 spectator_name,
                 icu.month().code.to_string(),
+                icu.year().number,
+                icu.month().ordinal,
+                icu.day_of_month().0
+            ));
+
+            let icu = icu_calendar::Date::try_new_chinese_date_with_calendar(
+                vy.parse::<i32>().unwrap(),
+                vm.parse::<u8>().unwrap(),
+                vd.parse::<u8>().unwrap(),
+                Chinese::default()
+            )
+            .unwrap()
+            .to_calendar(Gregorian::default());
+
+            statics_date.set(format!(
+                "{:?}/{:?}/{:?}",
                 icu.year().number,
                 icu.month().ordinal,
                 icu.day_of_month().0
@@ -137,6 +176,21 @@ pub fn date_symphony_v2(
                 icu.month().ordinal,
                 icu.day_of_month().0
             ));
+
+            let icu = icu_calendar::Date::try_new_iso_date(
+                vy.parse::<i32>().unwrap(),
+                vm.parse::<u8>().unwrap(),
+                vd.parse::<u8>().unwrap(),
+            )
+            .unwrap()
+            .to_calendar(Gregorian::default());
+
+            statics_date.set(format!(
+                "{:?}/{:?}/{:?}",
+                icu.year().number,
+                icu.month().ordinal,
+                icu.day_of_month().0
+            ));
         }
         "IslamicCivil" => {
             let icu = icu_calendar::Date::try_new_islamic_civil_date_with_calendar(
@@ -154,8 +208,23 @@ pub fn date_symphony_v2(
                 icu.month().ordinal,
                 icu.day_of_month().0
             ));
+            let icu = icu_calendar::Date::try_new_islamic_civil_date_with_calendar(
+                vy.parse::<i32>().unwrap(),
+                vm.parse::<u8>().unwrap(),
+                vd.parse::<u8>().unwrap(),
+                IslamicCivil::new_always_calculating() 
+            )
+            .unwrap()
+            .to_calendar(Gregorian::default());
+
+            statics_date.set(format!(
+                "{:?}/{:?}/{:?}",
+                icu.year().number,
+                icu.month().ordinal,
+                icu.day_of_month().0
+            ));
         }
-        "Inidan" => {
+        "Indian" => {
             let icu = icu_calendar::Date::try_new_indian_date(
                 vy.parse::<i32>().unwrap(),
                 vm.parse::<u8>().unwrap(),
@@ -171,10 +240,25 @@ pub fn date_symphony_v2(
                 icu.month().ordinal,
                 icu.day_of_month().0
             ));
+
+            let icu = icu_calendar::Date::try_new_indian_date(
+                vy.parse::<i32>().unwrap(),
+                vm.parse::<u8>().unwrap(),
+                vd.parse::<u8>().unwrap(),
+            )
+            .unwrap()
+            .to_calendar(Gregorian);
+
+            statics_date.set(format!(
+                "{:?}/{:?}/{:?}",
+                icu.year().number,
+                icu.month().ordinal,
+                icu.day_of_month().0
+            ));
         }
         _ => {
             bridge.set(format!("Date Not Implemented"));
         }
     };
-    console_log(&format!("Chosen Calendar: {:?}", spectator_name.as_str()));
+    // console_log(&format!("Chosen Calendar: {:?}", spectator_name.as_str()));
 }

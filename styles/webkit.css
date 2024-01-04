@@ -1,0 +1,10 @@
+@layer base {
+  ::-webkit-scrollbar {
+    @apply w-auto;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-900
+  }
+
+}

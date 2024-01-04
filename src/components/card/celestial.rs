@@ -151,7 +151,7 @@ pub fn LocalCelestialDisplay(
             )
             .expect("Data to be transferred.");
 
-        console_log("Sending Data");
+        // console_log("Sending Data");
     };
 
     let button_id = format!("button-{}", input.get());

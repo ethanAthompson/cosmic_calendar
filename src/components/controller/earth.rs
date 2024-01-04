@@ -20,11 +20,16 @@ use web_sys::{
 #[component]
 pub fn Spooler() -> impl IntoView {
     let add_icon = Icon::from(AiIcon::AiPlusOutlined);
-    let count = create_rw_signal(0);
-    
+    let date_count = create_rw_signal(0);
+    let tz_count = create_rw_signal(0);
+
     let add_tz_session = move |_| {
+        tz_count.update(move |value| {
+            *value += 1;
+        });
+
         let view = view! {
-            <span>
+            <span id=format!("{:?}xDateSession", tz_count.get())>
                 <EarthTzSession/>
             </span>
         };
@@ -37,13 +42,13 @@ pub fn Spooler() -> impl IntoView {
     };
 
     let add_date_session = move |_| {
-        count.update(move |value| {
+        date_count.update(move |value| {
             *value += 1;
         });
 
         let view = view! {
-            <span>
-                <EarthDateSession session_id=format!("{:?}xSession", count)/>
+            <span class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl relative" id=format!("{:?}xDateSession", date_count.get())>
+                <EarthDateSession />
             </span>
         };
 
@@ -83,10 +88,10 @@ pub fn Spooler() -> impl IntoView {
 
             <div>
                 // Where you convert Earth Timezone -> Space Timezone
-                <div id="earth-tz-mod" class="py-4 flex flex-col space-y-4"></div>
+                <div id="earth-tz-mod" class="py-4 flex flex-col space-y-4 relative"></div>
 
                 // Where you convert Earth Dates -> Space Dates
-                <div id="earth-date-mod" class="py-4 flex flex-col space-y-4"></div>
+                <div id="earth-date-mod" class="py-4 flex flex-col space-y-4 relative"></div>
             </div>
         </div>
     }

@@ -267,7 +267,7 @@ pub fn SearchBar() -> impl IntoView {
                         on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input
                         on:keydown=on_keydown
                         node_ref=input_el id="celestial-input" type="text"
-                        placeholder="Celestial Body Search" prop:value=input maxlength="40" autocomplete="off"
+                        placeholder="Celestial Search" prop:value=input maxlength="40" autocomplete="off"
                         class="py-3 px-4 ps-11 block w-full rounded-lg
                              text-base text-gray-900 border border-gray-300
                              bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 

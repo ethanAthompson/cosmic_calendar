@@ -73,18 +73,21 @@ pub fn CelestialDisplay(#[prop(into)] input: RwSignal<String>) -> impl IntoView 
                     .as_str(),
             )
             .expect("Data to be transferred.");
+
+        console_log(ev.target().unwrap().dyn_into::<HtmlElement>().unwrap().id().as_str());
+        
     };
 
     let button_id = format!("button-{}", input.get());
     view! {
 
-        <span on:dragstart=startdrag draggable="true" class="flex space-x-2 items-center
+        <span id=input on:dragstart=startdrag draggable="true" class="flex space-x-2 items-center
         
                     p-2 dark:hover:bg-blend-lighten dark:mix-blend-screen w-full text-start cursor-pointer
                     -skew-y-3 scale-100 hover:-translate-y-2 hover:scale-12 focus:-translate-y-2 focus:scale-125 
                     ease-in-out duration-300 glitch text-xl                
-        " id=input.get_untracked()>
-            <p class="text-base select-none">{input} <em class="px-1">{time}</em></p>
+        ">
+            <p id=input class="text-base select-none">{input} <em class="px-1">{time}</em></p>
             <button
                 id={button_id}
                 class="hover:text-red-400 dark:text-white text-black"
@@ -137,7 +140,7 @@ pub fn LocalCelestialDisplay(
         }
     };
 
-    let startdrag = |ev: web_sys::DragEvent| {
+    let startdrag = move |ev: web_sys::DragEvent| {
         ev.data_transfer()
             .expect("Data to be transferrable")
             .set_data(
@@ -151,20 +154,19 @@ pub fn LocalCelestialDisplay(
             )
             .expect("Data to be transferred.");
 
+        console_log(ev.target().unwrap().dyn_into::<HtmlElement>().unwrap().id().as_str());
         // console_log("Sending Data");
+        // console_log(input.get().as_str());
     };
 
     let button_id = format!("button-{}", input.get());
     view! {
-        <span class="flex space-x-2 items-center
+        <span id=input class="flex space-x-2 items-center
                     p-2 dark:hover:bg-blend-lighten dark:mix-blend-screen w-full text-start cursor-pointer
                     -skew-y-3 scale-100 hover:-translate-y-2 hover:scale-12 focus:-translate-y-2 focus:scale-125 
                     ease-in-out duration-300 glitch desktop:text-6xl laptop:text-4xl tablet:text-4xl text-xl                
                 " >
-            <p  
-        
-            on:dragstart=startdrag draggable="true" 
-                    id=input.get_untracked() class="text-base select-none">{input} <em class="px-1">{time}</em></p>
+            <p id=input on:dragstart=startdrag draggable="true" class="text-base select-none">{input} <em class="px-1">{time}</em></p>
             <button
                 id={button_id}
                 class="hover:text-red-400 dark:text-white text-black"

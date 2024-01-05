@@ -776,6 +776,10 @@ html,
   height: fit-content;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .h-min {
   height: -moz-min-content;
   height: min-content;
@@ -795,10 +799,6 @@ html,
 
 .w-10 {
   width: 2.5rem;
-}
-
-.w-12 {
-  width: 3rem;
 }
 
 .w-6 {
@@ -991,6 +991,11 @@ html,
   border-bottom-left-radius: 0.5rem;
 }
 
+.rounded-r-xl {
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
 .border {
   border-width: 1px;
 }
@@ -1018,6 +1023,11 @@ html,
 .bg-gray-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.bg-gray-500 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(107 114 128 / var(--tw-bg-opacity));
 }
 
 .bg-inherit {

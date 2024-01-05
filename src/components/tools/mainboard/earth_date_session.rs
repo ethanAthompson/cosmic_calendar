@@ -7,6 +7,8 @@ use std::{str::FromStr, sync::Arc, time::Duration};
 
 use crate::components::search::calendar::SelectBar as CalendarSelection;
 use crate::components::tools::mainboard::custom_calendar::MultiCalendarDatePicker;
+use crate::components::tools::mainboard::earth_tz_session::Dropper;
+use crate::components::tools::mainboard::earth_tz_session::ZoneChoices;
 use crate::wrappers::date::date_symphony_v2;
 use crate::{
     components::tools::ctz::Ctz,
@@ -44,11 +46,6 @@ pub fn Card() -> impl IntoView {
     let del: NodeRef<Input> = create_node_ref();
     let yel: NodeRef<Input> = create_node_ref();
 
-    let remove_session = move |ev: MouseEvent| {
-        let x = document().get_element_by_id("remover").unwrap();
-        x.parent_element().unwrap().remove();
-    };
-
     let absorb_item = move |ev: web_sys::DragEvent| {
         ev.prevent_default();
 
@@ -56,6 +53,13 @@ pub fn Card() -> impl IntoView {
 
         // Only accepts celestial bodies
         for variant in Ctz::iter() {
+            console_log(
+                variant
+                    .get_str("Name")
+                    .expect("Name to be on enum")
+                    .to_string()
+                    .as_str(),
+            );
             if data
                 == variant
                     .get_str("Name")
@@ -100,11 +104,7 @@ pub fn Card() -> impl IntoView {
         <div class="">
             <p class="text-base">Earth Date to Space Date</p>
         </div>
-        <button id="remover" class="absolute inset-y-0 z-20 end-0 cursor-pointer rounded-xl dark:bg-red-800 bg-red-200 hover:animate-pulse focus:animate-pulse"
-                on:click=remove_session
-        >
-            <p class="h-px w-12">" "</p>
-        </button>
+        <MultiRemover id="date-remover" />
         <section class="px-12 py-4 grid grid-rows-3 items-center gap-2">
             <article class="flex space-x-2 w-full">
                 <div class="p-2">
@@ -123,9 +123,10 @@ pub fn Card() -> impl IntoView {
                     </section>
                 </div>
             </article>
-            <div class="hover:bg-amber-200 dark:bg-slate-800 bg-slate-100 rounded-xl w-full text-center items-center p-4">
-                <span on:drop=absorb_item on:dragover=allow_absorbtion class="p-4">{output}</span>
-            </div>
+            // <div class="hover:bg-amber-200 dark:bg-slate-800 bg-slate-100 rounded-xl w-full text-center items-center p-4">
+            //     <span on:drop=absorb_item on:dragover=allow_absorbtion class="p-4">{output}</span>
+            // </div>
+             <Dropper matcher=ZoneChoices::CelestialTimezones output=output class="hover:bg-amber-200 dark:bg-slate-800 bg-slate-100 rounded-xl w-full text-center items-center p-4" />
             <div class="dark:bg-slate-800 bg-slate-100 rounded-xl leading-relaxed w-full text-center items-center p-4">
                 <span id="earth-date-output" class="p-2 flex space-x-2">
                     <p>{middleman}</p>
@@ -133,5 +134,21 @@ pub fn Card() -> impl IntoView {
                 </span>
             </div>
         </section>
+    }
+}
+
+#[component]
+pub fn MultiRemover(#[prop(into)] id: &'static str) -> impl IntoView {
+    let remove_session = move |ev: MouseEvent| {
+        let x = document().get_element_by_id(id).unwrap();
+        x.parent_element().unwrap().remove();
+    };
+
+    view! {
+        <button id=id class="absolute inset-y-0 z-20 end-0 cursor-pointer rounded-r-xl dark:bg-red-800 bg-red-200 hover:animate-pulse focus:animate-pulse"
+                on:click=remove_session
+        >
+            <p class="h-px w-10">" "</p>
+        </button>
     }
 }

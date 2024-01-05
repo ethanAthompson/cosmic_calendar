@@ -29,7 +29,7 @@ pub fn Spooler() -> impl IntoView {
         });
 
         let view = view! {
-            <span id=format!("{:?}xDateSession", tz_count.get())>
+            <span class="p-4 dark:bg-slate-900 bg-slate-200 rounded-xl relative" id=format!("{:?}xTzSession", tz_count.get())>            
                 <EarthTzSession/>
             </span>
         };
@@ -86,6 +86,7 @@ pub fn Spooler() -> impl IntoView {
                     </div>
             </section>
 
+            // make it a component and it takes in children, earth-tz-mod and earth-date mod
             <div>
                 // Where you convert Earth Timezone -> Space Timezone
                 <div id="earth-tz-mod" class="py-4 flex flex-col space-y-4 relative"></div>

@@ -18,6 +18,9 @@ use std::collections::HashMap;
 
 #[component]
 pub fn Card() -> impl IntoView {
+    // use a context to pass down the state here
+    let timezone_and_celestial = create_rw_signal(false);
+
     view! { 
          <section class="justify-center flex items-center w-full">
              <div class="p-4">
@@ -28,12 +31,19 @@ pub fn Card() -> impl IntoView {
                  </div>
                  <div class="flex flex-col dark:mix-blend-screen shadow-earth font-bold">
                      <section id="earth-controlller" class="">
-                         <label class="p-2">"Earth Controller"</label>
+                         <label class="p-2">"Controller"</label>
                          <MainboardEarth/>
                      </section>
                      <section id="celestial-controller">
-                         <label class="p-2">"Celestial Controller"</label>
-                         <MainboardCelestial/>
+                         <label class="p-2">"Calculation Overview"</label>
+                        <Show when=move || timezone_and_celestial.get() fallback=move || view!{}>
+                             <div class="flex flex-col p-2">
+                                <p> Here is how your selection is being processed </p>
+                                <div>LS of Planet Chosen: </div>
+                                <div>Utc Offset of Timezone Chosen: </div>
+                                <div>Formula Used: </div>
+                             </div>
+                        </Show>
                      </section>
                  </div>
              </div>

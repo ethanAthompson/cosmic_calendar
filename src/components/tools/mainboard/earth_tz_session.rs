@@ -57,6 +57,10 @@ pub fn Card() -> impl IntoView {
     let celestial_input = create_rw_signal("".to_string());
     let static_time = create_rw_signal("".to_string());
     let static_celestial = create_rw_signal("".to_string());
+    // This allows the user to select a celestial body and a timezone
+    // and recieve backwards compatability and forwards comapatibility.
+    // mars time in earth time, and earth time in mars time.
+    let swapped = create_rw_signal(false);
     let Pausable {
         pause,
         resume,
@@ -70,6 +74,9 @@ pub fn Card() -> impl IntoView {
                         DateTime::with_timezone(&Utc::now(), &timezone).format("%Y/%m/%d %r %Z");
                     tz_time.set(datetime.to_string());
                     static_time.set(datetime.to_string());
+
+                    // INFO! Temporary
+                    static_celestial.set(ctz_output.get());
                 }
             }
         },
@@ -96,14 +103,27 @@ pub fn Card() -> impl IntoView {
                         <section class="p-2 first:">
                              <Dropper matcher=ZoneChoices::CelestialTimezones output=ctz_output class="hover:bg-amber-200 dark:bg-slate-800 bg-slate-100 rounded-xl w-full text-center items-center p-4" />
                         </section>
-                        <article class="p-2">
-                            <section class="p-2">
-                                <p> In Earth Time: {static_time}</p>
-                            </section>
-                            <section class="p-2">
-                                <p> In Celestial Time: {static_celestial} </p>
-                            </section>
-                        </article>
+                        <div class="p-2">
+                            <article class="p-2">
+                                // This button renders a componet
+                                <button 
+                                    on:click=move |_| swapped.update(|v| *v = !*v) 
+                                    class="p-2 outline hover:bg-inherit"
+                                >
+                                    Swap
+                                </button>
+                            </article>
+                            <Show when=move || swapped.get() fallback=move || view!{<Unswapped static_time=static_time static_celestial=static_celestial/>}>
+                                <article class="p-2">
+                                    <section class="p-2">
+                                        <p> In Celestial Time: <em class="px-2">{static_celestial}</em> </p>
+                                    </section>
+                                    <section class="p-2">
+                                        <p> In Earth Time: <em class="px-2">{static_time}</em></p>
+                                    </section>
+                                </article>
+                            </Show>
+                        </div>
                    </div>
                 </article>
                 // </Show>
@@ -119,6 +139,23 @@ pub fn Card() -> impl IntoView {
     }
 }
 
+#[component]
+pub fn Unswapped(
+    #[prop(into)] static_time: RwSignal<String>,
+    #[prop(into)] static_celestial: RwSignal<String>,
+) -> impl IntoView {
+    // Do Different Calculation, you can pass down signals from here if you want
+    view! {
+        <article class="p-2">
+            <section class="p-2">
+                <p> In Earth Time: <em class="px-2">{static_time}</em></p>
+            </section>  
+            <section class="p-2">
+                <p> In Celestial Time: <em class="px-2">{static_celestial}</em> </p>
+            </section>
+        </article>
+    }
+}
 #[component]
 pub fn HiddenCard() -> impl IntoView {
     view! {

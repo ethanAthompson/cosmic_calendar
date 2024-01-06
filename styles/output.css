@@ -1271,6 +1271,10 @@ html,
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.outline {
+  outline-style: solid;
+}
+
 .drop-shadow-lg {
   --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1345,6 +1349,10 @@ html,
 .hover\:bg-amber-200:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(253 230 138 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-inherit:hover {
+  background-color: inherit;
 }
 
 .hover\:text-amber-400:hover {
@@ -1631,6 +1639,10 @@ html,
     display: none;
   }
 
+  .laptop\:flex-row {
+    flex-direction: row;
+  }
+
   .laptop\:text-2xl {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -1671,6 +1683,10 @@ html,
 
   .desktop\:w-12 {
     width: 3rem;
+  }
+
+  .desktop\:flex-row {
+    flex-direction: row;
   }
 
   .desktop\:text-2xl {

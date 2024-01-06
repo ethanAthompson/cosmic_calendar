@@ -6,10 +6,12 @@ use charming::component::Toolbox;
 use charming::datatype::CompositeValue;
 use charming::datatype::DataPoint;
 use charming::datatype::DataPointItem;
+use charming::element::Anchor;
 use charming::element::AxisLabel;
 use charming::element::AxisLine;
 use charming::element::AxisPointer;
 use charming::element::ColorBy;
+use charming::element::Formatter;
 use charming::element::ItemStyle;
 use charming::element::LinkTarget;
 use charming::element::TextAlign;
@@ -149,7 +151,8 @@ pub fn Guage() -> impl IntoView {
         <div class="p-4">
             <p> Your Local Time <em class="px-2">{local_time}</em></p>
         </div>
-        <div class="flex py-2">
+        // <div class="desktop:flex laptop:flex tablet:flex py-2 flex-col">
+        <div class="flex flex-col desktop:flex-row laptop:flex-row ">
             <div id="hour"></div>
             <div id="minute"></div>
             <div id="second"></div>
@@ -213,14 +216,15 @@ impl Hands for Clock {
     ) -> Chart {
         Chart::new()
             .background_color(Color::Value("transparent".to_string()))
+            .tooltip(Tooltip::new().formatter("Counting: {c}"))
             .title(
                 Title::new()
                     .show(true)
-                    .text_align(TextAlign::Auto)
+                    .text_align(TextAlign::Center)
+                    .left(CompositeValue::Number(charming::datatype::NumericValue::Integer(225)))
                     .shadow_blur(2.5)
                     .shadow_offset_x(2.5)
                     .shadow_offset_y(2.5)
-                    
                     .text(&label)
                     .text_style(TextStyle::new().color(Color::Value(text_color.clone())))
                     .background_color(Color::Value("inherit".to_string()))
@@ -231,7 +235,17 @@ impl Hands for Clock {
             )
             .series(
                 charming::series::Gauge::new()
-                    .pointer(Pointer::new().item_style(ItemStyle::new().color(Color::Value(text_color.clone()))))
+                    .radius("75%")
+                    .anchor(
+                        Anchor::new()
+                            .show(true)
+                            .size(14)
+                            .item_style(ItemStyle::new().border_color("#000").border_width(2)),
+                    )
+                    .pointer(
+                        Pointer::new()
+                            .item_style(ItemStyle::new().color(Color::Value(text_color.clone()))),
+                    )
                     .progress(
                         GaugeProgress::new()
                             .show(true)
@@ -239,16 +253,21 @@ impl Hands for Clock {
                             .round_cap(true)
                             .item_style(ItemStyle::new().color(Color::Value(color.clone()))),
                     )
-                    // .title(GaugeTitle::new().show(true)
                     .color_by(ColorBy::Data)
                     .min(0)
                     .max(max)
                     .split_line(SplitLine::new().show(true).distance(2.0))
                     .split_number(12.0)
-                    .axis_label(AxisLabel::new().show(true).color(Color::Value(text_color.clone())))
+                    .axis_label(
+                        AxisLabel::new()
+                            .show(true)
+                            .color(Color::Value(text_color.clone())),
+                    )
+                    // .title(GaugeTitle::new().show(true).offset_center(("0", "-50%")))
                     .detail(
                         GaugeDetail::new()
                             .value_animation(true)
+                            // .precision(1.0)
                             .precision(0.0)
                             .show(true)
                             .formatter("{value}")
@@ -258,7 +277,8 @@ impl Hands for Clock {
                         DataPointItem::new(CompositeValue::Number(
                             charming::datatype::NumericValue::Integer(data.get() as i64),
                         ))
-                        .name("".to_string())
+                        // .name(&label)
+                        .name(" ".to_string())
                         .item_style(ItemStyle::new().color(Color::Value("white".to_string()))),
                     )]),
             )

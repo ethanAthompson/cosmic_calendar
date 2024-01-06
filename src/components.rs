@@ -36,3 +36,5 @@ pub mod links;
 
 /// The spooler which controls your stuff you see at configuration and display
 pub mod controller;
+
+pub mod charts;

@@ -71,17 +71,29 @@ pub fn Guage() -> impl IntoView {
         console_log(&value.to_string());
 
         pick_timezone(value.as_str());
+        match select_el.get().unwrap().value().as_str() {
+            "est" => {
+                alter_timezone(&chrono_tz::EST, [hour, minute, second]);
+            }
+            "gmt" => {
+                alter_timezone(&chrono_tz::GMT, [hour, minute, second]);
+            }
+            "jst" => {
+                alter_timezone(&chrono_tz::Japan, [hour, minute, second]);
+            }
+            _ => {}
+        };
     };
 
     view! {
-        <p> Your Local Time: {local_time} </p>
+        <p> Your Local Time <em class="px-2">{local_time}</em></p>
         <div class="flex space-x-2">
             <div id="hour"></div>
             <div id="minute"></div>
             <div id="second"></div>
         </div>
         <div>
-            <p>Your Chosen Time: {input_time}</p>
+            <p>Your Chosen Time <em class="px-2">{input_time}</em></p>
         </div>
         <div class="p-4">
             <select class="p-4 outline-2 bg-slate-200 dark:bg-slate-900" on:input=time_change node_ref=select_el>
@@ -93,6 +105,12 @@ pub fn Guage() -> impl IntoView {
     }
 }
 
+pub fn alter_timezone(tz: &chrono_tz::Tz, clock: [RwSignal<u32>; 3]) {
+    let time = Utc::now().with_timezone(tz);
+    clock[0].set(time.hour12().1);
+    clock[1].set(time.minute());
+    clock[2].set(time.second());
+}
 pub fn pick_timezone(pattern: &str) -> String {
     match pattern {
         "est" => Utc::now()

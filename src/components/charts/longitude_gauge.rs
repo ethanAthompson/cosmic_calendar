@@ -1,14 +1,6 @@
-use leptos::{
-    html::{Input, Select},
-    leptos_dom::logging::console_log,
-    *,
-};
-use leptos_icons::*;
-use wasm_bindgen::JsCast;
-use web_sys::{
-    Event, HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node,
-};
-
+use std::{str::FromStr, sync::Arc};
+use crate::components::charts::gauge_search::SearchBar as TimezoneSearch;
+use crate::components::charts::gauge_search::__Tz_Items;
 use charming::{
     component::{Axis, DataZoom, Title},
     datatype::Dataset,
@@ -16,9 +8,21 @@ use charming::{
     series::{Gauge, GaugeDetail, GaugeProgress, GaugeTitle, Line},
     Chart, WasmRenderer,
 };
-use chrono::*;
+use chrono::{DateTime, FixedOffset, Local, NaiveDateTime, NaiveTime, TimeZone, Utc};
+use chrono::prelude::*;
+use chrono_tz::{OffsetName, Tz, TZ_VARIANTS, OffsetComponents, *};
+use leptos::{
+    html::{Input, Select},
+    leptos_dom::logging::console_log,
+    *,
+};
+use leptos_icons::*;
 use leptos_use::use_interval_fn;
 use leptos_use::utils::Pausable;
+use wasm_bindgen::JsCast;
+use web_sys::{
+    Event, HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node,
+};
 
 // Have a single effect, that updates your renderer based on a state,
 // and have your interval update the state. That's it.
@@ -33,8 +37,10 @@ pub fn Guage() -> impl IntoView {
 
     //
     let local_time = create_rw_signal(Local::now().format("%d/%m/%Y %r %Z").to_string());
+    let input_location = create_rw_signal("".to_string());
     let input_time = create_rw_signal("".to_string());
-    let select_el = NodeRef::<Select>::new();
+    // let select_el = NodeRef::<Select>::new();
+    let input_el = NodeRef::<Input>::new();
 
     set_interval(
         move || hour.update(|v| if *v == 12 { *v = 0 } else { *v += 1 }),
@@ -50,7 +56,7 @@ pub fn Guage() -> impl IntoView {
         move || {
             second.update(|v| if *v == 60 { *v = 0 } else { *v += 1 });
             local_time.update(|t| *t = Local::now().format("%d/%m/%Y %r %Z").to_string());
-            input_time.update(|t| *t = pick_timezone(select_el.get().unwrap().value().as_str()));
+            // input_time.update(|t| *t = pick_timezone(select_el.get().unwrap().value().as_str()));
         },
         std::time::Duration::from_secs(1),
     );
@@ -66,23 +72,14 @@ pub fn Guage() -> impl IntoView {
     });
 
     let time_change = move |ev: Event| {
-        let value = select_el.get().unwrap().value();
+        let value = input_el.get().unwrap().value();
 
         console_log(&value.to_string());
 
-        pick_timezone(value.as_str());
-        match select_el.get().unwrap().value().as_str() {
-            "est" => {
-                alter_timezone(&chrono_tz::EST, [hour, minute, second]);
-            }
-            "gmt" => {
-                alter_timezone(&chrono_tz::GMT, [hour, minute, second]);
-            }
-            "jst" => {
-                alter_timezone(&chrono_tz::Japan, [hour, minute, second]);
-            }
-            _ => {}
-        };
+        let timezone =
+            chrono_tz::Tz::from_str(&value).expect("an earth timezone to make it through!");
+        let datetime = DateTime::with_timezone(&Utc::now(), &timezone).format("%Y/%m/%d %r %Z");
+        console_log(datetime.to_string().as_str());
     };
 
     view! {
@@ -93,14 +90,11 @@ pub fn Guage() -> impl IntoView {
             <div id="second"></div>
         </div>
         <div>
-            <p>Your Chosen Time <em class="px-2">{input_time}</em></p>
+            <p>Chosen Location: <em class="px-2">{input_location}</em></p>
+            <p>Time there is : <em class="px-2">{input_time}</em></p>
         </div>
         <div class="p-4">
-            <select class="p-4 outline-2 bg-slate-200 dark:bg-slate-900" on:input=time_change node_ref=select_el>
-                <option value="est">EST</option>
-                <option value="gmt">GMT</option>
-                <option value="jst">JST</option>
-            </select>
+            <TimezoneSearch input=input_location/>
         </div>
     }
 }
@@ -110,23 +104,6 @@ pub fn alter_timezone(tz: &chrono_tz::Tz, clock: [RwSignal<u32>; 3]) {
     clock[0].set(time.hour12().1);
     clock[1].set(time.minute());
     clock[2].set(time.second());
-}
-pub fn pick_timezone(pattern: &str) -> String {
-    match pattern {
-        "est" => Utc::now()
-            .with_timezone(&chrono_tz::EST)
-            .format("%d/%m/%Y %r %Z")
-            .to_string(),
-        "gmt" => Utc::now()
-            .with_timezone(&chrono_tz::GMT)
-            .format("%d/%m/%Y %r %Z")
-            .to_string(),
-        "jst" => Utc::now()
-            .with_timezone(&chrono_tz::Japan)
-            .format("%d/%m/%Y %r %Z")
-            .to_string(),
-        _ => Local::now().format("%d/%m/%Y %r %Z").to_string(),
-    }
 }
 
 struct Clock {}

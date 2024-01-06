@@ -1,12 +1,9 @@
 use leptos::*;
-use leptos_meta::HtmlContext;
-use wasm_bindgen::JsCast;
-use web_sys::HtmlCanvasElement;
 
 use crate::components::tools::local_storage::SavedData;
 use leptos_use::storage::use_local_storage;
 use leptos_use::storage::JsonCodec;
-use web_sys::{Element, HtmlCollection, MediaQueryList, Storage};
+use web_sys::{Element, MediaQueryList, Storage};
 
 pub fn storage() -> Storage {
     window().local_storage().unwrap().unwrap()

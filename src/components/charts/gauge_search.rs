@@ -1,25 +1,33 @@
 use std::{str::FromStr, sync::Arc};
 
 use crate::{
-    components::{
-        card::earth::EarthDisplay,
-    },
+    components::card::earth::EarthDisplay,
     wrappers::{
         strings::{filtered_vec, get_initials, matching_left},
         web::{all_items, save_data, update_dom_el},
     },
 };
+use chrono::format::DelayedFormat;
 use chrono::prelude::*;
 use leptos::{html::Input, leptos_dom::logging::console_log, *};
 use leptos_icons::*;
 use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node, Event, InputEvent};
+use web_sys::{
+    Event, HtmlElement, HtmlHeadingElement, HtmlInputElement, InputEvent, KeyboardEvent,
+    MouseEvent, Node,
+};
 
 #[component]
-pub fn SearchBar<T>(#[prop(into)] input: RwSignal<String>, #[prop(into)])  -> impl IntoView 
-where 
-    T: Fn(InputEvent) +'static
-{
+pub fn SearchBar(
+    #[prop(into)] input: RwSignal<String>,
+    // input_el2: NodeRef<Input>,
+    // fetches the timezone data
+    input_el2: RwSignal<String>,
+    // displays the timezone data
+    input_el3: RwSignal<String>,
+    // displays the gauge data
+    #[prop(into)] input_el4: RwSignal<[u32; 3]>,
+) -> impl IntoView {
     let search_icon = Icon::from(FiIcon::FiSearch);
     let close_icon = Icon::from(BiIcon::BiXRegular);
     // let input = create_rw_signal("".to_string());
@@ -38,9 +46,9 @@ where
     }
 
     let on_input = move |_| {
-         
         let value = input_el.get().expect("<input> to exist").value();
 
+        // console_log(&format!("{:?}", input_el2.get()));
         let matched = matching_left(&timezones, value.clone());
 
         input.set(value.clone());
@@ -56,6 +64,13 @@ where
         // you have something?
         if !matched.is_empty() {
             show();
+
+            // let value2 = input_el2.get().unwrap().value();
+            // console_log(&value2.to_string());
+            // let timezone =
+            //     chrono_tz::Tz::from_str(&value2).expect("an earth timezone to make it through!");
+            // let datetime = DateTime::with_timezone(&Utc::now(), &timezone).format("%Y/%m/%d %r %Z");
+            // console_log(datetime.to_string().as_str());
         }
     };
 
@@ -73,10 +88,11 @@ where
         // WARNING! use "" over " " becuase " " adds whitespace
         ev.prevent_default();
         input.set("".to_string());
+        input_el2.set("".to_string());
+        input_el3.set("".to_string());
         traverse.set(0);
         hide();
     };
-
 
     let on_keydown = move |ev: KeyboardEvent| {
         let key = ev.key_code();
@@ -90,6 +106,41 @@ where
             9 => {}
             // Enter
             13 => {
+                //
+                input_el2.set(input.get());
+                // console_log(&format!("{:?}", input_el2.get()));
+
+                // This interval just synchronously repeats the selected item from db
+                set_interval(
+                    move || {
+                        // WARNING! this prevents bug
+                        if let Ok(timezone) = chrono_tz::Tz::from_str(&input_el2.get()) {
+                            let datetime = DateTime::with_timezone(&Utc::now(), &timezone)
+                                .format("%Y/%m/%d %r %Z");
+                            input_el3.set(datetime.to_string());
+
+                            let middle_datetime = DateTime::with_timezone(&Utc::now(), &timezone);
+
+                            if input_el2.get().is_empty() || input_el3.get().is_empty() {
+                                input_el4.set([
+                                    Local::now().hour12().1,
+                                    Local::now().minute(),
+                                    Local::now().second(),
+                                ]);
+                            } else {
+                                input_el4.set([
+                                    middle_datetime.hour12().1,
+                                    middle_datetime.minute(),
+                                    middle_datetime.second(),
+                                ]);
+                            }
+                        } else {
+                        };
+                    },
+                    std::time::Duration::from_millis(1000),
+                );
+
+                //
                 let spans = all_items("supported-timezones", "span");
                 let zones = all_items("earth-tz-card", "span");
 
@@ -133,8 +184,8 @@ where
                 if !input.get().is_empty() {
                     if let Some(display_bar) = document().get_element_by_id("earth-tz-card") {
                         save_data().1.update(move |data| {
-
-                            let timezone = chrono_tz::Tz::from_str(&input.get()).expect("Timezone appears");
+                            let timezone =
+                                chrono_tz::Tz::from_str(&input.get()).expect("Timezone appears");
 
                             data.earth.insert(input.get(), timezone);
                         });
@@ -208,7 +259,8 @@ where
                         // clears last item: subtracts by 1 because to adjust to 0-index
                         if let Some(current_item) = spans.item(spans.length() - 1) {
                             if let Ok(current_element) = current_item.dyn_into::<HtmlElement>() {
-                                current_element.set_class_name("p-2 dark:bg-slate-900 bg-slate-200");
+                                current_element
+                                    .set_class_name("p-2 dark:bg-slate-900 bg-slate-200");
                             }
                         }
                     }
@@ -257,7 +309,6 @@ where
         }
     };
 
-
     view! {
         <main class="flex flex-col py-2">
             <section name="Container" class="flex flex-grow flex-col col-auto z-20 p-0">
@@ -265,7 +316,7 @@ where
                     <input
                         on:focusin=on_focus_in on:focusout=on_focus_out on:input=on_input
                         on:keydown=on_keydown
-                        node_ref=input_el id="timezone-input" type="text" 
+                        node_ref=input_el id="timezone-input" type="text"
                         placeholder="Timezone Search" prop:value=input maxlength="20" autocomplete="off"
                         class="py-3 px-4 ps-11 block w-full rounded-lg
                              text-base text-gray-900 border border-gray-300

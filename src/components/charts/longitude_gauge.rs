@@ -1,6 +1,21 @@
-use std::{str::FromStr, sync::Arc};
+// Clean up the code, have 0 warnings when you do Space+D & Space+s
 use crate::components::charts::gauge_search::SearchBar as TimezoneSearch;
 use crate::components::charts::gauge_search::__Tz_Items;
+use crate::wrappers::web::storage_theme;
+use charming::component::Toolbox;
+use charming::datatype::CompositeValue;
+use charming::datatype::DataPoint;
+use charming::datatype::DataPointItem;
+use charming::element::AxisLabel;
+use charming::element::AxisLine;
+use charming::element::AxisPointer;
+use charming::element::ColorBy;
+use charming::element::ItemStyle;
+use charming::element::LinkTarget;
+use charming::element::TextAlign;
+use charming::element::TextStyle;
+use charming::element::TriggerOn;
+use charming::series::Align;
 use charming::{
     component::{Axis, DataZoom, Title},
     datatype::Dataset,
@@ -8,9 +23,9 @@ use charming::{
     series::{Gauge, GaugeDetail, GaugeProgress, GaugeTitle, Line},
     Chart, WasmRenderer,
 };
-use chrono::{DateTime, FixedOffset, Local, NaiveDateTime, NaiveTime, TimeZone, Utc};
 use chrono::prelude::*;
-use chrono_tz::{OffsetName, Tz, TZ_VARIANTS, OffsetComponents, *};
+use chrono::{DateTime, FixedOffset, Local, NaiveDateTime, NaiveTime, TimeZone, Utc};
+use chrono_tz::{OffsetComponents, OffsetName, Tz, TZ_VARIANTS, *};
 use leptos::{
     html::{Input, Select},
     leptos_dom::logging::console_log,
@@ -19,6 +34,7 @@ use leptos::{
 use leptos_icons::*;
 use leptos_use::use_interval_fn;
 use leptos_use::utils::Pausable;
+use std::{str::FromStr, sync::Arc};
 use wasm_bindgen::JsCast;
 use web_sys::{
     Event, HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node,
@@ -39,62 +55,111 @@ pub fn Guage() -> impl IntoView {
     let local_time = create_rw_signal(Local::now().format("%d/%m/%Y %r %Z").to_string());
     let input_location = create_rw_signal("".to_string());
     let input_time = create_rw_signal("".to_string());
-    // let select_el = NodeRef::<Select>::new();
-    let input_el = NodeRef::<Input>::new();
-
-    set_interval(
-        move || hour.update(|v| if *v == 12 { *v = 0 } else { *v += 1 }),
-        std::time::Duration::from_secs(3600),
-    );
-
-    set_interval(
-        move || minute.update(|v| if *v == 60 { *v = 0 } else { *v += 1 }),
-        std::time::Duration::from_secs(60),
-    );
+    let input_time_middleman = create_rw_signal([
+        hour.get_untracked(),
+        minute.get_untracked(),
+        second.get_untracked(),
+    ]);
+    let input_time_displ = create_rw_signal("".to_string());
 
     set_interval(
         move || {
-            second.update(|v| if *v == 60 { *v = 0 } else { *v += 1 });
+            hour.update(|v| {
+                if input_time.get().is_empty() {
+                    *v = Local::now().hour12().1;
+                } else {
+                    *v = input_time_middleman.get()[0];
+                }
+            });
+
+            minute.update(|v| {
+                if input_time.get().is_empty() {
+                    *v = Local::now().minute();
+                } else {
+                    *v = input_time_middleman.get()[1];
+                }
+            });
+
+            second.update(|v| {
+                if input_time.get().is_empty() {
+                    *v = Local::now().second();
+                } else {
+                    *v = input_time_middleman.get()[2];
+                }
+            });
+
             local_time.update(|t| *t = Local::now().format("%d/%m/%Y %r %Z").to_string());
-            // input_time.update(|t| *t = pick_timezone(select_el.get().unwrap().value().as_str()));
         },
         std::time::Duration::from_secs(1),
     );
 
-    create_effect(move |_| {
-        let h = Clock::default().hour(hour, "Hour Hand".to_string());
-        let m = Clock::default().minute(minute, "Minute Hand".to_string());
-        let s = Clock::default().second(second, "Second Hand".to_string());
+    create_effect(move |_| match storage_theme().as_str() {
+        "light" => {
+            let h = Clock::default().hour(
+                hour,
+                "Hour Hand".to_string(),
+                "dodgerblue".to_string(),
+                "black".to_string(),
+            );
+            let m = Clock::default().minute(
+                minute,
+                "Minute Hand".to_string(),
+                "orchid".to_string(),
+                "black".to_string(),
+            );
+            let s = Clock::default().second(
+                second,
+                "Second Hand".to_string(),
+                "salmon".to_string(),
+                "black".to_string(),
+            );
 
-        Clock::default().paint((500, 500), "hour", h);
-        Clock::default().paint((500, 500), "minute", m);
-        Clock::default().paint((500, 500), "second", s);
+            Clock::default().paint((500, 500), "hour", h);
+            Clock::default().paint((500, 500), "minute", m);
+            Clock::default().paint((500, 500), "second", s);
+        }
+        "dark" => {
+            let h = Clock::default().hour(
+                hour,
+                "Hour Hand".to_string(),
+                "cornflowerblue".to_string(),
+                "white".to_string(),
+            );
+            let m = Clock::default().minute(
+                minute,
+                "Minute Hand".to_string(),
+                "darkorchid".to_string(),
+                "white".to_string(),
+            );
+            let s = Clock::default().second(
+                second,
+                "Second Hand".to_string(),
+                "darksalmon".to_string(),
+                "white".to_string(),
+            );
+
+            Clock::default().paint((500, 500), "hour", h);
+            Clock::default().paint((500, 500), "minute", m);
+            Clock::default().paint((500, 500), "second", s);
+        }
+        _ => {}
     });
 
-    let time_change = move |ev: Event| {
-        let value = input_el.get().unwrap().value();
-
-        console_log(&value.to_string());
-
-        let timezone =
-            chrono_tz::Tz::from_str(&value).expect("an earth timezone to make it through!");
-        let datetime = DateTime::with_timezone(&Utc::now(), &timezone).format("%Y/%m/%d %r %Z");
-        console_log(datetime.to_string().as_str());
-    };
-
     view! {
-        <p> Your Local Time <em class="px-2">{local_time}</em></p>
-        <div class="flex space-x-2">
+        <div class="p-4">
+            <p> Your Local Time <em class="px-2">{local_time}</em></p>
+        </div>
+        <div class="flex py-2">
             <div id="hour"></div>
             <div id="minute"></div>
             <div id="second"></div>
         </div>
-        <div>
+        <div class="text-3xl p-4 bg-slate-200 dark:bg-slate-900">
             <p>Chosen Location: <em class="px-2">{input_location}</em></p>
-            <p>Time there is : <em class="px-2">{input_time}</em></p>
+            <p>Time there is : <em class="px-2">{input_time_displ}</em></p>
         </div>
         <div class="p-4">
-            <TimezoneSearch input=input_location/>
+            <TimezoneSearch input=input_location input_el2=input_time input_el3=input_time_displ input_el4=input_time_middleman/>
         </div>
     }
 }
@@ -116,10 +181,19 @@ impl Default for Clock {
 
 trait Hands {
     fn paint(self, size: (u32, u32), id: &str, chart: Chart) -> ();
-    fn make_hand(self, max: u32, data: RwSignal<u32>, label: String) -> Chart;
-    fn hour(self, data: RwSignal<u32>, label: String) -> Chart;
-    fn minute(self, data: RwSignal<u32>, label: String) -> Chart;
-    fn second(self, data: RwSignal<u32>, label: String) -> Chart;
+    fn make_hand(
+        self,
+        max: u32,
+        data: RwSignal<u32>,
+        label: String,
+        color: String,
+        text_color: String,
+    ) -> Chart;
+    fn hour(self, data: RwSignal<u32>, label: String, color: String, text_color: String) -> Chart;
+    fn minute(self, data: RwSignal<u32>, label: String, color: String, text_color: String)
+        -> Chart;
+    fn second(self, data: RwSignal<u32>, label: String, color: String, text_color: String)
+        -> Chart;
 }
 
 impl Hands for Clock {
@@ -129,31 +203,88 @@ impl Hands for Clock {
             .expect("Chart to paint");
     }
 
-    fn make_hand(self, max: u32, data: RwSignal<u32>, label: String) -> Chart {
-        Chart::new().series(
-            charming::series::Gauge::new()
-                .progress(GaugeProgress::new().show(true))
-                .min(0)
-                .max(max)
-                .detail(
-                    GaugeDetail::new()
-                        .formatter("{value}")
-                        .color(Color::Value("white".to_string())),
-                )
-                .z(20.0)
-                .data(vec![(data.get() as i32, label)]),
-        )
+    fn make_hand(
+        self,
+        max: u32,
+        data: RwSignal<u32>,
+        label: String,
+        color: String,
+        text_color: String,
+    ) -> Chart {
+        Chart::new()
+            .background_color(Color::Value("transparent".to_string()))
+            .title(
+                Title::new()
+                    .show(true)
+                    .text_align(TextAlign::Auto)
+                    .shadow_blur(2.5)
+                    .shadow_offset_x(2.5)
+                    .shadow_offset_y(2.5)
+                    
+                    .text(&label)
+                    .text_style(TextStyle::new().color(Color::Value(text_color.clone())))
+                    .background_color(Color::Value("inherit".to_string()))
+                    .shadow_color(Color::Value("revert".to_string()))
+                    .border_radius(5.0)
+                    // may cause problems?
+                    .target(LinkTarget::Blank),
+            )
+            .series(
+                charming::series::Gauge::new()
+                    .pointer(Pointer::new().item_style(ItemStyle::new().color(Color::Value(text_color.clone()))))
+                    .progress(
+                        GaugeProgress::new()
+                            .show(true)
+                            .overlap(true)
+                            .round_cap(true)
+                            .item_style(ItemStyle::new().color(Color::Value(color.clone()))),
+                    )
+                    // .title(GaugeTitle::new().show(true)
+                    .color_by(ColorBy::Data)
+                    .min(0)
+                    .max(max)
+                    .split_line(SplitLine::new().show(true).distance(2.0))
+                    .split_number(12.0)
+                    .axis_label(AxisLabel::new().show(true).color(Color::Value(text_color.clone())))
+                    .detail(
+                        GaugeDetail::new()
+                            .value_animation(true)
+                            .precision(0.0)
+                            .show(true)
+                            .formatter("{value}")
+                            .color(Color::Value(color.clone())),
+                    )
+                    .data(vec![DataPoint::Item(
+                        DataPointItem::new(CompositeValue::Number(
+                            charming::datatype::NumericValue::Integer(data.get() as i64),
+                        ))
+                        .name("".to_string())
+                        .item_style(ItemStyle::new().color(Color::Value("white".to_string()))),
+                    )]),
+            )
     }
 
-    fn hour(self, data: RwSignal<u32>, label: String) -> Chart {
-        self.make_hand(12, data, label)
+    fn hour(self, data: RwSignal<u32>, label: String, color: String, text_color: String) -> Chart {
+        self.make_hand(12, data, label, color, text_color)
     }
 
-    fn minute(self, data: RwSignal<u32>, label: String) -> Chart {
-        self.make_hand(60, data, label)
+    fn minute(
+        self,
+        data: RwSignal<u32>,
+        label: String,
+        color: String,
+        text_color: String,
+    ) -> Chart {
+        self.make_hand(60, data, label, color, text_color)
     }
 
-    fn second(self, data: RwSignal<u32>, label: String) -> Chart {
-        self.make_hand(60, data, label)
+    fn second(
+        self,
+        data: RwSignal<u32>,
+        label: String,
+        color: String,
+        text_color: String,
+    ) -> Chart {
+        self.make_hand(60, data, label, color, text_color)
     }
 }

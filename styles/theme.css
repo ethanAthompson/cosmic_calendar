@@ -4,6 +4,8 @@
   Light Mode => from-slate-200, via-indigo-200, to-amber-100
   Dark Mode => from-slate-900, via-indigo-900, to-amber-800
   ===
+
+  It should contain multiple themes, like a hydrogen theme, carbon theme, or helium theme, etc..
 */
 
 @layer base {

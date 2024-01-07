@@ -1,93 +1,28 @@
-// This file does not need to be this long for 4-5 calendars,
-// there must be a way to get generics working?
-// this is not the focus at the moment
-//
-use icu_calendar::{
-    chinese::Chinese, indian::Indian, islamic::IslamicCivil, AsCalendar, Date, Gregorian, Iso,
-};
-use leptos::{
-    html::{Input, Select},
-    leptos_dom::logging::console_log,
-    NodeRef, RwSignal, SignalSet,
-};
-use tracing::Instrument;
+use icu_calendar::{chinese::*, gregorian::*, indian::*, islamic::*, iso::*};
+use leptos::{html::*, *};
 
-use crate::{
-    components::card::earth::EarthDisplay,
-    wrappers::{
-        strings::{filtered_vec, get_initials, matching_left},
-        web::{all_items, save_data, update_dom_el},
-    },
-};
-use chrono::prelude::*;
-use leptos_icons::*;
-use wasm_bindgen::JsCast;
-use web_sys::{HtmlElement, HtmlHeadingElement, HtmlInputElement, KeyboardEvent, MouseEvent, Node};
-
-pub struct ZoneCalendar;
-
-/// This is just a basic representation
-impl ZoneCalendar {
-    pub fn set<T>(yymmdd: [NodeRef<Input>; 3], sig: RwSignal<String>, core: T)
-    where
-        T: AsCalendar,
-    {
-        // Converts input to NaiveDate which allows formating
-        let year = yymmdd[0]
-            .get()
-            .unwrap()
-            .value()
-            .parse::<i32>()
-            .unwrap_or_default();
-        let month = yymmdd[1]
-            .get()
-            .unwrap()
-            .value()
-            .parse::<u8>()
-            .unwrap_or_default();
-        let day = yymmdd[2]
-            .get()
-            .unwrap()
-            .value()
-            .parse::<u8>()
-            .unwrap_or_default();
-
-        // WARNING! Must be real date: Gregorian is default
-        let icu = Date::try_new_gregorian_date(year, month, day).expect("A Date to Exist");
-        // let icu = Date::try_new_gregorian_date(year, month, day).expect("A Date to Exist");
-
-        // sets the appropiate calendar from core
-        let calendar = icu.to_calendar(core);
-
-        // *value = format!(
-        let result = format!(
-            "{:?}, {:?} {:?}, {:?} {:?}",
-            calendar.day_of_month().0,
-            calendar.month().code.0.to_string().as_str(),
-            calendar.month().ordinal,
-            calendar.year().number,
-            calendar.year().cyclic.expect("A Cyclic to be present"),
-        );
-
-        console_log("HI");
-        sig.set(result);
-    }
-}
-
-/// Your calendar is considered in the calculation of the chosen space dates
-/// Only 5 Calendars are supported as of now
-/// Chinese + IslamicCivil + ISO + Gregorian + Indian
+/// A symphony of calendars
+///
+/// spectator : The <select> tag that "watches" the decides the operation
+/// bridge : The text that the user will see
+/// statics_date : The text that shows the user, their conversion in gregorian
+///
+/// vy : the year
+/// vm : the month
+/// vd : the day
+///
 pub fn date_symphony_v2(
-    // The select tag which contains calendars
     spectator: NodeRef<Select>,
-    // The string that will be shown to user
     bridge: RwSignal<String>,
     statics_date: RwSignal<String>,
-    // The date entering ability
     vy: NodeRef<Input>,
     vm: NodeRef<Input>,
     vd: NodeRef<Input>,
 ) {
+    // I think this can be simplified to be easier
+    // you only need to set the bridge and statics date once
+    // you could create small functions to convert the calendar
+    // and just call that instead of this tedious operation
     let vy = vy.get().expect("<select> to exist").value();
     let vm = vm.get().expect("<select> to exist").value();
     let vd = vd.get().expect("<select> to exist").value();
@@ -148,7 +83,7 @@ pub fn date_symphony_v2(
                 vy.parse::<i32>().unwrap(),
                 vm.parse::<u8>().unwrap(),
                 vd.parse::<u8>().unwrap(),
-                Chinese::default()
+                Chinese::default(),
             )
             .unwrap()
             .to_calendar(Gregorian::default());
@@ -212,7 +147,7 @@ pub fn date_symphony_v2(
                 vy.parse::<i32>().unwrap(),
                 vm.parse::<u8>().unwrap(),
                 vd.parse::<u8>().unwrap(),
-                IslamicCivil::new_always_calculating() 
+                IslamicCivil::new_always_calculating(),
             )
             .unwrap()
             .to_calendar(Gregorian::default());

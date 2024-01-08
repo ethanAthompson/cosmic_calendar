@@ -21,4 +21,20 @@
   .tooltip {
     @apply absolute right-0 bottom-0 p-12 text-content-1
   }
+
+  .dashboard-btn {
+    @apply p-4 hover:bg-accent-2/50 ring-0 ring-accent-1/20 active:bg-accent-2
+  }
+
+  .home-link {
+    @apply hover:text-content-2 text-content-1 active:text-accent-2
+  }
+
+  .dashboard-card-2 {
+    @apply grid grid-rows-1 p-4 bg-accent-2/60 w-full rounded-e-xl relative
+  }
+
+  .dashboard-card-1 {
+    @apply grid grid-rows-1 p-4 bg-accent-2/60 w-full rounded-xl relative
+  }
 }

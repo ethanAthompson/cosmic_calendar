@@ -8,48 +8,11 @@
 //! CarbonDashboard => the CO2 dashboard
 //!
 
-
 /// The molecular page you first start on
 pub mod home;
 
 /// The molecular page you manage charts, themes, and settings: allow user to save specific data, shows timezones and space stuff from tool sessions
 pub mod dashboard;
-
-/// The molecular page where the 1st tool lives
-/// ===
-/// ```markdown
-/// 1. Supports Earth Timezone -> Celestial Body Timezone
-/// 2. Supports Celestial Body Timezone -> Earth Timezone
-///
-/// ```
-
-pub mod timezone;
-
-/// The molecular page where the 2nd tool lives
-/// ===
-/// ```markdown
-/// 1. Supports Earth Date -> Celestial Body Date
-/// 2. Supports Celestial Body Date -> Earth Date
-/// 3. Supported Calendars/
-///    - [x] Japanese/
-///        - [x] Extended
-///    - [x] Chinese
-///    - [x] Republic of China
-///    - [x] Hebrew
-///    - [x] Islamic/
-///        - [x] Civil
-///        - [x] Observational
-///        - [x] Tabular
-///        - [x] Umm Al Qura
-///    - [x] Buddhist
-///    - [x] Persian
-///    - [x] Iso
-///    - [x] Gregorian
-///    - [x] Coptic
-///    - [x] Julian
-///
-/// ```
-pub mod date;
 
 /// The molecular page that describes the purpose of this website
 pub mod about;

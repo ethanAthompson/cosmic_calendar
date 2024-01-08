@@ -20,3 +20,34 @@ pub fn DashboardLeftIcon(class: &'static str) -> impl IntoView {
 pub fn MenuGridIcon(class: &'static str) -> impl IntoView {
     view! {<Icon icon=Icon::from(CgIcon::CgMenuGridR) class=class />}
 }
+
+#[component]
+pub fn CalendarIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(CgIcon::CgCalendarDates) class=class />}
+}
+
+#[component]
+pub fn TimeFiveIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(BiIcon::BiTimeFiveRegular) class=class />}
+}
+
+#[component]
+pub fn SettingIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(HiIcon::HiCog8ToothOutlineLg) class=class />}
+}
+
+#[component]
+pub fn InfoIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(AiIcon::AiInfoCircleOutlined) class=class />}
+}
+
+#[component]
+pub fn ImStackIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(ImIcon::ImStack) class=class />}
+}
+
+
+#[component]
+pub fn HomeIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(AiIcon::AiHomeTwotone) class=class />}
+}

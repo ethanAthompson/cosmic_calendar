@@ -23,3 +23,5 @@ pub mod navbars;
 /// Different organic dashboards
 pub mod dashboards;
 
+/// Different organic sidebars
+pub mod sidebars;

@@ -1,11 +1,17 @@
-/* Make it where you can have many themes relating to chemistry */
-/* Your gonna have to redo somethings... , please use css variables */
+/* 
+
+Objective/
+  Only place repetive css classes here like media queries, and custom css
+
+Notes/
+    Make it where you can have many themes relating to chemistry.
+    Your gonna have to redo somethings... , please use css variables 
+
+*/
 @import "tailwindcss/base";
-@import "./theme.css";
-@import "./webkit.css";
-@import "./hover_animation.css";
-
+@import "./cells/theme.css";
 @import "tailwindcss/components";
-@import "./colors.css";
-
+@import "./atoms/buttons.css";
+@import "./responsive.css";
 @import "tailwindcss/utilities";
+/* utilities files */

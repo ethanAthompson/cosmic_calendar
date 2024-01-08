@@ -15,11 +15,20 @@ module.exports = {
       'desktop': '1280px',
     },
     extend: {
-      boxShadow : {
-        'pink': '0 5px 60px 15px rgba(255, 164, 211, 0.8)',
-        'amber': '0 5px 60px 15px rgba(255, 164, 65, 0.8)',
-        'earth': '0 5px 5px 10px rgba(96, 114, 116, 0.2)'
+      fontFamily: {
+        "rubik": ["Rubik Doodle Shadow"],
+        "monda": ["Monda"]
       },
+      colors: {
+        accent: {
+          1: "lch(var(--color-primary) / <alpha-value>)",
+          2: "lch(var(--color-secondary) / <alpha-value>)",
+        },
+        content: {
+          1: "lch(var(--color-non-highlight) / <alpha-value>)",
+          2: "lch(var(--color-highlight) / <alpha-value>)",
+        }
+      }
     },
   },
   plugins: []

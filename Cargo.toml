@@ -39,6 +39,8 @@ charming = { version = "0.3.1", features = ["wasm"] }
 
 # https://leptos-use.rs/browser/ 
 leptos_meta = { version = "0.5.4", features = ["csr"] }
+
+# https://carlosted.github.io/icondata/
 leptos_icons = { version = "0.1.0", features = [
   "BsSun",
   "BsMoonStars",
@@ -47,7 +49,15 @@ leptos_icons = { version = "0.1.0", features = [
   "AiCaretDownOutlined",
   "AiCaretUpOutlined",
   "BiCalendarRegular",
+  "CgMenuGridR",
   "FiSearch",
+  "AiArrowRightOutlined",
+  "BiArrowBackRegular",
+  "BiRightArrowSolid",
+  "BiLeftArrowSolid",
+  "BiRightArrowRegular",
+  "BiLeftArrowRegular",
+  "BsCloudArrowDown",
   "BiXRegular",
   "BiXCircleRegular",
   "AiCheckCircleOutlined",
@@ -70,7 +80,8 @@ leptos_icons = { version = "0.1.0", features = [
   "AiAndroidFilled",
   "AiPlusOutlined",
   "AiMinusSquareOutlined",
-  "AiPlusSquareOutlined"
+  "AiPlusSquareOutlined",
+  "RiDashboardSystemFill"
 ] }
 leptos_router = { version = "0.5.4", features = ["csr"] }
 tracing = "0.1.40"
@@ -81,7 +92,6 @@ leptos-use = { version = "0.9.0", features = ["serde", "serde_json"] }
 chrono-tz = { version = "0.8.5", features = ["serde"] }
 strum = { version = "0.25.0", features = ["derive"] }
 icu_calendar = "1.4.0"
-leptos_theme = "0.1.1"
 
 [build-dependencies]
 tokio = { version = "1", features = ["rt"] }

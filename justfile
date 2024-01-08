@@ -15,6 +15,8 @@ build-git:
 up: 
 	update_repo.sh
 
+### Needed to build ui
+
 # runs tailwindcli (HOT RELOAD)
 watch:
 	./tailwindcss -i ./styles/input.css -o ./styles/output.css
@@ -22,6 +24,9 @@ watch:
 # runs trunk serve (HOT RELOAD)
 serve: 
 	trunk serve
+
+###
+
 
 # runs cargo tauri dev (NO HOT RELOAD)
 dev:

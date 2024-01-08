@@ -1,0 +1,24 @@
+/* */
+@layer components {
+  .enter-btn {
+    @apply p-4 hover:bg-accent-2/70 ring-2 ring-accent-1/20
+    /* */
+    flex justify-evenly space-x-2 rounded-lg items-center active:bg-accent-2
+  }
+
+  .nav-item {
+    @apply screen-1 hover:text-content-2 text-content-1;
+  }
+
+  .dashboard-container-1 {
+    @apply flex w-full h-full justify-center p-8 overflow-hidden relative
+  }
+
+  .dashboard-container-2 {
+    @apply flex w-screen h-screen justify-center p-8 overflow-hidden relative
+  }
+
+  .tooltip {
+    @apply absolute right-0 bottom-0 p-12 text-content-1
+  }
+}

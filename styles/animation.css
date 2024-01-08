@@ -1,5 +1,0 @@
-@layer components {
-  .zone_text {
-    @apply desktop:text-6xl laptop:text-4xl tablet:text-4xl text-xl;
-  }
-}

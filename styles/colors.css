@@ -1,9 +1,0 @@
-@layer components {
-  .supported_calendar {
-    @apply dark:bg-green-800 bg-green-200;
-  }
-
-  .unsupported_calendar {
-    @apply dark:bg-red-800 bg-red-200;
-  }
-}

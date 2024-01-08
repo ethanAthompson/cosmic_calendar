@@ -1,0 +1,33 @@
+/* 
+  https://accessiblepalette.com/ 
+
+  Objective/
+    Custom Themes/
+      Hydrogen Themes/
+      Oxygen Themes/
+      Carbon Themes/
+
+  Schema/ Each custom theme as the basic colors
+    Primary Color/
+    Secondary Color/ 
+    Non-Highlight Color 
+    Highlight Color
+*/
+
+@layer base {
+
+  /* Works with (prefers dark since it'll operate within rust code)*/
+  :root[data-color="hydrogen"][data-theme="light"] {
+    --color-primary: 93.95% 1.6 265.6;
+    --color-secondary: 85.1% 4 264.5;
+    --color-non-highlight: 23.55% 6.5 265;
+    --color-highlight: 32.4% 26.7 30.5;
+  }
+
+  :root[data-color="hydrogen"][data-theme="dark"] {
+    --color-primary: 23.55% 7.4 261.9;
+    --color-secondary: 40.4% 11.5 262.8;
+    --color-non-highlight: 98.2% 0.6 255.5;
+    --color-highlight: 93.5% 25.1 88.4;
+  }
+}

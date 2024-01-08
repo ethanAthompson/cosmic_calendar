@@ -1,4 +1,4 @@
-//! Ceramics are inorganic, non-metallic materials that 
+//! Ceramics are inorganic, non-metallic materials that
 //! are typically strong, hard, and brittle.
 //!
 //!
@@ -8,3 +8,10 @@
 //! TraditionalCeramis => the traditional abstractions you would make, anyhow, pretty print...
 //! ElectroCeramics => the electrical abstractions that are dynamic
 //!
+
+pub mod traditional;
+pub mod glass;
+pub mod electro;
+
+
+

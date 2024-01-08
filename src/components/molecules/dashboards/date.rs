@@ -20,7 +20,7 @@ use leptos_use::use_element_hover;
 pub fn Page() -> impl IntoView {
     view! {
         <section class="p-4 grid grid-cols-2">
-            <label class="text-content-1">Date Page</label>
+            <label class="dash-title">Date Page</label>
             <div class="p-2">
                 <h1 class="font-rubik text-content-1"> Local Timezone </h1>
                 <section class="p-2">

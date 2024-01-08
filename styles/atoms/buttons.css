@@ -41,4 +41,12 @@
   .dash-icon {
     @apply w-8 h-8
   }
+
+  .dash-title {
+    @apply absolute top-0 p-0 text-content-1
+  }
+
+  .dash-text {
+    @apply font-rubik text-content-1
+  }
 }

@@ -96,6 +96,13 @@ pub fn Guage() -> impl IntoView {
     );
 
     create_effect(move |_| match storage_theme().as_str() {
+            // Better version w/ css variables: reactive to theme for each reduce repeteition
+            // let h = Clock::default().hour(
+            //     hour,
+            //     "--color-primary".to_string(),
+            //     "--color-secondary".to_string(),
+            //     "--color-highlight".to_string(),
+            // );
         "light" => {
             let h = Clock::default().hour(
                 hour,
@@ -235,7 +242,7 @@ impl Hands for Clock {
             )
             .series(
                 charming::series::Gauge::new()
-                    .radius("75%")
+                    // .radius("75%")
                     .anchor(
                         Anchor::new()
                             .show(true)

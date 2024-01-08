@@ -11,7 +11,8 @@
 ## Live Notes
 * The project is undergoing major ui changes before receiving
 * the celestial body conversion factors
-* You can see the change on 1/8/2024 Monday
+* ~~You can see the change on 1/8/2024 Monday~~
+* You can see the change on 1/10/2024 Wednesday
 
 ## What is this tool?
 * This is an application that removes the complexity of caluclating timezones and communication delays across the solar system.

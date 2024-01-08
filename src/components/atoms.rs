@@ -16,3 +16,6 @@ pub mod charts;
 
 /// Different atomic links
 pub mod links;
+
+/// Different atomic tooltips
+pub mod tooltips;

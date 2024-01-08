@@ -31,10 +31,14 @@
   }
 
   .dashboard-card-2 {
-    @apply grid grid-rows-1 p-4 bg-accent-2/60 w-full rounded-e-xl relative
+    @apply grid grid-rows-1 p-8 bg-accent-2/60 w-full rounded-e-xl relative
   }
 
   .dashboard-card-1 {
-    @apply grid grid-rows-1 p-4 bg-accent-2/60 w-full rounded-xl relative
+    @apply grid grid-rows-1 p-8 bg-accent-2/60 w-full rounded-xl relative
+  }
+
+  .dash-icon {
+    @apply w-8 h-8
   }
 }

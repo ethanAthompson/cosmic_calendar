@@ -1,16 +1,11 @@
 //! I think the app should be structured like this
 /*
     components/
-        atoms/
-            ...
-        molecules/
-            ...
-        cells/
-            ...
-        organisms/
-            ...
-        laboratories/
-            ...
+        atoms/  # basic components
+        cells/ # basic components w/ major factor
+        molecules/ # combined components, 
+        organisms/ # living components
+        laboratories/ # tests for all components
 */
 
 pub mod atoms;

@@ -87,6 +87,8 @@ leptos_icons = { version = "0.1.0", features = [
   "AiMinusSquareOutlined",
   "AiHomeTwotone",
   "AiPlusSquareOutlined",
+  "AiFullscreenOutlined",
+  "FiMinimize",
   "RiDashboardSystemFill"
 ] }
 leptos_router = { version = "0.5.4", features = ["csr"] }

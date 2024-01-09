@@ -13,4 +13,4 @@ open = false
 [[hooks]]
 stage = "post_build"
 command = "sh"
-command_arguments = ["-c", "just watch"]
+command_arguments = ["-c", "./tailwindcss -i ./styles/input.css -o ./styles/output.css"]

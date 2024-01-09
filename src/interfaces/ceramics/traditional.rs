@@ -46,8 +46,24 @@ pub fn ImStackIcon(class: &'static str) -> impl IntoView {
     view! {<Icon icon=Icon::from(ImIcon::ImStack) class=class />}
 }
 
-
 #[component]
 pub fn HomeIcon(class: &'static str) -> impl IntoView {
     view! {<Icon icon=Icon::from(AiIcon::AiHomeTwotone) class=class />}
+}
+
+#[component]
+pub fn FullScreenIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(AiIcon::AiFullscreenOutlined) class=class />}
+}
+
+#[component]
+pub fn MinimizeIcon(class: &'static str) -> impl IntoView {
+    view! {<Icon icon=Icon::from(FiIcon::FiMinimize) class=class />}
+}
+
+#[component]
+pub fn FaviconIcon(class: &'static str) -> impl IntoView {
+    view! {
+        <img src="public/icons/dark.png" class=class/>
+    }
 }

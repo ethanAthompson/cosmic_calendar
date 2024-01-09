@@ -20,8 +20,8 @@ pub mod headers;
 /// Different organic navbars
 pub mod navbars;
 
-/// Different organic dashboards
-pub mod dashboards;
+/// Different organic cards
+pub mod cards;
 
 /// Different organic sidebars
 pub mod sidebars;

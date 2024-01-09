@@ -1,17 +1,29 @@
-/* 
-
-Objective/
-  Only place repetive css classes here like media queries, and custom css
-
-Notes/
-    Make it where you can have many themes relating to chemistry.
-    Your gonna have to redo somethings... , please use css variables 
-
-*/
 @import "tailwindcss/base";
-@import "./cells/theme.css";
+/* Cells */
+@import "cells/themes.css";
 @import "tailwindcss/components";
-@import "./atoms/buttons.css";
-@import "./responsive.css";
+/* Atoms */
+@import "atoms/charts.css";
+@import "atoms/droppers.css";
+@import "atoms/links.css";
+@import "atoms/searchbars.css";
+@import "atoms/tooltips.css";
+/* Cells */
+@import "cells/circuits.css";
+@import "cells/controllers.css";
+@import "cells/revisors.css";
+/* Molecules */
+@import "molecules/cards.css";
+@import "molecules/footers.css";
+@import "molecules/headers.css";
+@import "molecules/navbars.css";
+@import "molecules/sidebars.css";
+/* Organisms */
+@import "organisms/about.css";
+@import "organisms/dashboard.css";
+@import "organisms/download.css";
+@import "organisms/home.css";
+@import "organisms/notfound.css";
+/* Laboratories */
+@import "laboratory/responsive.css";
 @import "tailwindcss/utilities";
-/* utilities files */

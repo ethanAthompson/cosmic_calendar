@@ -1,6 +1,7 @@
+use crate::components::atoms::links::navbar::{nav_links, Button as MobileButton, mobile_nav_links};
 use crate::interfaces::ceramics::traditional::{
-    CalendarIcon, DashboardLeftIcon, DashboardRightIcon, ImStackIcon, InfoIcon, MenuGridIcon,
-    SettingIcon, TimeFiveIcon,
+    CalendarIcon, DashboardLeftIcon, DashboardRightIcon, FaviconIcon, ImStackIcon, InfoIcon,
+    MenuGridIcon, SettingIcon, TimeFiveIcon,
 };
 use charming::{
     datatype::{CompositeValue, DataPoint, DataPointItem},
@@ -9,28 +10,31 @@ use charming::{
 };
 use leptos::{html::Button, leptos_dom::logging::console_log, *};
 use leptos_router::A;
-use leptos_use::use_element_hover;
+use leptos_use::{use_element_hover, use_media_query};
 
 #[component]
-pub fn Component(is_fullscreen: RwSignal<bool>) -> impl IntoView {
-    // context?
+pub fn Component() -> impl IntoView {
+    let is_fullscreen = use_context::<RwSignal<bool>>().expect("Writer");
+    let is_mobile_toggled = use_context::<RwSignal<bool>>().expect("Writer");
+    let is_mobile = use_media_query("(min-width: 480px)");
+    let pages = use_context::<RwSignal<Vec<&str>>>().expect("Pages");
+
     view! {
-        <Show when=move || is_fullscreen.get() == false fallback=move || view!{<nav></nav>}>
-            <header class="p-4 bg-accent-2">
-                <nav class="screen-nav justify-between items-center space-x-4">
-                    <section class="p-2">
-                        <A href="/" class="nav-item"> Zone </A>
-                    </section>
-                    <div class="px-2 flex flex-row justify-between space-x-2">
-                        <section class="p-2">
-                            <A href="/about" class="nav-item"> About </A>
-                        </section>
-                        <section class="p-2">
-                            <A href="/download" class="nav-item"> Download </A>
-                        </section>
-                    </div>
+        <div class="grid grid-cols-2 bg-accent-2 shadow-lg">
+            <nav class="px-2 py-4 flex justify-start space-x-4 items-center">
+                <FaviconIcon class="w-10 h-10 pointer-events-none" />
+                <A href="/" class="screen-1 text-content-1 hover:text-content-2"> Zone </A>
+            </nav>
+            <Show when=move || is_mobile.get() == true fallback=move || view!{<MobileButton/>}>
+                <nav class="px-2 py-4 flex justify-end space-x-12 items-center">
+                    {nav_links(pages.get_untracked())}
                 </nav>
-            </header>
+            </Show>
+        </div>
+        <Show when=move || is_mobile_toggled.get() == true fallback=move || view!{<div></div>}>
+            <div class="screen-gridnav grid-rows-1 bg-accent-2 shadow-lg items-center justify-center w-full">
+                {mobile_nav_links(pages.get_untracked())}
+            </div>
         </Show>
     }
 }

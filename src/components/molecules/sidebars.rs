@@ -29,7 +29,7 @@ where
                 <section class="grid grid-rows-auto justify-between space-y-4 p-0 w-full">
                     <article class="p-2">
                         <button class="dashboard-btn" on:click=toggle_sidebar>
-                            <DashboardRightIcon class="w-10 h-10"/>
+                            <DashboardRightIcon class="w-10 h-10 dash-item"/>
                         </button>
                     </article>
                     <hr class="my-12 h-0.5 border-t-0 bg-accent-2/50"/>

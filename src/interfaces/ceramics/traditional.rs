@@ -64,6 +64,6 @@ pub fn MinimizeIcon(class: &'static str) -> impl IntoView {
 #[component]
 pub fn FaviconIcon(class: &'static str) -> impl IntoView {
     view! {
-        <img src="public/icons/dark.png" class=class/>
+        <img src="/public/icons/dark.png" class=class/>
     }
 }

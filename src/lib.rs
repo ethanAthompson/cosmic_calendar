@@ -13,7 +13,7 @@ use crate::components::molecules::cards::home::Page as DashboardHomePage;
 use crate::components::molecules::cards::info::Page as InfoPage;
 use crate::components::molecules::cards::settings::Page as SettingsPage;
 use crate::components::molecules::cards::timezone::Page as TimezonePage;
-use crate::components::molecules::navbars::Component as Navbar;
+use crate::components::molecules::navbars::app::Component as Navbar;
 use crate::components::organisms::about::Page as AboutPage;
 use crate::components::organisms::dashboard::Page as DashboardPage;
 use crate::components::organisms::download::Page as DownloadPage;
@@ -37,7 +37,6 @@ pub fn App() -> impl IntoView {
 
     view! {
         <div id="root">
-            // <Navbar/>
             <Router>
                 <Navbar/>
                 <Routes>
